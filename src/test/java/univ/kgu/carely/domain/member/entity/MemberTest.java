@@ -2,6 +2,8 @@ package univ.kgu.carely.domain.member.entity;
 
 // import static org.junit.jupiter.api.Assertions.*;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
@@ -24,6 +27,7 @@ class MemberTest {
 
     @Test
     @DisplayName("멤버 추가 확인")
+    @Rollback(value = false)
     public void test1(){
         Address address = Address.builder()
                 .province("경기도")
@@ -57,5 +61,13 @@ class MemberTest {
                 .build();
 
         memberRepository.save(member);
+    }
+
+    @Test
+    @DisplayName("유저 이름으로 검색")
+    public void test2(){
+        Member member = memberRepository.findByName("chogunhee");
+
+        assertThat(member.getId()).isEqualTo(1);
     }
 }
