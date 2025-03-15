@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: carely
+    version: 0.0.1
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/carely
+    username: root
+    password: 1234
