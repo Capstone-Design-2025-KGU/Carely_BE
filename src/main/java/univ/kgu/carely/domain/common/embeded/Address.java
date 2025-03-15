@@ -23,6 +23,8 @@ public class Address {
 
     private String district;
 
+    private String details;
+
     @Column(name = "lat", precision = 10, scale = 7, nullable = false)
     private BigDecimal latitude;
 
