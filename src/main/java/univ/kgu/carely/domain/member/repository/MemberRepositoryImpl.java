@@ -10,9 +10,10 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    private static final QMember member = QMember.member;
+
     @Override
     public Member findByName(String name){
-        QMember member = QMember.member;
 
         return jpaQueryFactory.select(member)
                 .from(member)
