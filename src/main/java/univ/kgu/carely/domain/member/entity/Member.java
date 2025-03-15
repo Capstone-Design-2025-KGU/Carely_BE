@@ -1,4 +1,75 @@
 package univ.kgu.carely.domain.member.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import univ.kgu.carely.domain.common.embeded.Address;
+import univ.kgu.carely.domain.common.embeded.Skill;
+import univ.kgu.carely.domain.common.enums.MemberType;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+    private String name;
+
+    private String phoneNumber;
+
+    @Temporal(TemporalType.DATE)
+    private LocalDate birth;
+
+    private String story;
+
+    @Enumerated(EnumType.STRING)
+    private MemberType memberType;
+
+    private Boolean isVisible;
+
+    private Boolean isVerified;
+
+    private String profileImage;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+    @Embedded
+    private Address address;
+
+    @Embedded
+    private Skill skill;
 }

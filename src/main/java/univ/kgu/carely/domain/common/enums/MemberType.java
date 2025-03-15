@@ -1,5 +1,5 @@
 package univ.kgu.carely.domain.common.enums;
 
-public enum Type {
+public enum MemberType {
     FAMILY, VOLUNTEER, CAREGIVER
 }
