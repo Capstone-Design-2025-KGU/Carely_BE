@@ -33,6 +33,7 @@ class MemberTest {
                 .province("경기도")
                 .city("수원시")
                 .district("장안구")
+                .details("경기도 수원시 장안구 장안로 123-45 ㅇㅇ아파트")
                 .latitude(BigDecimal.valueOf(37.2871000))
                 .longitude(BigDecimal.valueOf(127.0290000))
                 .build();
