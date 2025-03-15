@@ -3,10 +3,10 @@ spring:
     name: carely
     version: 0.0.1
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/carely
-    username: root
-    password: 1234
+    driver-class-name: ${DB_DRIVER_CLASS_NAME}
+    url: ${DB_URL_CARELY}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
