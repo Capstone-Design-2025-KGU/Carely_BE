@@ -1,6 +1,5 @@
 package univ.kgu.carely.domain.member.repository;
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -34,7 +33,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
      * @return 범위 내의 모든 멤버
      */
     @Override
-    public List<Member> findAllWithin(BigDecimal lat, BigDecimal lng, int meter) {
+    public List<Member> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter) {
         // MySQL에서 지원하는 위도/경도로 거리 비교하는 함수 이용
         NumberExpression<Double> distance = Expressions.numberTemplate(Double.class,
                         "ST_Distance_Sphere(POINT({0}, {1}), POINT({2}, {3}))",

@@ -7,5 +7,5 @@ import univ.kgu.carely.domain.member.entity.Member;
 public interface CustomMemberRepository {
     Member findByName(String name);
 
-    List<Member> findAllWithin(BigDecimal lat, BigDecimal lng, int meter);
+    List<Member> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter);
 }
