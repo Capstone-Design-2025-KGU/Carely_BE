@@ -1,10 +1,11 @@
 package univ.kgu.carely.domain.member.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +22,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/search-neighbor")
-    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(@RequestParam("id") Long memberId,
-                                                                       @RequestParam("type") MemberType memberType,
-                                                                       @RequestBody
+    @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
+    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(@RequestParam(value = "id", defaultValue = "1") Long memberId,
+                                                                       @RequestParam(value = "type", defaultValue = "VOLUNTEER") MemberType memberType,
+                                                                       @ModelAttribute
                                                                        ReqViewPortInfoDTO viewPortInfoDTO) {
         return ResponseEntity.ok(memberService.searchNeighborMember(memberId, viewPortInfoDTO, memberType));
     }
