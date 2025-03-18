@@ -18,7 +18,7 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("test")
+@Profile({"test","default"})
 @Slf4j
 public class TestDataConfig {
 
