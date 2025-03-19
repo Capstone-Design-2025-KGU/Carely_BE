@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.member.service;
 
 import java.util.List;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
@@ -43,4 +44,13 @@ public interface MemberService {
      * @return 중복된 전화번호면 true, 아니라면 false
      */
     Boolean isDuplicatedPhoneNumber(String phoneNumber);
+
+    /**
+     * 이웃 인증을 진행한다.
+     * 
+     * @param memberId           이웃 인증을 진행하려고 하는 유저 아이디
+     * @param reqCoordinationDTO GPS 기반 현재 위치 정보
+     * @return 이웃 인증 성공 여부. 성공시 true, 실패시 false
+     */
+    Boolean verifyNeighbor(Long memberId, ReqCoordinationDTO reqCoordinationDTO);
 }
