@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
+import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
 
@@ -19,6 +20,9 @@ class MemberServiceImplTest {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     @DisplayName("GPS 기반 이웃 인증 테스트1")
@@ -41,8 +45,14 @@ class MemberServiceImplTest {
         reqCoordinationDTO.setLat(BigDecimal.valueOf(37.3005858));
         reqCoordinationDTO.setLng(BigDecimal.valueOf(127.0369585));
 
+        Member member = memberRepository.findById(1L).orElseThrow();
+        assertThat(member.getIsVerified()).isTrue();
+
         // ID 1은 e스퀘어 좌표 4강의 끝부분은 e스퀘어와 가깝기 때문에 인증 가능
         Boolean verified = memberService.verifyNeighbor(1L, reqCoordinationDTO);
         assertThat(verified).isTrue();
+
+        member = memberRepository.findById(1L).orElseThrow();
+        assertThat(member.getIsVerified()).isTrue();
     }
 }
