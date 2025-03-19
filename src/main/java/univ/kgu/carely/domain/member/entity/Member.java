@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -39,24 +40,32 @@ public class Member {
     @Column(name = "member_id")
     private Long memberId;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(unique = true, nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private LocalDate birth;
 
     private String story;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
+    @Column(nullable = false)
     private Boolean isVisible;
 
+    @ColumnDefault("false")
     private Boolean isVerified;
 
     private String profileImage;
