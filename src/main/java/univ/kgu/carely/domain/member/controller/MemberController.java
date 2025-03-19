@@ -26,12 +26,12 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/search-neighbor")
+    @PostMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
     public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(
             @RequestParam(value = "id") Long memberId,
             @RequestParam(value = "type") MemberType memberType,
-            @ModelAttribute
+            @RequestBody
             ReqViewPortInfoDTO viewPortInfoDTO) {
         return ResponseEntity.ok(memberService.searchNeighborMember(memberId, viewPortInfoDTO, memberType));
     }
