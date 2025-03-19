@@ -41,4 +41,18 @@ public class MemberController {
         
         return ResponseEntity.ok(member);
     }
+
+    @GetMapping("/check/username")
+    public ResponseEntity<Boolean> isDuplicatedUsername(String username) {
+        Boolean duplicatedUsername = memberService.isDuplicatedUsername(username);
+
+        return ResponseEntity.ok(duplicatedUsername);
+    }
+
+    @GetMapping("/check/phone-number")
+    public ResponseEntity<Boolean> isDuplicatedPhoneNumber(String phoneNumber) {
+        Boolean duplicatedPhoneNumber = memberService.isDuplicatedPhoneNumber(phoneNumber);
+
+        return ResponseEntity.ok(duplicatedPhoneNumber);
+    }
 }

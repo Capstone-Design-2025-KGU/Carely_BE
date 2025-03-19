@@ -66,4 +66,14 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    @Override
+    public Boolean isDuplicatedUsername(String username) {
+        return memberRepository.existsByUsername(username);
+    }
+
+    @Override
+    public Boolean isDuplicatedPhoneNumber(String phoneNumber){
+        return memberRepository.existsByPhoneNumber(phoneNumber);
+    }
+
 }

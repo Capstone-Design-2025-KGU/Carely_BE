@@ -21,4 +21,8 @@ public interface MemberService {
                                                       MemberType memberType);
 
     ResMemberPrivateInfoDTO createMember(ReqMemberCreateDTO reqMemberCreateDTO);
+
+    Boolean isDuplicatedUsername(String username);
+
+    Boolean isDuplicatedPhoneNumber(String phoneNumber);
 }
