@@ -17,7 +17,7 @@ public class ChatMessage {
 
     private String sender;
 
-    private Long chatroom_id;
+    private Long chatroomId;
 
     private String content;
 
