@@ -18,7 +18,7 @@ public class WebSocketEventListener {
     private final SimpMessagingTemplate messagingTemplate;
 
     /**
-     * 사용자가 연결을 끊을 때(WebSocket Disconnected) 발생하는 이벤트를 처리합니다.
+     * 사용자가 연결을 끊을 때(WebSocket Disconnected) 해당 상황을 다른 클라이언트에게 브로드캐스트 합니다.
      * WebSocket의 속성에서 유저 이름을 가져온 뒤 연결 해제 메세지를 전송합니다.
      * @param event
      */
