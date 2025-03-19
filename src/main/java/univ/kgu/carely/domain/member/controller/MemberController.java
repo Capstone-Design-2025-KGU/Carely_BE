@@ -29,8 +29,8 @@ public class MemberController {
     @GetMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
     public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(
-            @RequestParam(value = "id", defaultValue = "1") Long memberId,
-            @RequestParam(value = "type", defaultValue = "VOLUNTEER") MemberType memberType,
+            @RequestParam(value = "id") Long memberId,
+            @RequestParam(value = "type") MemberType memberType,
             @ModelAttribute
             ReqViewPortInfoDTO viewPortInfoDTO) {
         return ResponseEntity.ok(memberService.searchNeighborMember(memberId, viewPortInfoDTO, memberType));

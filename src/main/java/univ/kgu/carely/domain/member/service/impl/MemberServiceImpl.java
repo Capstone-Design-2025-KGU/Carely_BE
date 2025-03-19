@@ -81,9 +81,9 @@ public class MemberServiceImpl implements MemberService {
     public Boolean verifyNeighbor(Long memberId, ReqCoordinationDTO reqCoordinationDTO) {
         Member member = memberRepository.findById(memberId).orElseThrow();
 
-        Double addressByMemberId = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
+        Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
 
-        boolean verified = addressByMemberId <= 50;
+        boolean verified = distance <= 50;
         if(verified) {
             member.setIsVerified(verified);
             memberRepository.save(member);
