@@ -83,6 +83,12 @@ public class MemberServiceImpl implements MemberService {
 
         Double addressByMemberId = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
 
-        return addressByMemberId <= 50; // 50m 안에 해당하는지 확인
+        boolean verified = addressByMemberId <= 50;
+        if(verified) {
+            member.setIsVerified(verified);
+            memberRepository.save(member);
+        }
+
+        return verified; // 50m 안에 해당하는지 확인
     }
 }
