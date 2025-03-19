@@ -53,4 +53,6 @@ public interface MemberService {
      * @return 이웃 인증 성공 여부. 성공시 true, 실패시 false
      */
     Boolean verifyNeighbor(Long memberId, ReqCoordinationDTO reqCoordinationDTO);
+
+    ResMemberPrivateInfoDTO getPrivateInfo(Long memberId);
 }

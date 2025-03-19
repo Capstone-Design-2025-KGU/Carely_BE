@@ -96,6 +96,7 @@ public class MemberServiceImpl implements MemberService {
         return verified; // 50m 안에 해당하는지 확인
     }
 
+    @Override
     public ResMemberPrivateInfoDTO getPrivateInfo(Long memberId){
         Member member = memberRepository.findById(memberId).orElseThrow();
 
