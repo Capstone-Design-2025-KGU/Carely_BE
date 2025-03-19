@@ -21,7 +21,7 @@ public class ReqMemberCreateDTO {
     private String password;
     @Schema(description = "회원 이름", example = "조건희")
     private String name;
-    @Schema(description = "회원 전화번호", example = "010-1234-5678")
+    @Schema(description = "회원 전화번호", example = "010-5678-1234")
     private String phoneNumber;
     @Schema(description = "회원 생일", example = "2001-10-30")
     private LocalDate birth;
