@@ -35,7 +35,7 @@ public class ChatController {
 
         // 웹 소켓 세션에 유저 이름을 저장합니다.
         // TODO -- username을 가져와야 하는데 서비스 계층에 해당 메서드가 없음. 해당 메서드 개발 후 수정
-        headerAccessor.getSessionAttributes().put("member_id", chatMessage.getSender_id());
+        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         return chatMessage;
     }
 }

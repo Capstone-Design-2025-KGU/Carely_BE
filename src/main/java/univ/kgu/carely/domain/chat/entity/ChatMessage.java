@@ -15,9 +15,13 @@ public class ChatMessage {
 
     private Long sender_id;
 
+    private String sender;
+
     private Long chatroom_id;
 
     private String content;
+
+    private MessageType messageType;
 
     @CreationTimestamp
     @Column(name = "created_at")
