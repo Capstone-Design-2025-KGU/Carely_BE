@@ -1,4 +1,4 @@
-package univ.kgu.carely.config;
+package univ.kgu.carely.config.websocket;
 
 
 import org.springframework.context.annotation.Configuration;
