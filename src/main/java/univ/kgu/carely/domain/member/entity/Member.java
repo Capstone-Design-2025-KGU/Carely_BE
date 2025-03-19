@@ -65,8 +65,10 @@ public class Member {
     @Column(nullable = false)
     private Boolean isVisible;
 
+    @Column(nullable = false)
     @ColumnDefault("false")
-    private Boolean isVerified;
+    @Builder.Default
+    private Boolean isVerified = false;
 
     private String profileImage;
 
