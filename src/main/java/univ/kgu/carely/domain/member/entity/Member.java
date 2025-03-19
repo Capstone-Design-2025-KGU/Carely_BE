@@ -39,22 +39,29 @@ public class Member {
     @Column(name = "member_id")
     private Long memberId;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(unique = true, nullable = false)
     private String phoneNumber;
 
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private LocalDate birth;
 
     private String story;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
+    @Column(nullable = false)
     private Boolean isVisible;
 
     private Boolean isVerified;
