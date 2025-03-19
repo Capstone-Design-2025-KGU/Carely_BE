@@ -49,21 +49,25 @@ public class MemberServiceImpl implements MemberService {
 
         Member save = memberRepository.save(member);
 
+        return toResMemberPrivateInfoDTO(save);
+    }
+
+    private ResMemberPrivateInfoDTO toResMemberPrivateInfoDTO(Member member) {
         return ResMemberPrivateInfoDTO.builder()
-                .memberId(save.getMemberId())
-                .username(save.getUsername())
-                .password(save.getPassword())
-                .name(save.getName())
-                .phoneNumber(save.getPhoneNumber())
-                .birth(save.getBirth())
-                .story(save.getStory())
-                .memberType(save.getMemberType())
-                .isVisible(save.getIsVisible())
-                .isVerified(save.getIsVerified())
-                .profileImage(save.getProfileImage())
-                .createdAt(save.getCreatedAt())
-                .address(save.getAddress())
-                .skill(save.getSkill())
+                .memberId(member.getMemberId())
+                .username(member.getUsername())
+                .password(member.getPassword())
+                .name(member.getName())
+                .phoneNumber(member.getPhoneNumber())
+                .birth(member.getBirth())
+                .story(member.getStory())
+                .memberType(member.getMemberType())
+                .isVisible(member.getIsVisible())
+                .isVerified(member.getIsVerified())
+                .profileImage(member.getProfileImage())
+                .createdAt(member.getCreatedAt())
+                .address(member.getAddress())
+                .skill(member.getSkill())
                 .build();
     }
 
@@ -91,4 +95,11 @@ public class MemberServiceImpl implements MemberService {
 
         return verified; // 50m 안에 해당하는지 확인
     }
+
+    public ResMemberPrivateInfoDTO getPrivateInfo(Long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow();
+
+        return toResMemberPrivateInfoDTO(member);
+    }
+
 }
