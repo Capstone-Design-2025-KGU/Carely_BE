@@ -2,73 +2,49 @@ package univ.kgu.carely.domain.member.entity;
 
 // import static org.junit.jupiter.api.Assertions.*;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import univ.kgu.carely.domain.common.embeded.Address;
-import univ.kgu.carely.domain.common.embeded.Skill;
+import org.springframework.test.context.ActiveProfiles;
 import univ.kgu.carely.domain.common.enums.MemberType;
-import univ.kgu.carely.domain.common.enums.SkillLevel;
+import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 @Transactional
 @SpringBootTest
+@ActiveProfiles({"test"})
 class MemberTest {
 
     @Autowired
     MemberRepository memberRepository;
 
     @Test
-    @DisplayName("멤버 추가 확인")
-    @Rollback(value = false)
-    public void test1(){
-        Address address = Address.builder()
-                .province("경기도")
-                .city("수원시")
-                .district("장안구")
-                .details("경기도 수원시 장안구 장안로 123-45 ㅇㅇ아파트")
-                .latitude(BigDecimal.valueOf(37.2871000))
-                .longitude(BigDecimal.valueOf(127.0290000))
-                .build();
+    @DisplayName("유저 이름으로 검색")
+    void test1(){
+        Member member = memberRepository.findByName("chogunhee");
 
-        Skill skill = Skill.builder()
-                .communication(SkillLevel.HIGH)
-                .meal(SkillLevel.MIDDLE)
-                .toilet(SkillLevel.LOW)
-                .bath(SkillLevel.HIGH)
-                .walk(SkillLevel.LOW)
-                .build();
-
-        Member member = Member.builder()
-                .username("hello1234")
-                .password("1234")
-                .name("chogunhee")
-                .phoneNumber("010-1234-5678")
-                .birth(LocalDate.of(2001,10,30))
-                .story("안녕하세요")
-                .memberType(MemberType.FAMILY)
-                .isVisible(true)
-                .isVerified(true)
-                .profileImage(null)
-                .address(address)
-                .skill(skill)
-                .build();
-
-        memberRepository.save(member);
+        assertThat(member.getMemberId()).isEqualTo(1);
     }
 
     @Test
-    @DisplayName("유저 이름으로 검색")
-    public void test2(){
-        Member member = memberRepository.findByName("chogunhee");
+    @DisplayName("범위 내에 해당하는 유저 검색")
+    void test2(){
+        ReqViewPortInfoDTO viewPortInfoDTO = new ReqViewPortInfoDTO();
+        viewPortInfoDTO.setLbLat(BigDecimal.valueOf(37.2869235));
+        viewPortInfoDTO.setLbLng(BigDecimal.valueOf(127.0190130));
+        viewPortInfoDTO.setRtLat(BigDecimal.valueOf(37.3119958));
+        viewPortInfoDTO.setRtLng(BigDecimal.valueOf(127.0578250));
+        // 경기대 좌표
+        List<ResMemberPublicInfoDTO> allWithin = memberRepository.findAllWithinDistance(BigDecimal.valueOf(37.301387),
+                BigDecimal.valueOf(127.036554), 2000, viewPortInfoDTO, MemberType.FAMILY);
 
-        assertThat(member.getId()).isEqualTo(1);
+        assertThat(allWithin).hasSize(5);
     }
 }
