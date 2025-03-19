@@ -63,7 +63,7 @@ public class MemberController {
     @PostMapping("/verify")
     @Operation(summary = "동네 인증", description = "GPS 좌표를 기준으로 설정한 주소와 거리차이를 계산해 동네 인증을 진행한다.")
     public ResponseEntity<Boolean> verifyNeighbor(@RequestParam("id") Long memberId,
-                                                  @ModelAttribute ReqCoordinationDTO reqCoordinationDTO) {
+                                                  @RequestBody ReqCoordinationDTO reqCoordinationDTO) {
         Boolean verified = memberService.verifyNeighbor(memberId, reqCoordinationDTO);
 
         return ResponseEntity.ok(verified);

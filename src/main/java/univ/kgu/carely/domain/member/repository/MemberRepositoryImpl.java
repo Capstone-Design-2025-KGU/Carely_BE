@@ -84,12 +84,12 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
 
     @Override
     public Double checkVerifiedPlaceWithGPS(Long memberId, ReqCoordinationDTO reqCoordinationDTO) {
-        NumberTemplate<Double> doubleNumberTemplate = Expressions.numberTemplate(Double.class,
+        NumberTemplate<Double> distance = Expressions.numberTemplate(Double.class,
                 "ST_Distance_Sphere(POINT({0}, {1}), POINT({2}, {3}))",
                 reqCoordinationDTO.getLng(), reqCoordinationDTO.getLat(), member.address.longitude,
                 member.address.latitude);
 
-        return jpaQueryFactory.select(doubleNumberTemplate)
+        return jpaQueryFactory.select(distance)
                 .from(member)
                 .where(member.memberId.eq(memberId))
                 .fetchOne();
