@@ -43,6 +43,7 @@ public class MemberController {
     }
 
     @GetMapping("/check/username")
+    @Operation(summary = "중복 username 검사", description = "중복된 username을 검사한다.")
     public ResponseEntity<Boolean> isDuplicatedUsername(String username) {
         Boolean duplicatedUsername = memberService.isDuplicatedUsername(username);
 
@@ -50,6 +51,7 @@ public class MemberController {
     }
 
     @GetMapping("/check/phone-number")
+    @Operation(summary = "중복 전화번호 검사", description = "중복된 전화번호 검사를 진행한다.")
     public ResponseEntity<Boolean> isDuplicatedPhoneNumber(String phoneNumber) {
         Boolean duplicatedPhoneNumber = memberService.isDuplicatedPhoneNumber(phoneNumber);
 
