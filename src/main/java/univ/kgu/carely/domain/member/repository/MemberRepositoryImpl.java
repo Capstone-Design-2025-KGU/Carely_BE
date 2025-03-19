@@ -4,12 +4,14 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
@@ -81,8 +83,13 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
     }
 
     @Override
-    public Address findAddressByMemberId(Long memberId) {
-        return jpaQueryFactory.select(member.address)
+    public Double checkVerifiedPlaceWithGPS(Long memberId, ReqCoordinationDTO reqCoordinationDTO) {
+        NumberTemplate<Double> doubleNumberTemplate = Expressions.numberTemplate(Double.class,
+                "ST_Distance_Sphere(POINT({0}, {1}), POINT({2}, {3}))",
+                reqCoordinationDTO.getLng(), reqCoordinationDTO.getLat(), member.address.longitude,
+                member.address.latitude);
+
+        return jpaQueryFactory.select(doubleNumberTemplate)
                 .from(member)
                 .where(member.memberId.eq(memberId))
                 .fetchOne();
