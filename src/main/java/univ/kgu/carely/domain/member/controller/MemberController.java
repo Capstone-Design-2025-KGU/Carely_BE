@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
@@ -27,10 +28,11 @@ public class MemberController {
 
     @GetMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
-    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(@RequestParam(value = "id", defaultValue = "1") Long memberId,
-                                                                       @RequestParam(value = "type", defaultValue = "VOLUNTEER") MemberType memberType,
-                                                                       @ModelAttribute
-                                                                       ReqViewPortInfoDTO viewPortInfoDTO) {
+    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(
+            @RequestParam(value = "id", defaultValue = "1") Long memberId,
+            @RequestParam(value = "type", defaultValue = "VOLUNTEER") MemberType memberType,
+            @ModelAttribute
+            ReqViewPortInfoDTO viewPortInfoDTO) {
         return ResponseEntity.ok(memberService.searchNeighborMember(memberId, viewPortInfoDTO, memberType));
     }
 
@@ -38,7 +40,7 @@ public class MemberController {
     @Operation(summary = "회원가입 API", description = "회원가입")
     public ResponseEntity<ResMemberPrivateInfoDTO> createMember(@RequestBody ReqMemberCreateDTO reqMemberCreateDTO) {
         ResMemberPrivateInfoDTO member = memberService.createMember(reqMemberCreateDTO);
-        
+
         return ResponseEntity.ok(member);
     }
 
@@ -57,4 +59,14 @@ public class MemberController {
 
         return ResponseEntity.ok(duplicatedPhoneNumber);
     }
+
+    @PostMapping("/verify")
+    @Operation(summary = "동네 인증", description = "GPS 좌표를 기준으로 설정한 주소와 거리차이를 계산해 동네 인증을 진행한다.")
+    public ResponseEntity<Boolean> verifyNeighbor(@RequestParam("id") Long memberId,
+                                                  @ModelAttribute ReqCoordinationDTO reqCoordinationDTO) {
+        Boolean verified = memberService.verifyNeighbor(memberId, reqCoordinationDTO);
+
+        return ResponseEntity.ok(verified);
+    }
+
 }
