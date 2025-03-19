@@ -7,11 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
+import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -33,7 +35,10 @@ public class MemberController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<ResMemberPrivateInfoDTO> createMember() {
-        return null;
+    @Operation(summary = "회원가입 API", description = "회원가입")
+    public ResponseEntity<ResMemberPrivateInfoDTO> createMember(@RequestBody ReqMemberCreateDTO reqMemberCreateDTO) {
+        ResMemberPrivateInfoDTO member = memberService.createMember(reqMemberCreateDTO);
+        
+        return ResponseEntity.ok(member);
     }
 }

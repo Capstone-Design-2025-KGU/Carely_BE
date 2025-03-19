@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
+import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
@@ -27,6 +29,41 @@ public class MemberServiceImpl implements MemberService {
 
         return memberRepository.findAllWithinDistance(me.getAddress().getLatitude(), me.getAddress().getLongitude(),
                 2000, viewPortDTO, memberType);
+    }
+
+    @Override
+    public ResMemberPrivateInfoDTO createMember(ReqMemberCreateDTO reqMemberCreateDTO) {
+        Member member = Member.builder()
+                .username(reqMemberCreateDTO.getUsername())
+                .password(reqMemberCreateDTO.getPassword())
+                .name(reqMemberCreateDTO.getName())
+                .phoneNumber(reqMemberCreateDTO.getPhoneNumber())
+                .birth(reqMemberCreateDTO.getBirth())
+                .story(reqMemberCreateDTO.getStory())
+                .memberType(reqMemberCreateDTO.getMemberType())
+                .isVisible(reqMemberCreateDTO.getIsVisible())
+                .address(reqMemberCreateDTO.getAddress())
+                .skill(reqMemberCreateDTO.getSkill())
+                .build();
+
+        Member save = memberRepository.save(member);
+
+        return ResMemberPrivateInfoDTO.builder()
+                .memberId(save.getMemberId())
+                .username(save.getUsername())
+                .password(save.getPassword())
+                .name(save.getName())
+                .phoneNumber(save.getPhoneNumber())
+                .birth(save.getBirth())
+                .story(save.getStory())
+                .memberType(save.getMemberType())
+                .isVisible(save.getIsVisible())
+                .isVerified(save.getIsVerified())
+                .profileImage(save.getProfileImage())
+                .createdAt(save.getCreatedAt())
+                .address(save.getAddress())
+                .skill(save.getSkill())
+                .build();
     }
 
 }
