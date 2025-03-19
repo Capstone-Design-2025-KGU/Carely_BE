@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.service.MemberService;
 
@@ -30,4 +32,8 @@ public class MemberController {
         return ResponseEntity.ok(memberService.searchNeighborMember(memberId, viewPortInfoDTO, memberType));
     }
 
+    @PostMapping("/new")
+    public ResponseEntity<ResMemberPrivateInfoDTO> createMember() {
+        return null;
+    }
 }
