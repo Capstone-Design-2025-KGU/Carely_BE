@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
@@ -76,4 +77,12 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsByPhoneNumber(phoneNumber);
     }
 
+    @Override
+    public Boolean verifyNeighbor(Long memberId, ReqCoordinationDTO reqCoordinationDTO) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+
+        Double addressByMemberId = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
+
+        return addressByMemberId <= 50; // 50m 안에 해당하는지 확인
+    }
 }
