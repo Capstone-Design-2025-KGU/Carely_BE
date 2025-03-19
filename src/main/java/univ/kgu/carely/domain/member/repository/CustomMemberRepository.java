@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.member.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
@@ -12,4 +13,6 @@ public interface CustomMemberRepository {
 
     List<ResMemberPublicInfoDTO> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter, ReqViewPortInfoDTO viewPort,
                                                        MemberType memberType);
+
+    Address findAddressByMemberId(Long memberId);
 }

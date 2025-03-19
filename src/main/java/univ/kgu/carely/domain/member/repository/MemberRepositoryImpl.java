@@ -79,4 +79,12 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                 .and(distance.loe(meter)))
                 .fetch();
     }
+
+    @Override
+    public Address findAddressByMemberId(Long memberId) {
+        return jpaQueryFactory.select(member.address)
+                .from(member)
+                .where(member.memberId.eq(memberId))
+                .fetchOne();
+    }
 }
