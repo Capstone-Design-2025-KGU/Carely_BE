@@ -3,6 +3,7 @@ package univ.kgu.carely.domain.chat.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.chat.dto.ChatMessageRequest;
+import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
 import univ.kgu.carely.domain.chat.entity.ChatMessage;
 import univ.kgu.carely.domain.chat.entity.ChatRoom;
 import univ.kgu.carely.domain.chat.repository.ChatMessageRepository;
@@ -10,6 +11,9 @@ import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.chat.service.ChatMessageService;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +45,17 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .build();
 
         return chatMessageRepository.save(message);
+    }
+
+    /**
+     * 채팅방 Id를 통해 메세지 내역을 불러옵니다.
+     * @param chatRoomId
+     * @return List<ChatMessageResponse>
+     */
+    @Override
+    public List<ChatMessageResponse> getChatMessageByChatRoomId(Long chatRoomId) {
+        List<ChatMessage> messages = chatMessageRepository.findByChatRoomIdOrderByCreatedAtAsc(chatRoomId);
+
+        return messages.stream().map(ChatMessageResponse::from).collect(Collectors.toList());
     }
 }
