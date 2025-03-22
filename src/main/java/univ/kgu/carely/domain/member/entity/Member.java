@@ -92,7 +92,7 @@ public class Member {
 
     // 연관관계 매핑
 
-    @OneToMany(mappedBy = "memberId")
+    @OneToMany(mappedBy = "member")
     @Builder.Default
     private Set<TeamMate> teamMates = new HashSet<>();
 }
