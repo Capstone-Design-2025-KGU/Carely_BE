@@ -32,7 +32,10 @@ public class Team {
     @Embedded
     private Address address;
 
+    // 연관관계 매핑
+
     @OneToMany(mappedBy = "teamId")
+    @Builder.Default
     private Set<TeamMate> teamMates = new HashSet<>();
 
 }
