@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
-import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberIdDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
@@ -28,12 +26,8 @@ public class MemberController {
 
     @PostMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
-    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(
-            @RequestParam(value = "id") Long memberId,
-            @RequestParam(value = "type") MemberType memberType,
-            @RequestBody
-            ReqViewPortInfoDTO viewPortInfoDTO) {
-        return ResponseEntity.ok(memberService.searchNeighborMember(memberId, viewPortInfoDTO, memberType));
+    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor() {
+        return ResponseEntity.ok(memberService.searchNeighborMember());
     }
 
     @PostMapping("/new")

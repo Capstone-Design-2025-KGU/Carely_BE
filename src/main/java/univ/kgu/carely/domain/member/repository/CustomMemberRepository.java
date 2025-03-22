@@ -11,8 +11,7 @@ import univ.kgu.carely.domain.member.entity.Member;
 public interface CustomMemberRepository {
     Member findByName(String name);
 
-    List<ResMemberPublicInfoDTO> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter, ReqViewPortInfoDTO viewPort,
-                                                       MemberType memberType);
+    List<ResMemberPublicInfoDTO> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter);
 
     Double checkVerifiedPlaceWithGPS(Long memberId, ReqCoordinationDTO reqCoordinationDTO);
 }
