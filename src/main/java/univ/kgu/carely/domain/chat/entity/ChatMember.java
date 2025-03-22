@@ -1,19 +1,12 @@
 package univ.kgu.carely.domain.chat.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import univ.kgu.carely.domain.member.entity.Member;
 
-import java.time.LocalDateTime;
+//ChatMessage_ChatRoom 을 연결하는 중간 테이블
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class ChatMessage {
+public class ChatMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,17 +14,9 @@ public class ChatMessage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private Member sender;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatroom_id")
     private ChatRoom chatRoom;
-
-    private String content;
-
-    private MessageType messageType;
-
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
 }
