@@ -20,7 +20,7 @@ public class TeamController {
     private final TeamService teamService;
 
     @PostMapping("/new")
-    @Operation(summary = "팀 생성 API", description = "팀 생성")
+    @Operation(summary = "그룹 생성 API", description = "그룹 생성")
     public ResponseEntity<Boolean> createTeam(@RequestBody ReqCreateTeamDTO reqCreateTeamDTO) {
         Boolean success = teamService.createTeam(reqCreateTeamDTO);
 
