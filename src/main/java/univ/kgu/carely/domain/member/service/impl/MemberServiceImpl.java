@@ -18,6 +18,8 @@ import univ.kgu.carely.domain.member.service.MemberService;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
+    private static final int VERIFIED_DISTANCE = 50;
+
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
 
@@ -95,11 +97,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Boolean verifyNeighbor(Long memberId, ReqCoordinationDTO reqCoordinationDTO) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = currentMember();
 
         Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
 
-        boolean verified = distance <= 50;
+        boolean verified = distance <= VERIFIED_DISTANCE;
         if(verified) {
             member.setIsVerified(verified);
             memberRepository.save(member);
