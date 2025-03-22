@@ -90,6 +90,9 @@ public class Member {
     @Embedded
     private Skill skill;
 
+    // 연관관계 매핑
+
     @OneToMany(mappedBy = "memberId")
+    @Builder.Default
     private Set<TeamMate> teamMates = new HashSet<>();
 }

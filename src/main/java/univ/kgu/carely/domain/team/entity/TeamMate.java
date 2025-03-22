@@ -28,6 +28,11 @@ public class TeamMate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teamMateId;
 
+    @Enumerated(EnumType.STRING)
+    private TeamRole role;
+
+    // 연관관계 매핑
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team teamId;
@@ -35,8 +40,5 @@ public class TeamMate {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member memberId;
-
-    @Enumerated(EnumType.STRING)
-    private TeamRole role;
-
+    
 }
