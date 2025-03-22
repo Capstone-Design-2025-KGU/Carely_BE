@@ -2,14 +2,18 @@ package univ.kgu.carely.domain.team.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.team.dto.request.ReqCreateTeamDTO;
+import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 import univ.kgu.carely.domain.team.service.TeamService;
 
 @RestController
@@ -49,5 +53,13 @@ public class TeamController {
         Boolean success = teamService.closeTeam(teamId);
 
         return ResponseEntity.ok(success);
+    }
+
+    @GetMapping("/search-neighbor")
+    @Operation(summary = "주변 그룹 검색 API", description = "주변에 존재하는 그룹을 찾는다")
+    public ResponseEntity<Page<ResTeamOutlineDTO>> searchNeighbor(Pageable pageable) {
+        Page<ResTeamOutlineDTO> resTeamOutlineDTOS = teamService.searchNeighbor(pageable);
+
+        return ResponseEntity.ok(resTeamOutlineDTOS);
     }
 }

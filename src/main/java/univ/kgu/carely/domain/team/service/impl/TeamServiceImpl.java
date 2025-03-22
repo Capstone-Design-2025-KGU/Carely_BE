@@ -1,12 +1,14 @@
 package univ.kgu.carely.domain.team.service.impl;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.team.dto.request.ReqCreateTeamDTO;
+import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
@@ -100,6 +102,14 @@ public class TeamServiceImpl implements TeamService {
         teamRepository.delete(team);
 
         return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ResTeamOutlineDTO> searchNeighbor(Pageable pageable) {
+        Member member = memberService.currentMember();
+
+        return teamRepository.findTeamOutlineWithinDistance(member, 2000, pageable);
     }
 
 }
