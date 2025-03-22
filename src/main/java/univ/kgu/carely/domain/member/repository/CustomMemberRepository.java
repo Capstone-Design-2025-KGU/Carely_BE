@@ -19,5 +19,12 @@ public interface CustomMemberRepository {
      */
     List<ResMemberPublicInfoDTO> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter);
 
+    /**
+     * 위도/경도 좌표를 가지고 거리를 측정한다.
+     *
+     * @param memberId           동네 인증을 하려고 하는 유저의 id값
+     * @param reqCoordinationDTO 동네 인증이 진행되는 GPS 값
+     * @return 등록된 주소의 좌표와 요청 좌표의 차이 (단위 m)
+     */
     Double checkVerifiedPlaceWithGPS(Long memberId, ReqCoordinationDTO reqCoordinationDTO);
 }
