@@ -81,7 +81,7 @@ public class TestDataConfig {
 
             Member member2 = Member.builder()
                     .username("user2")
-                    .password(encoder.encode("pass2"))
+                    .password("pass2")
                     .name("회원2")
                     .phoneNumber("010-1234-5672")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -114,7 +114,7 @@ public class TestDataConfig {
 
             Member member3 = Member.builder()
                     .username("user3")
-                    .password(encoder.encode("pass3"))
+                    .password("pass3")
                     .name("회원3")
                     .phoneNumber("010-1234-5673")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -147,7 +147,7 @@ public class TestDataConfig {
 
             Member member4 = Member.builder()
                     .username("user4")
-                    .password(encoder.encode("pass4"))
+                    .password("pass4")
                     .name("회원4")
                     .phoneNumber("010-1234-5674")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -180,7 +180,7 @@ public class TestDataConfig {
 
             Member member5 = Member.builder()
                     .username("user5")
-                    .password(encoder.encode("pass5"))
+                    .password("pass5")
                     .name("회원5")
                     .phoneNumber("010-1234-5675")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -213,7 +213,7 @@ public class TestDataConfig {
 
             Member member6 = Member.builder()
                     .username("user6")
-                    .password(encoder.encode("pass6"))
+                    .password("pass6")
                     .name("회원6")
                     .phoneNumber("010-1234-5676")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -246,7 +246,7 @@ public class TestDataConfig {
 
             Member member7 = Member.builder()
                     .username("user7")
-                    .password(encoder.encode("pass7"))
+                    .password("pass7")
                     .name("회원7")
                     .phoneNumber("010-1234-5677")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -279,7 +279,7 @@ public class TestDataConfig {
 
             Member member8 = Member.builder()
                     .username("user8")
-                    .password(encoder.encode("pass8"))
+                    .password("pass8")
                     .name("회원8")
                     .phoneNumber("010-1234-5678")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -312,7 +312,7 @@ public class TestDataConfig {
 
             Member member9 = Member.builder()
                     .username("user9")
-                    .password(encoder.encode("pass9"))
+                    .password("pass9")
                     .name("회원9")
                     .phoneNumber("010-1234-5679")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -345,7 +345,7 @@ public class TestDataConfig {
 
             Member member10 = Member.builder()
                     .username("user10")
-                    .password(encoder.encode("pass10"))
+                    .password("pass10")
                     .name("회원10")
                     .phoneNumber("010-1234-5680")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -378,7 +378,7 @@ public class TestDataConfig {
 
             Member member11 = Member.builder()
                     .username("user11")
-                    .password(encoder.encode("pass11"))
+                    .password("pass11")
                     .name("회원11")
                     .phoneNumber("010-1234-5681")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -411,7 +411,7 @@ public class TestDataConfig {
 
             Member member12 = Member.builder()
                     .username("user12")
-                    .password(encoder.encode("pass12"))
+                    .password("pass12")
                     .name("회원12")
                     .phoneNumber("010-1234-5682")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -444,7 +444,7 @@ public class TestDataConfig {
 
             Member member13 = Member.builder()
                     .username("user13")
-                    .password(encoder.encode("pass13"))
+                    .password("pass13")
                     .name("회원13")
                     .phoneNumber("010-1234-5683")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -477,7 +477,7 @@ public class TestDataConfig {
 
             Member member14 = Member.builder()
                     .username("user14")
-                    .password(encoder.encode("pass14"))
+                    .password("pass14")
                     .name("회원14")
                     .phoneNumber("010-1234-5684")
                     .birth(LocalDate.of(2001, 10, 30))
@@ -510,7 +510,7 @@ public class TestDataConfig {
 
             Member member15 = Member.builder()
                     .username("user15")
-                    .password(encoder.encode("pass15"))
+                    .password("pass15")
                     .name("회원15")
                     .phoneNumber("010-1234-5685")
                     .birth(LocalDate.of(2001, 10, 30))
