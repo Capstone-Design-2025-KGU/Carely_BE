@@ -2,10 +2,11 @@ package univ.kgu.carely.domain.member.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
-import univ.kgu.carely.domain.map.dto.request.ReqViewPortInfoDTO;
+import univ.kgu.carely.domain.member.dto.CustomUserDetails;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
@@ -17,26 +18,39 @@ import univ.kgu.carely.domain.member.service.MemberService;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
+    private static final int VERIFIED_DISTANCE = 50;
+
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder encoder;
 
     @Override
-    public List<ResMemberPublicInfoDTO> searchNeighborMember(Long memberId, ReqViewPortInfoDTO viewPortDTO,
-                                                             MemberType memberType) {
-        Member me = memberRepository.findById(memberId).orElseThrow();
+    public Member currentMember(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (!me.getIsVerified()) {
+        if(principal instanceof CustomUserDetails c){
+            return memberRepository.findByUsername(c.getUsername());
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<ResMemberPublicInfoDTO> searchNeighborMember() {
+        Member member = currentMember();
+
+        if (member == null) {
             throw new RuntimeException("인증된 회원만 이용할 수 있습니다.");
         }
 
-        return memberRepository.findAllWithinDistance(me.getAddress().getLatitude(), me.getAddress().getLongitude(),
-                2000, viewPortDTO, memberType);
+        return memberRepository.findAllWithinDistance(member.getAddress().getLatitude(), member.getAddress().getLongitude(),
+                2000);
     }
 
     @Override
     public ResMemberPrivateInfoDTO createMember(ReqMemberCreateDTO reqMemberCreateDTO) {
         Member member = Member.builder()
                 .username(reqMemberCreateDTO.getUsername())
-                .password(reqMemberCreateDTO.getPassword())
+                .password(encoder.encode(reqMemberCreateDTO.getPassword()))
                 .name(reqMemberCreateDTO.getName())
                 .phoneNumber(reqMemberCreateDTO.getPhoneNumber())
                 .birth(reqMemberCreateDTO.getBirth())
@@ -49,21 +63,25 @@ public class MemberServiceImpl implements MemberService {
 
         Member save = memberRepository.save(member);
 
+        return toResMemberPrivateInfoDTO(save);
+    }
+
+    private ResMemberPrivateInfoDTO toResMemberPrivateInfoDTO(Member member) {
         return ResMemberPrivateInfoDTO.builder()
-                .memberId(save.getMemberId())
-                .username(save.getUsername())
-                .password(save.getPassword())
-                .name(save.getName())
-                .phoneNumber(save.getPhoneNumber())
-                .birth(save.getBirth())
-                .story(save.getStory())
-                .memberType(save.getMemberType())
-                .isVisible(save.getIsVisible())
-                .isVerified(save.getIsVerified())
-                .profileImage(save.getProfileImage())
-                .createdAt(save.getCreatedAt())
-                .address(save.getAddress())
-                .skill(save.getSkill())
+                .memberId(member.getMemberId())
+                .username(member.getUsername())
+                .password(member.getPassword())
+                .name(member.getName())
+                .phoneNumber(member.getPhoneNumber())
+                .birth(member.getBirth())
+                .story(member.getStory())
+                .memberType(member.getMemberType())
+                .isVisible(member.getIsVisible())
+                .isVerified(member.getIsVerified())
+                .profileImage(member.getProfileImage())
+                .createdAt(member.getCreatedAt())
+                .address(member.getAddress())
+                .skill(member.getSkill())
                 .build();
     }
 
@@ -78,12 +96,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean verifyNeighbor(Long memberId, ReqCoordinationDTO reqCoordinationDTO) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+    public Boolean verifyNeighbor(ReqCoordinationDTO reqCoordinationDTO) {
+        Member member = currentMember();
 
         Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
 
-        boolean verified = distance <= 50;
+        boolean verified = distance <= VERIFIED_DISTANCE;
         if(verified) {
             member.setIsVerified(verified);
             memberRepository.save(member);
@@ -91,4 +109,12 @@ public class MemberServiceImpl implements MemberService {
 
         return verified; // 50m 안에 해당하는지 확인
     }
+
+    @Override
+    public ResMemberPrivateInfoDTO getPrivateInfo(){
+        Member member = currentMember();
+
+        return toResMemberPrivateInfoDTO(member);
+    }
+
 }
