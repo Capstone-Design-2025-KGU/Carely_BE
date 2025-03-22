@@ -1,6 +1,9 @@
 package univ.kgu.carely.domain.team.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.team.dto.request.ReqCreateTeamDTO;
+import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 
 public interface TeamService {
 
@@ -35,4 +38,6 @@ public interface TeamService {
      * @return 그룹 폐쇄 성공 여부
      */
     Boolean closeTeam(Long teamId);
+
+    Page<ResTeamOutlineDTO> searchNeighbor(Pageable pageable);
 }
