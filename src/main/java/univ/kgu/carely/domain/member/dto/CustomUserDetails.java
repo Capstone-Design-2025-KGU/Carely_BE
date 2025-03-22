@@ -12,6 +12,12 @@ public class CustomUserDetails implements UserDetails {
 
     private final Member member;
 
+    /**
+     * 해당 유저의 권한을 반환한다.
+     * 현재는 ROLE_USER를 반환하지만 추후에 Member에 role이 추가되면 해당 role을 리스트의 형태로 보낼 예정임
+     * 
+     * @return 유저의 권한이 담긴 Collection
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> {return "ROLE_USER";});
