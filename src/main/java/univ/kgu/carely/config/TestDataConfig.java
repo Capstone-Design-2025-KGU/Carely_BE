@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import univ.kgu.carely.domain.chat.entity.ChatRoom;
+import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
@@ -24,6 +26,7 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 public class TestDataConfig {
 
     private final MemberRepository memberRepository;
+    private final ChatRoomRepository chatRoomRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Bean
@@ -31,6 +34,11 @@ public class TestDataConfig {
         return args -> {
             log.info("Test Data are Injecting");
 
+            ChatRoom chatRoom = ChatRoom.builder()
+                    .roomName("테스트 채팅방")
+                    .build();
+
+            chatRoomRepository.save(chatRoom);
 // Tester
             Address address1 = Address.builder()
                     .province("서울")
