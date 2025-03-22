@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.team.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class Team {
 
     // 연관관계 매핑
 
-    @OneToMany(mappedBy = "teamId")
+    @OneToMany(mappedBy = "teamId", cascade = CascadeType.ALL)
     @Builder.Default
     private Set<TeamMate> teamMates = new HashSet<>();
 
