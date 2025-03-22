@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import univ.kgu.carely.domain.chat.entity.ChatMessage;
 import univ.kgu.carely.domain.chat.entity.MessageType;
+import univ.kgu.carely.domain.member.entity.Member;
 
 @Component
 @RequiredArgsConstructor
@@ -25,12 +26,12 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String username = (String)headerAccessor.getSessionAttributes().get("username");
-        if (username != null) {
-            log.info("User Disconnected: {}", username);
+        Member member = (Member)headerAccessor.getSessionAttributes().get("member");
+        if (member != null) {
+            log.info("User Disconnected: {}", member.getName());
             var chatMessage = ChatMessage.builder()
                     .messageType(MessageType.LEAVE)
-                    .sender(username)
+                    .sender(member)
                     .build();
 
             // 특정 위치로 메세지를 전송합니다. (해당 위치는 모든 클라이언트가 구독 중)
