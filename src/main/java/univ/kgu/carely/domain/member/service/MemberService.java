@@ -50,5 +50,5 @@ public interface MemberService {
      */
     Boolean verifyNeighbor(ReqCoordinationDTO reqCoordinationDTO);
 
-    ResMemberPrivateInfoDTO getPrivateInfo(Long memberId);
+    ResMemberPrivateInfoDTO getPrivateInfo();
 }
