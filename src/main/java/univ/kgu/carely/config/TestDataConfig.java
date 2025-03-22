@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
@@ -23,6 +24,7 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 public class TestDataConfig {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder encoder;
 
     @Bean
     public CommandLineRunner commandLineRunner() {
@@ -48,7 +50,7 @@ public class TestDataConfig {
 
             Member member1 = Member.builder()
                     .username("user1")
-                    .password("pass1")
+                    .password(encoder.encode("pass1"))
                     .name("chogunhee")
                     .phoneNumber("010-1234-5671")
                     .birth(LocalDate.of(2001, 10, 30))

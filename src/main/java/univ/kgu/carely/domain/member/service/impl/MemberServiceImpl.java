@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.member.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
@@ -18,6 +19,7 @@ import univ.kgu.carely.domain.member.service.MemberService;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder encoder;
 
     @Override
     public List<ResMemberPublicInfoDTO> searchNeighborMember(Long memberId, ReqViewPortInfoDTO viewPortDTO,
@@ -36,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
     public ResMemberPrivateInfoDTO createMember(ReqMemberCreateDTO reqMemberCreateDTO) {
         Member member = Member.builder()
                 .username(reqMemberCreateDTO.getUsername())
-                .password(reqMemberCreateDTO.getPassword())
+                .password(encoder.encode(reqMemberCreateDTO.getPassword()))
                 .name(reqMemberCreateDTO.getName())
                 .phoneNumber(reqMemberCreateDTO.getPhoneNumber())
                 .birth(reqMemberCreateDTO.getBirth())
