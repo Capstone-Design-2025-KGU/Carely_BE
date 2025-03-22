@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.member.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -93,7 +94,7 @@ public class Member {
 
     // 연관관계 매핑
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<TeamMate> teamMates = new HashSet<>();
 }
