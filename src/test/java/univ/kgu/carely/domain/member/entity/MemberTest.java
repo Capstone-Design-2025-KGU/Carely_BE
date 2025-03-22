@@ -43,7 +43,7 @@ class MemberTest {
         viewPortInfoDTO.setRtLng(BigDecimal.valueOf(127.0578250));
         // 경기대 좌표
         List<ResMemberPublicInfoDTO> allWithin = memberRepository.findAllWithinDistance(BigDecimal.valueOf(37.301387),
-                BigDecimal.valueOf(127.036554), 2000, viewPortInfoDTO, MemberType.FAMILY);
+                BigDecimal.valueOf(127.036554), 2000);
 
         assertThat(allWithin).hasSize(5);
     }
