@@ -19,6 +19,12 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final MemberRepository memberRepository;
     private final ChatRoomRepository chatRoomRepository;
 
+    /**
+     * 채팅 메세지를 데이터베이스에 저장합니다.
+     * 보낸 멤버의 아이디와 채팅방의 아이디를 찾아서 검증합니다.
+     * @param request
+     * @return ChatMessage
+     */
     @Override
     public ChatMessage saveChatMessage(ChatMessageRequest request) {
         Member sender = memberRepository.findById(request.getSenderId())

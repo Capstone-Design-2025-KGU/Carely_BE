@@ -20,6 +20,7 @@ public class ChatController {
     /**
      * chat.sendMessage에 메시지를 전송하면 sendMessage 메서드가 실행됩니다.
      * 메서드에서 반환된 값이 구독 중인 클라이언트에게 브로드캐스됩니다. (/topic/public을 구독하는 클라이언트)
+     * 메세지 전송시 데이터베이스에 저장합니다.
      * @param request
      * @return ChatMessageResponse
      */
