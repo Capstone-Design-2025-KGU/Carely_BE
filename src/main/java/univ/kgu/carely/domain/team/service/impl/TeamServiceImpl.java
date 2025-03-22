@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.team.service.impl;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +64,40 @@ public class TeamServiceImpl implements TeamService {
                 .build();
 
         team.getTeamMates().add(teamMate);
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Boolean exitTeam(Long teamId) {
+        Member member = memberService.currentMember();
+        Team team = teamRepository.findById(teamId).orElseThrow();
+
+        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow();
+
+        if(teamMate.getRole().equals(TeamRole.LEADER)){
+            throw new RuntimeException("그룹장은 그룹을 탈퇴할 수 없습니다!");
+        }
+
+        teamMateRepository.delete(teamMate);
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Boolean closeTeam(Long teamId) {
+        Member member = memberService.currentMember();
+        Team team = teamRepository.findById(teamId).orElseThrow();
+
+        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow();
+
+        if(!teamMate.getRole().equals(TeamRole.LEADER)){
+            throw new RuntimeException("그룹장만 그룹을 해체할 수 있습니다.");
+        }
+
+        teamRepository.delete(team);
 
         return true;
     }

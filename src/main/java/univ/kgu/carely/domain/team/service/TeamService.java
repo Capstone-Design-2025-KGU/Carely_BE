@@ -9,4 +9,8 @@ public interface TeamService {
 
     @Transactional
     Boolean joinTeam(Long teamId);
+
+    Boolean exitTeam(Long teamId);
+
+    Boolean closeTeam(Long teamId);
 }

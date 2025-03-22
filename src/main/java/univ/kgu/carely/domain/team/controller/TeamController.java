@@ -3,6 +3,7 @@ package univ.kgu.carely.domain.team.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,4 +35,19 @@ public class TeamController {
         return ResponseEntity.ok(success);
     }
 
+    @DeleteMapping("/exit/{teamId}")
+    @Operation(summary = "그룹 탈퇴 API", description = "그룹 탈퇴 API")
+    public ResponseEntity<Boolean> exitTeam(@PathVariable("teamId") Long teamId){
+        Boolean success = teamService.exitTeam(teamId);
+
+        return ResponseEntity.ok(success);
+    }
+
+    @DeleteMapping("/close/{teamId}")
+    @Operation(summary = "그룹 폐쇄 API", description = "그룹 폐쇄 API")
+    public ResponseEntity<Boolean> closeTeam(@PathVariable("teamId") Long teamId) {
+        Boolean success = teamService.closeTeam(teamId);
+
+        return ResponseEntity.ok(success);
+    }
 }
