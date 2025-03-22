@@ -9,6 +9,7 @@ import univ.kgu.carely.domain.team.dto.request.ReqCreateTeamDTO;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
+import univ.kgu.carely.domain.team.repository.TeamMateRepository;
 import univ.kgu.carely.domain.team.repository.TeamRepository;
 import univ.kgu.carely.domain.team.service.TeamService;
 
@@ -18,6 +19,7 @@ public class TeamServiceImpl implements TeamService {
 
     private final MemberService memberService;
     private final TeamRepository teamRepository;
+    private final TeamMateRepository teamMateRepository;
 
     @Override
     @Transactional
@@ -32,9 +34,32 @@ public class TeamServiceImpl implements TeamService {
         teamRepository.save(team);
 
         TeamMate teamMate = TeamMate.builder()
-                .memberId(member)
-                .teamId(team)
+                .member(member)
+                .team(team)
                 .role(TeamRole.LEADER)
+                .build();
+
+        team.getTeamMates().add(teamMate);
+
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Boolean joinTeam(Long teamId) {
+        Member member = memberService.currentMember();
+        Team team = teamRepository.findById(teamId).orElseThrow();
+
+        Boolean alreadyExist = teamMateRepository.existsByTeamAndMember(team, member);
+
+        if(alreadyExist){
+            return false;
+        }
+
+        TeamMate teamMate = TeamMate.builder()
+                .team(team)
+                .member(member)
+                .role(TeamRole.MATE)
                 .build();
 
         team.getTeamMates().add(teamMate);
