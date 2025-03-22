@@ -42,6 +42,8 @@ public class ResMemberPublicInfoDTO {
     private String profileImage;
     @Schema(description = "멤버 생성 일시")
     private LocalDateTime createdAt;
+    @Schema(description = "멤버 생성 일시")
+    private Double distance;
     @Schema(description = "멤버 주소")
     private Address address;
     @Schema(description = "멤버 기술")

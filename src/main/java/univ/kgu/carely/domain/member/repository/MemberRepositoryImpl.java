@@ -55,6 +55,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                 member.memberType,
                                 member.profileImage,
                                 member.createdAt,
+                                distance.as("distance"),
                                 Projections.fields(Address.class,
                                                 member.address.province,
                                                 member.address.city,
