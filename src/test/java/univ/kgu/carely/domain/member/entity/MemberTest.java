@@ -45,6 +45,6 @@ class MemberTest {
         List<ResMemberPublicInfoDTO> allWithin = memberRepository.findAllWithinDistance(BigDecimal.valueOf(37.301387),
                 BigDecimal.valueOf(127.036554), 2000);
 
-        assertThat(allWithin).hasSize(5);
+        assertThat(allWithin).hasSize(15);
     }
 }

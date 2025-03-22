@@ -111,8 +111,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public ResMemberPrivateInfoDTO getPrivateInfo(Long memberId){
-        Member member = memberRepository.findById(memberId).orElseThrow();
+    public ResMemberPrivateInfoDTO getPrivateInfo(){
+        Member member = currentMember();
 
         return toResMemberPrivateInfoDTO(member);
     }

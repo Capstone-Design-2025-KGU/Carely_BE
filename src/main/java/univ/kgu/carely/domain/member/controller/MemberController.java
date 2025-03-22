@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
-import univ.kgu.carely.domain.member.dto.request.ReqMemberIdDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -64,8 +62,8 @@ public class MemberController {
 
     @PostMapping("/profile/my")
     @Operation(summary = "개인 정보 조회 API", description = "개인 정보 조회")
-    public ResponseEntity<ResMemberPrivateInfoDTO> asf(@RequestBody ReqMemberIdDTO reqMemberIdDTO){
-        ResMemberPrivateInfoDTO privateInfo = memberService.getPrivateInfo(reqMemberIdDTO.getMemberId());
+    public ResponseEntity<ResMemberPrivateInfoDTO> getPrivateInfo(){
+        ResMemberPrivateInfoDTO privateInfo = memberService.getPrivateInfo();
 
         return ResponseEntity.ok(privateInfo);
     }
