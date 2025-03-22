@@ -16,14 +16,19 @@ import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.common.enums.SkillLevel;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
+import univ.kgu.carely.domain.team.entity.Team;
+import univ.kgu.carely.domain.team.entity.TeamMate;
+import univ.kgu.carely.domain.team.entity.TeamRole;
+import univ.kgu.carely.domain.team.repository.TeamRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile({"test","default"})
+@Profile({"test", "default"})
 @Slf4j
 public class TestDataConfig {
 
     private final MemberRepository memberRepository;
+    private final TeamRepository teamRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Bean
@@ -53,7 +58,7 @@ public class TestDataConfig {
                     .username("flutter")
                     .password(encoder.encode("1234"))
                     .name("박성민")
-                    .phoneNumber("010-1234-5678")
+                    .phoneNumber("010-4321-5678")
                     .birth(LocalDate.of(2001, 10, 30))
                     .story("저는 테스터 계정입니다.")
                     .memberType(MemberType.FAMILY)
@@ -64,9 +69,7 @@ public class TestDataConfig {
                     .skill(skill1)
                     .build();
 
-
 // Member 1
-
 
             Member member1 = Member.builder()
                     .username("user1")
@@ -546,8 +549,60 @@ public class TestDataConfig {
                     .build();
 
             memberRepository.saveAll(
-                    List.of(member1, member2, member3, member4, member5, member6, member7, member8, member9, member10,
+                    List.of(tester, member1, member2, member3, member4, member5, member6, member7, member8, member9,
+                            member10,
                             member11, member12, member13, member14, member15));
+
+            Team team = Team.builder()
+                    .teamName("경기대 화이팅")
+                    .address(address15)
+                    .build();
+
+            team = teamRepository.save(team);
+
+            TeamMate teamMate = TeamMate.builder()
+                    .team(team)
+                    .member(member1)
+                    .role(TeamRole.LEADER)
+                    .build();
+
+            TeamMate teamMate1 = TeamMate.builder()
+                    .team(team)
+                    .member(member2)
+                    .role(TeamRole.MATE)
+                    .build();
+
+            TeamMate teamMate2 = TeamMate.builder()
+                    .team(team)
+                    .member(member3)
+                    .role(TeamRole.MATE)
+                    .build();
+
+            team.getTeamMates().addAll(List.of(teamMate, teamMate1, teamMate2));
+
+            teamRepository.save(team);
+
+            Team team1 = Team.builder()
+                    .address(address1)
+                    .teamName("잉?")
+                    .build();
+
+
+            TeamMate tm1 = TeamMate.builder()
+                    .team(team1)
+                    .role(TeamRole.LEADER)
+                    .member(member5)
+                    .build();
+
+            TeamMate tm2 = TeamMate.builder()
+                    .team(team)
+                    .role(TeamRole.MATE)
+                    .member(member6)
+                    .build();
+
+            team1.getTeamMates().addAll(List.of(tm1, tm2));
+
+            teamRepository.save(team1);
         };
     }
 }

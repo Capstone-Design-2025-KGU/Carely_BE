@@ -22,6 +22,6 @@ public class ResTeamOutlineDTO {
     private String teamName;
     private Address address;
     private Double distance;
-    private Integer memberCount;
+    private Long memberCount;
 
 }
