@@ -8,4 +8,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, CustomMem
     Boolean existsByUsername(String username);
     /** 해당 phoneNumber가 존재하는지 확인한다. */
     Boolean existsByPhoneNumber(String phoneNumber);
+
+    Member findByUsername(String username);
 }

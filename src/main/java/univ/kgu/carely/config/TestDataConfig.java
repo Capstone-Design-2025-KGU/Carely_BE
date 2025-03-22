@@ -9,8 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import univ.kgu.carely.domain.chat.entity.ChatRoom;
-import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
@@ -25,14 +23,12 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 public class TestDataConfig {
 
     private final MemberRepository memberRepository;
-    private final ChatRoomRepository chatRoomRepository;
 
     @Bean
     public CommandLineRunner commandLineRunner() {
         return args -> {
             log.info("Test Data are Injecting");
-
-            // Tester
+// Member 1
             Address address1 = Address.builder()
                     .province("경기도")
                     .city("수원시")
@@ -49,30 +45,6 @@ public class TestDataConfig {
                     .bath(SkillLevel.HIGH)
                     .walk(SkillLevel.MIDDLE)
                     .build();
-
-            Member tester = Member.builder()
-                    .username("flutter")
-                    .password("1234")
-                    .name("박성민")
-                    .phoneNumber("010-1234-5678")
-                    .birth(LocalDate.of(2001, 12, 13))
-                    .story("플러터 테스트 계정")
-                    .memberType(MemberType.FAMILY)
-                    .isVisible(true)
-                    .isVerified(true)
-                    .profileImage(null)
-                    .address(address1)
-                    .skill(skill1)
-                    .build();
-
-
-            ChatRoom room = ChatRoom.builder()
-                    .roomName("성민이의 테스트 채팅방")
-                    .build();
-
-            chatRoomRepository.save(room);
-
-// Member 1
 
             Member member1 = Member.builder()
                     .username("user1")
