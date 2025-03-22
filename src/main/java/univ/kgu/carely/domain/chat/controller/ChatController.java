@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.chat.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -26,6 +27,7 @@ public class ChatController {
      */
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
+    @Operation(summary = "메세지 전송", description = "클라이언트가 메세지를 전송하고, 해당 데이터를 저장합니다.")
     public ChatMessageResponse sendMessage(@Payload ChatMessageRequest request) {
         ChatMessage chatMessage = chatMessageService.saveChatMessage(request);
         return ChatMessageResponse.from(chatMessage);
