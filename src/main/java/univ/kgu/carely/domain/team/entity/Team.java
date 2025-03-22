@@ -35,7 +35,7 @@ public class Team {
 
     // 연관관계 매핑
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<TeamMate> teamMates = new HashSet<>();
 
