@@ -1,10 +1,15 @@
 package univ.kgu.carely.domain.chat.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import univ.kgu.carely.domain.chat.entity.MessageType;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@Schema(title = "서버 채팅 메시지 응답 DTO", description = "채팅 메시지를 클라이언트에게 응답할 때 사용되는 DTO입니다.")
 public class ChatMessageResponse {
 
     @Schema(description = "보낸 멤버 Id", example = "1")
