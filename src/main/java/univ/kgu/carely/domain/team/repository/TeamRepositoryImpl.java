@@ -2,7 +2,6 @@ package univ.kgu.carely.domain.team.repository;
 
 import static univ.kgu.carely.domain.team.entity.QTeamMate.teamMate;
 
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -35,24 +34,21 @@ public class TeamRepositoryImpl implements CustomTeamRepository {
                         team.teamName,
                         team.address,
                         distance.as("distance"),
-                        teamMate.count().as("memberCount")))
+                        teamMate.teamMateId.count().as("memberCount")))
                 .from(team)
                 .leftJoin(teamMate).on(team.eq(teamMate.team))
                 .where(distance.loe(meter))
                 .groupBy(team.teamId)
-                .orderBy(pageable.getSort().stream().toArray(OrderSpecifier[]::new))
+                .orderBy(distance.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        Long i = jpaQueryFactory.select(Projections.fields(Long.class,
-                        team.count()))
+        Long l = jpaQueryFactory.select(team.teamId.count())
                 .from(team)
                 .where(distance.loe(meter))
                 .fetchOne();
 
-        PageImpl<ResTeamOutlineDTO> page = new PageImpl<>(content, pageable, i);
-
-        return page;
+        return new PageImpl<>(content, pageable, l.longValue());
     }
 }
