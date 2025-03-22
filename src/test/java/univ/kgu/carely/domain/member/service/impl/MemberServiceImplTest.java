@@ -1,7 +1,6 @@
 package univ.kgu.carely.domain.member.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +32,7 @@ class MemberServiceImplTest {
         reqCoordinationDTO.setLng(BigDecimal.valueOf(127.0368483));
 
         // ID 1은 e스퀘어 좌표 50m 안에는 들지 못함.
-        Boolean verified = memberService.verifyNeighbor(1L, reqCoordinationDTO);
+        Boolean verified = memberService.verifyNeighbor(reqCoordinationDTO);
         assertThat(verified).isFalse();
     }
 
@@ -49,7 +48,7 @@ class MemberServiceImplTest {
         assertThat(member.getIsVerified()).isTrue();
 
         // ID 1은 e스퀘어 좌표 4강의 끝부분은 e스퀘어와 가깝기 때문에 인증 가능
-        Boolean verified = memberService.verifyNeighbor(1L, reqCoordinationDTO);
+        Boolean verified = memberService.verifyNeighbor(reqCoordinationDTO);
         assertThat(verified).isTrue();
 
         member = memberRepository.findById(1L).orElseThrow();
