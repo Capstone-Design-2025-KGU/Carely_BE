@@ -28,6 +28,7 @@ public class ResTeamOutlineDTO {
     private Address address;
     @Schema(description = "거리")
     private Double distance;
+
     @Schema(description = "회원 수")
     private Long memberCount;
 
