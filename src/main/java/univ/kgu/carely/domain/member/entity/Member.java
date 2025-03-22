@@ -9,10 +9,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +28,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.team.entity.TeamMate;
 
 @Entity
 @Getter
@@ -85,4 +89,7 @@ public class Member {
 
     @Embedded
     private Skill skill;
+
+    @OneToMany(mappedBy = "memberId")
+    private Set<TeamMate> teamMates = new HashSet<>();
 }
