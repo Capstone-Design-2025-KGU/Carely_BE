@@ -34,11 +34,11 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .orElseThrow(()-> new RuntimeException(String.format("Id : %d 의 채팅방을 찾을 수 없습니다.", request.getChatroomId())));
 
         ChatMessage message = ChatMessage.builder()
-                        .sender(sender)
-                                .chatRoom(room)
-                                        .content(request.getContent())
-                                                .messageType(request.getMessageType())
-                                                        .build();
+                .sender(sender)
+                .chatRoom(room)
+                .content(request.getContent())
+                .messageType(request.getMessageType())
+                .build();
 
         return chatMessageRepository.save(message);
     }
