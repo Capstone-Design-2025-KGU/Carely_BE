@@ -16,6 +16,8 @@ import univ.kgu.carely.domain.member.dto.CustomUserDetails;
 @RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
+    private static final long EXPIRED_MS = 60 * 60 * 1000L;
+
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
@@ -39,7 +41,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = customUserDetails.getUsername();
         String role = authResult.getAuthorities().stream().iterator().next().getAuthority();
 
-        String token = jwtUtil.createJwt(username, role, 60*60*1000L);
+        String token = jwtUtil.createJwt(username, role, EXPIRED_MS);
 
         response.addHeader("Authorization", "Bearer " + token);
     }
