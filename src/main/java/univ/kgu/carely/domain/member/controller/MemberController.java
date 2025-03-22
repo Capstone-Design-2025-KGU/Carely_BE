@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
+import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -37,7 +39,7 @@ public class MemberController {
     }
 
     @GetMapping("/check/username")
-    @Operation(summary = "중복 username 검사", description = "중복된 username을 검사한다.")
+    @Operation(summary = "중복 username 검사 API", description = "중복된 username을 검사한다.")
     public ResponseEntity<Boolean> isDuplicatedUsername(String username) {
         Boolean duplicatedUsername = memberService.isDuplicatedUsername(username);
 
@@ -45,7 +47,7 @@ public class MemberController {
     }
 
     @GetMapping("/check/phone-number")
-    @Operation(summary = "중복 전화번호 검사", description = "중복된 전화번호 검사를 진행한다.")
+    @Operation(summary = "중복 전화번호 검사 API", description = "중복된 전화번호 검사를 진행한다.")
     public ResponseEntity<Boolean> isDuplicatedPhoneNumber(String phoneNumber) {
         Boolean duplicatedPhoneNumber = memberService.isDuplicatedPhoneNumber(phoneNumber);
 
@@ -53,7 +55,7 @@ public class MemberController {
     }
 
     @PostMapping("/verify")
-    @Operation(summary = "동네 인증", description = "GPS 좌표를 기준으로 설정한 주소와 거리차이를 계산해 동네 인증을 진행한다.")
+    @Operation(summary = "동네 인증 API", description = "GPS 좌표를 기준으로 설정한 주소와 거리차이를 계산해 동네 인증을 진행한다.")
     public ResponseEntity<Boolean> verifyNeighbor(@RequestBody ReqCoordinationDTO reqCoordinationDTO) {
         Boolean verified = memberService.verifyNeighbor(reqCoordinationDTO);
 
@@ -67,4 +69,13 @@ public class MemberController {
 
         return ResponseEntity.ok(privateInfo);
     }
+
+    @PutMapping("/profile/my/skill")
+    @Operation(summary = "능력 수정 API", description = "능력 수정을 진행한다.")
+    public ResponseEntity<Boolean> updateSkill(@RequestBody ReqUpdateSkillDTO reqUpdateSkillDTO){
+        Boolean success = memberService.updateSkill(reqUpdateSkillDTO);
+
+        return ResponseEntity.ok(success);
+    }
+
 }
