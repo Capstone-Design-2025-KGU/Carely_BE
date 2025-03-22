@@ -96,7 +96,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean verifyNeighbor(Long memberId, ReqCoordinationDTO reqCoordinationDTO) {
+    public Boolean verifyNeighbor(ReqCoordinationDTO reqCoordinationDTO) {
         Member member = currentMember();
 
         Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
