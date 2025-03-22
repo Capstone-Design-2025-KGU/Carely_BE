@@ -30,6 +30,14 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .fetchOne();
     }
 
+    /**
+     * 입력한 위도/경도를 기준으로 해당 범위 내에 존재하는 모든 멤버를 찾는다.
+     *
+     * @param lat        중심이 되는 위치의 위도
+     * @param lng        중심이 되는 위치의 경도
+     * @param meter      중심으로부터 확인하려고 하는 범위
+     * @return 범위 내의 모든 멤버
+     */
     @Override
     public List<ResMemberPublicInfoDTO> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter) {
         // MySQL에서 지원하는 위도/경도로 거리 비교하는 함수 이용

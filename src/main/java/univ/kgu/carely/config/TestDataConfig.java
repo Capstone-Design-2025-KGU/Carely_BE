@@ -30,12 +30,13 @@ public class TestDataConfig {
     public CommandLineRunner commandLineRunner() {
         return args -> {
             log.info("Test Data are Injecting");
-// Member 1
+
+// Tester
             Address address1 = Address.builder()
-                    .province("경기도")
-                    .city("수원시")
-                    .district("영통구")
-                    .details("경기대 e스퀘어")
+                    .province("서울")
+                    .city("강남구")
+                    .district("영동대로")
+                    .details("123")
                     .latitude(BigDecimal.valueOf(37.300627))
                     .longitude(BigDecimal.valueOf(127.037393))
                     .build();
@@ -47,6 +48,25 @@ public class TestDataConfig {
                     .bath(SkillLevel.HIGH)
                     .walk(SkillLevel.MIDDLE)
                     .build();
+
+            Member tester = Member.builder()
+                    .username("flutter")
+                    .password(encoder.encode("1234"))
+                    .name("박성민")
+                    .phoneNumber("010-1234-5678")
+                    .birth(LocalDate.of(2001, 10, 30))
+                    .story("저는 테스터 계정입니다.")
+                    .memberType(MemberType.FAMILY)
+                    .isVisible(true)
+                    .isVerified(true)
+                    .profileImage(null)
+                    .address(address1)
+                    .skill(skill1)
+                    .build();
+
+
+// Member 1
+
 
             Member member1 = Member.builder()
                     .username("user1")

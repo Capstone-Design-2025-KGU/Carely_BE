@@ -50,6 +50,7 @@ public interface MemberService {
      */
     Boolean verifyNeighbor(ReqCoordinationDTO reqCoordinationDTO);
 
+
     /**
      * 개인 정보를 조회한다.
      * @return 개인 정보
