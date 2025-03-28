@@ -67,7 +67,6 @@ public class TestDataConfig {
                     .memberType(MemberType.FAMILY)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address1)
                     .skill(skill1)
                     .build();
@@ -86,7 +85,6 @@ public class TestDataConfig {
                     .memberType(MemberType.FAMILY)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address1)
                     .skill(skill1)
                     .build();
@@ -119,7 +117,6 @@ public class TestDataConfig {
                     .memberType(MemberType.VOLUNTEER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address2)
                     .skill(skill2)
                     .build();
@@ -152,7 +149,6 @@ public class TestDataConfig {
                     .memberType(MemberType.CAREGIVER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address3)
                     .skill(skill3)
                     .build();
@@ -185,7 +181,6 @@ public class TestDataConfig {
                     .memberType(MemberType.FAMILY)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address4)
                     .skill(skill4)
                     .build();
@@ -218,7 +213,6 @@ public class TestDataConfig {
                     .memberType(MemberType.VOLUNTEER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address5)
                     .skill(skill5)
                     .build();
@@ -251,7 +245,6 @@ public class TestDataConfig {
                     .memberType(MemberType.CAREGIVER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address6)
                     .skill(skill6)
                     .build();
@@ -284,7 +277,6 @@ public class TestDataConfig {
                     .memberType(MemberType.FAMILY)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address7)
                     .skill(skill7)
                     .build();
@@ -317,7 +309,6 @@ public class TestDataConfig {
                     .memberType(MemberType.VOLUNTEER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address8)
                     .skill(skill8)
                     .build();
@@ -350,7 +341,6 @@ public class TestDataConfig {
                     .memberType(MemberType.CAREGIVER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address9)
                     .skill(skill9)
                     .build();
@@ -383,7 +373,6 @@ public class TestDataConfig {
                     .memberType(MemberType.FAMILY)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address10)
                     .skill(skill10)
                     .build();
@@ -416,7 +405,6 @@ public class TestDataConfig {
                     .memberType(MemberType.VOLUNTEER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address11)
                     .skill(skill11)
                     .build();
@@ -449,7 +437,6 @@ public class TestDataConfig {
                     .memberType(MemberType.CAREGIVER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address12)
                     .skill(skill12)
                     .build();
@@ -482,7 +469,6 @@ public class TestDataConfig {
                     .memberType(MemberType.FAMILY)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address13)
                     .skill(skill13)
                     .build();
@@ -515,7 +501,6 @@ public class TestDataConfig {
                     .memberType(MemberType.VOLUNTEER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address14)
                     .skill(skill14)
                     .build();
@@ -548,7 +533,6 @@ public class TestDataConfig {
                     .memberType(MemberType.CAREGIVER)
                     .isVisible(true)
                     .isVerified(true)
-                    .profileImage(null)
                     .address(address15)
                     .skill(skill15)
                     .build();
