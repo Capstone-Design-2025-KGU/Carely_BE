@@ -30,6 +30,8 @@ import univ.kgu.carely.domain.team.repository.PostRepository;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
+import univ.kgu.carely.domain.team.repository.CommentRepository;
+import univ.kgu.carely.domain.team.repository.PostRepository;
 import univ.kgu.carely.domain.team.repository.TeamRepository;
 
 @Configuration
