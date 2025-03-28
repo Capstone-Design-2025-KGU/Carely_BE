@@ -11,7 +11,7 @@ import univ.kgu.carely.domain.team.service.PostService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/post")
+@RequestMapping("/api/team/{teamId}")
 public class PostController {
 
     private final PostService postService;

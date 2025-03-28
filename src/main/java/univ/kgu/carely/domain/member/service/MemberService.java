@@ -6,6 +6,7 @@ import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 
 public interface MemberService {
@@ -54,9 +55,17 @@ public interface MemberService {
 
     /**
      * 개인 정보를 조회한다.
+     *
      * @return 개인 정보
      */
     ResMemberPrivateInfoDTO getPrivateInfo();
 
     Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO);
+    /**
+     * ResMemberSmallInfoDTO 로 변환한다.
+     *
+     * @param member 간단한 정보만 담으려고 하는 member
+     * @return 간단한 정보가 담긴 ResMemberSmallInfoDTO
+     */
+    ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member);
 }
