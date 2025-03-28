@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.chat.dto.ChatMessageRequest;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
+import univ.kgu.carely.domain.chat.dto.ChatRoomResponse;
+import univ.kgu.carely.domain.chat.entity.ChatMember;
 import univ.kgu.carely.domain.chat.entity.ChatMessage;
 import univ.kgu.carely.domain.chat.entity.ChatRoom;
+import univ.kgu.carely.domain.chat.repository.ChatMemberRepository;
 import univ.kgu.carely.domain.chat.repository.ChatMessageRepository;
 import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.chat.service.ChatMessageService;
@@ -22,6 +25,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final MemberRepository memberRepository;
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatMemberRepository chatMemberRepository;
 
     /**
      * 채팅 메세지를 데이터베이스에 저장합니다.
@@ -57,5 +61,11 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         List<ChatMessage> messages = chatMessageRepository.findByChatRoomIdOrderByCreatedAtAsc(chatRoomId);
 
         return messages.stream().map(ChatMessageResponse::from).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ChatRoomResponse> getChatRoomByMemberId(Long memberId) {
+        List<ChatMember> myChatMembers = chatMemberRepository.findByMember_MemberId(memberId);
+
     }
 }
