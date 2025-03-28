@@ -106,6 +106,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                             .build();
                 })
                 .filter(room -> room != null)
-                .collect(Collectors.toList());
+                .toList();
     }
 }
