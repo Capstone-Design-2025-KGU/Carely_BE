@@ -7,6 +7,7 @@ import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
+import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.repository.PostRepository;
@@ -25,7 +26,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post createPost(ReqCreatePostDTO createPostDTO) {
+    public ResPostDTO createPost(ReqCreatePostDTO createPostDTO) {
         Team team = teamRepository.findById(createPostDTO.getTeamId()).orElseThrow();
         Member member = memberService.currentMember();
 
@@ -38,12 +39,12 @@ public class PostServiceImpl implements PostService {
 
         post = postRepository.save(post);
 
-        return post;
+        return toResPostDTO(post);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Post readPost(Long postId) {
+    public ResPostDTO readPost(Long postId) {
         Member member = memberService.currentMember();
         Post post = postRepository.findById(postId).orElseThrow();
         Team team = post.getTeam();
@@ -52,12 +53,23 @@ public class PostServiceImpl implements PostService {
             throw new RuntimeException("다른 그룹의 게시글을 볼 수 없습니다.");
         }
 
-        return post;
+        return toResPostDTO(post);
+    }
+
+    @Override
+    public ResPostDTO toResPostDTO(Post post) {
+        return ResPostDTO.builder()
+                .postId(post.getPostId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdAt(post.getCreatedAt())
+                .writer(memberService.toResMemberSmallInfoDTO(post.getMember()))
+                .build();
     }
 
     @Override
     @Transactional
-    public Post updatePost(ReqUpdatePostDTO updatePostDTO) {
+    public ResPostDTO updatePost(ReqUpdatePostDTO updatePostDTO) {
         Member member = memberService.currentMember();
         Post post = postRepository.findById(updatePostDTO.getPostId()).orElseThrow();
 
@@ -70,7 +82,7 @@ public class PostServiceImpl implements PostService {
 
         post = postRepository.save(post);
 
-        return post;
+        return toResPostDTO(post);
     }
 
     @Override
