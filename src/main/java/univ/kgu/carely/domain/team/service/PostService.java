@@ -7,7 +7,9 @@ import univ.kgu.carely.domain.team.entity.Post;
 public interface PostService {
     Post createPost(ReqCreatePostDTO createPostDTO);
 
-    Boolean deletePost(Long postId);
+    Post readPost(Long postId);
 
     Post updatePost(ReqUpdatePostDTO updatePostDTO);
+
+    Boolean deletePost(Long postId);
 }
