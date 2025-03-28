@@ -1,6 +1,7 @@
 package univ.kgu.carely.domain.team.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +25,6 @@ public class ResPostDTO {
     private String content;
     private LocalDateTime createdAt;
     private ResMemberSmallInfoDTO writer;
+    private List<ResCommentDTO> resCommentDTOS;
 
 }

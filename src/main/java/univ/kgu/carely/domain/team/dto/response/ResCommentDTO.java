@@ -9,7 +9,7 @@ import lombok.Setter;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 
 /**
- * 간단한 게시글 정보를 담은 Response DTO.
+ * 게시글의 댓글 내용을 담은 Response DTO.
  */
 
 @Getter
@@ -17,12 +17,11 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResPostOutlineDTO {
+public class ResCommentDTO {
 
-    private Long postId;
-    private String title;
+    private Long commentId;
+    private String content;
     private LocalDateTime createdAt;
-    private Long commentCount;
     private ResMemberSmallInfoDTO writer;
 
 }
