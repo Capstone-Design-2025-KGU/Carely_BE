@@ -1,6 +1,7 @@
 package univ.kgu.carely.domain.chat.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.chat.dto.ChatMessageRequest;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatMessageServiceImpl implements ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
@@ -65,7 +67,46 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public List<ChatRoomResponse> getChatRoomByMemberId(Long memberId) {
+        // 멤버가 속한 모든 ChatMember를 가져옵니다.
         List<ChatMember> myChatMembers = chatMemberRepository.findByMember_MemberId(memberId);
 
+        // 가져온 ChatMember에서 ChatRoom을 사용합니다.
+        return myChatMembers.stream()
+                .map(ChatMember::getChatRoom)
+                .distinct()
+                .map(chatRoom -> {
+                    // 최신 메시지를 가져옵니다.
+                    List<ChatMessage> messages = chatMessageRepository.findByChatRoomIdOrderByCreatedAtAsc(chatRoom.getId());
+                    if (messages.isEmpty()) {
+                        log.warn("[채팅방:{}] 메시지가 존재하지 않습니다", chatRoom.getId());
+                        return null;
+                    }
+
+                    ChatMessage latest = messages.get(messages.size() - 1);
+
+                    List<ChatMember> participants = chatMemberRepository.findByChatRoom(chatRoom);
+                    Member opponent = participants.stream()
+                            .map(ChatMember::getMember)
+                            .filter(m -> !m.getMemberId().equals(memberId))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (opponent == null) {
+                        log.warn("[채팅방:{}] 멤버:{}의 상대방을 찾을 수 없습니다", chatRoom.getId(), memberId);
+                        return null;
+                    }
+
+                    return new ChatRoomResponse(
+                            opponent.getMemberId(),
+                            opponent.getName(),
+                            opponent.getMemberType(),
+                            opponent.getProfileImage(),
+                            chatRoom.getId(),
+                            latest.getContent(),
+                            latest.getCreatedAt()
+                    );
+                })
+                .filter(room -> room != null)
+                .collect(Collectors.toList());
     }
 }

@@ -40,7 +40,7 @@ public class ChatRestController {
     }
 
     @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoomResponse>> getChatMessages() {
+    public ResponseEntity<List<ChatRoomResponse>> getChatRooms() {
         List<ChatRoomResponse> chatRooms = chatMessageService.getChatRoomsByMemberId(memberId);
         return ResponseEntity.ok(chatRooms);
     }
