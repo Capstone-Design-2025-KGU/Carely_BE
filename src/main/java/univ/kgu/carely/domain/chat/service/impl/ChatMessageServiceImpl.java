@@ -68,7 +68,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Override
     public List<ChatRoomResponse> getChatRoomByMemberId(Long memberId) {
         // 멤버가 속한 모든 ChatMember를 가져옵니다.
-        List<ChatMember> myChatMembers = chatMemberRepository.findByMemberId(memberId);
+        List<ChatMember> myChatMembers = chatMemberRepository.findByMember_MemberId(memberId);
 
         // 가져온 ChatMember에서 ChatRoom을 사용합니다.
         return myChatMembers.stream()
