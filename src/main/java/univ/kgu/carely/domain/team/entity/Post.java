@@ -48,10 +48,12 @@ public class Post {
 
     // 연관 관계 매핑
 
+    // 게시글 작성자
     @ManyToOne()
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    // 게시글 그룹
     @ManyToOne()
     @JoinColumn(name = "team_id", nullable = false)
     private Team team;
