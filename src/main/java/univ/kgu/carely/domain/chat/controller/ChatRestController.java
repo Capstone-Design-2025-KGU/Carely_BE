@@ -39,9 +39,9 @@ public class ChatRestController {
         return ResponseEntity.ok(messages);
     }
 
-    @GetMapping("/rooms")
-    public ResponseEntity<List<ChatRoomResponse>> getChatRooms() {
-        List<ChatRoomResponse> chatRooms = chatMessageService.getChatRoomsByMemberId(memberId);
+    @GetMapping("/{memberId}/rooms")
+    public ResponseEntity<List<ChatRoomResponse>> getChatRooms(@PathVariable Long memberId) {
+        List<ChatRoomResponse> chatRooms = chatMessageService.getChatRoomByMemberId(memberId);
         return ResponseEntity.ok(chatRooms);
     }
 }

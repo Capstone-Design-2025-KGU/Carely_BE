@@ -7,7 +7,7 @@ import univ.kgu.carely.domain.chat.entity.ChatRoom;
 
 import java.util.List;
 
-public interface ChatMemberRepository extends JpaRepository<ChatMessage, Long> {
+public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
 
     /**
      * 멤버 아이디를 통해 해당 멤버가 속한 모든 채팅방을 조회합니다.
