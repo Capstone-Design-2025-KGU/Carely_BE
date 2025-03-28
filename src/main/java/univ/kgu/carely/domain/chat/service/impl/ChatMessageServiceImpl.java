@@ -77,12 +77,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .map(chatRoom -> {
                     // 최신 메시지를 가져옵니다.
                     List<ChatMessage> messages = chatMessageRepository.findByChatRoomIdOrderByCreatedAtAsc(chatRoom.getId());
-                    if (messages.isEmpty()) {
-                        log.warn("[채팅방:{}] 메시지가 존재하지 않습니다", chatRoom.getId());
-                        return null;
-                    }
-
-                    ChatMessage latest = messages.get(messages.size() - 1);
+                    ChatMessage latest = messages.isEmpty() ? null : messages.get(messages.size() - 1);
 
                     List<ChatMember> participants = chatMemberRepository.findByChatRoom(chatRoom);
                     Member opponent = participants.stream()
@@ -96,14 +91,17 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                         return null;
                     }
 
+                    int participantCount = participants.size();
+
                     return new ChatRoomResponse(
                             opponent.getMemberId(),
                             opponent.getName(),
                             opponent.getMemberType(),
                             opponent.getProfileImage(),
                             chatRoom.getId(),
-                            latest.getContent(),
-                            latest.getCreatedAt()
+                            latest != null ? latest.getContent() : "아직 메시지가 없어요",
+                            participantCount,
+                            latest != null ? latest.getCreatedAt() : null
                     );
                 })
                 .filter(room -> room != null)

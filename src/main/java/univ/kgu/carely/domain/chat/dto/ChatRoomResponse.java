@@ -34,6 +34,9 @@ public class ChatRoomResponse {
     @Schema(description = "가장 최근 메시지 내용", example = "형제들이여")
     private String content;
 
+    @Schema(description = "채팅방 참여자 수", example = "3")
+    private int participantCount;
+
     @Schema(description = "가장 최근 메시지의 생성 시간", example = "2025-03-21T17:45:34.658")
     private LocalDateTime createdAt;
 }
