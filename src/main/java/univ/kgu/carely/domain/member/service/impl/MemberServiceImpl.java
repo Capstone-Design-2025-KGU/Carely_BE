@@ -61,7 +61,6 @@ public class MemberServiceImpl implements MemberService {
                 .story(reqMemberCreateDTO.getStory())
                 .memberType(reqMemberCreateDTO.getMemberType())
                 .isVisible(reqMemberCreateDTO.getIsVisible())
-                .profileImage(String.valueOf((int)(Math.random() * 10) + 1))
                 .address(reqMemberCreateDTO.getAddress())
                 .skill(reqMemberCreateDTO.getSkill())
                 .build();
