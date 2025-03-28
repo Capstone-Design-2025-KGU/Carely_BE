@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
+import univ.kgu.carely.domain.chat.dto.ChatRoomResponse;
+import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.chat.service.ChatMessageService;
 
 import java.util.List;
@@ -35,5 +37,11 @@ public class ChatRestController {
             @PathVariable Long chatRoomId) {
         List<ChatMessageResponse> messages = chatMessageService.getChatMessageByChatRoomId(chatRoomId);
         return ResponseEntity.ok(messages);
+    }
+
+    @GetMapping("/rooms")
+    public ResponseEntity<List<ChatRoomResponse>> getChatMessages() {
+        List<ChatRoomResponse> chatRooms = chatMessageService.getChatRoomsByMemberId(memberId);
+        return ResponseEntity.ok(chatRooms);
     }
 }
