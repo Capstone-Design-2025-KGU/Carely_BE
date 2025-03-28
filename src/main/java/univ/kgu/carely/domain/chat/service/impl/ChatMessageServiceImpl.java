@@ -93,16 +93,17 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
                     int participantCount = participants.size();
 
-                    return new ChatRoomResponse(
-                            opponent.getMemberId(),
-                            opponent.getName(),
-                            opponent.getMemberType(),
-                            opponent.getProfileImage(),
-                            chatRoom.getId(),
-                            latest != null ? latest.getContent() : "아직 메시지가 없어요",
-                            participantCount,
-                            latest != null ? latest.getCreatedAt() : null
-                    );
+
+                    return ChatRoomResponse.builder()
+                            .memberId(opponent.getMemberId())
+                            .memberName(opponent.getName())
+                            .memberType(opponent.getMemberType())
+                            .profileImage(opponent.getProfileImage())
+                            .chatRoomId(chatRoom.getId())
+                            .content(latest != null ? latest.getContent() : "아직 메시지가 없어요")
+                            .participantCount(participantCount)
+                            .createdAt(latest != null ? latest.getCreatedAt() : null)
+                            .build();
                 })
                 .filter(room -> room != null)
                 .collect(Collectors.toList());
