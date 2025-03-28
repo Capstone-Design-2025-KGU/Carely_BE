@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import univ.kgu.carely.domain.chat.entity.ChatMember;
+import univ.kgu.carely.domain.chat.entity.ChatRoom;
+import univ.kgu.carely.domain.chat.repository.ChatMemberRepository;
+import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
@@ -24,6 +28,8 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 public class TestDataConfig {
 
     private final MemberRepository memberRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatMemberRepository chatMemberRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Bean
@@ -31,6 +37,11 @@ public class TestDataConfig {
         return args -> {
             log.info("Test Data are Injecting");
 
+            ChatRoom chatRoom = ChatRoom.builder()
+                    .roomName("테스트 채팅방")
+                    .build();
+
+            chatRoomRepository.save(chatRoom);
 // Tester
             Address address1 = Address.builder()
                     .province("서울")
@@ -53,7 +64,7 @@ public class TestDataConfig {
                     .username("flutter")
                     .password(encoder.encode("1234"))
                     .name("박성민")
-                    .phoneNumber("010-1234-5678")
+                    .phoneNumber("010-4183-5678")
                     .birth(LocalDate.of(2001, 10, 30))
                     .story("저는 테스터 계정입니다.")
                     .memberType(MemberType.FAMILY)
@@ -529,9 +540,51 @@ public class TestDataConfig {
                     .skill(skill15)
                     .build();
 
+            Member savedTester = memberRepository.save(tester);
+
             memberRepository.saveAll(
                     List.of(member1, member2, member3, member4, member5, member6, member7, member8, member9, member10,
                             member11, member12, member13, member14, member15));
+
+            // 멤버 다시 불러오기 (DB에서 실제 ID 포함된 멤버 객체로)
+            List<Member> savedMembers = memberRepository.findAll();
+
+// 1:1 채팅방 3개
+            ChatRoom oneToOneRoom1 = chatRoomRepository.save(ChatRoom.builder().roomName("1:1 채팅방 1").build());
+            ChatRoom oneToOneRoom2 = chatRoomRepository.save(ChatRoom.builder().roomName("1:1 채팅방 2").build());
+            ChatRoom oneToOneRoom3 = chatRoomRepository.save(ChatRoom.builder().roomName("1:1 채팅방 3").build());
+
+// 그룹 채팅방 3개
+            ChatRoom groupRoom1 = chatRoomRepository.save(ChatRoom.builder().roomName("그룹 채팅방 1").build());
+            ChatRoom groupRoom2 = chatRoomRepository.save(ChatRoom.builder().roomName("그룹 채팅방 2").build());
+            ChatRoom groupRoom3 = chatRoomRepository.save(ChatRoom.builder().roomName("그룹 채팅방 3").build());
+
+// ChatMember 저장
+            chatMemberRepository.saveAll(List.of(
+                    // 1:1
+                    ChatMember.builder().chatRoom(oneToOneRoom1).member(savedTester).build(),
+                    ChatMember.builder().chatRoom(oneToOneRoom1).member(savedMembers.get(1)).build(), // user1
+
+                    ChatMember.builder().chatRoom(oneToOneRoom2).member(savedTester).build(),
+                    ChatMember.builder().chatRoom(oneToOneRoom2).member(savedMembers.get(2)).build(), // user2
+
+                    ChatMember.builder().chatRoom(oneToOneRoom3).member(savedTester).build(),
+                    ChatMember.builder().chatRoom(oneToOneRoom3).member(savedMembers.get(3)).build(), // user3
+
+                    // 그룹 채팅방 (tester + 2명씩)
+                    ChatMember.builder().chatRoom(groupRoom1).member(savedTester).build(),
+                    ChatMember.builder().chatRoom(groupRoom1).member(savedMembers.get(3)).build(),
+                    ChatMember.builder().chatRoom(groupRoom1).member(savedMembers.get(4)).build(),
+
+                    ChatMember.builder().chatRoom(groupRoom2).member(savedTester).build(),
+                    ChatMember.builder().chatRoom(groupRoom2).member(savedMembers.get(5)).build(),
+                    ChatMember.builder().chatRoom(groupRoom2).member(savedMembers.get(6)).build(),
+
+                    ChatMember.builder().chatRoom(groupRoom3).member(savedTester).build(),
+                    ChatMember.builder().chatRoom(groupRoom3).member(savedMembers.get(7)).build(),
+                    ChatMember.builder().chatRoom(groupRoom3).member(savedMembers.get(8)).build()
+            ));
+
         };
     }
 }
