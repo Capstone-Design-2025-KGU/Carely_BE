@@ -15,7 +15,9 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +31,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.team.entity.Comment;
+import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 
 @Entity
@@ -97,4 +101,13 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<TeamMate> teamMates = new HashSet<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Comment> comments = new ArrayList<>();
+
 }
