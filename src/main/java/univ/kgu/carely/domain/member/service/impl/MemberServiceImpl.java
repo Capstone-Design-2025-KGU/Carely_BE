@@ -123,6 +123,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+<<<<<<< HEAD
     @Transactional
     public Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO) {
         Member member = currentMember();

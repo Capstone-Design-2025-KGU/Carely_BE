@@ -60,7 +60,9 @@ public interface MemberService {
      */
     ResMemberPrivateInfoDTO getPrivateInfo();
 
+
     Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO);
+
     /**
      * ResMemberSmallInfoDTO 로 변환한다.
      *
