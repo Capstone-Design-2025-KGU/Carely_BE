@@ -27,6 +27,8 @@ import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
 import univ.kgu.carely.domain.team.repository.CommentRepository;
 import univ.kgu.carely.domain.team.repository.PostRepository;
+import univ.kgu.carely.domain.team.entity.Comment;
+import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
