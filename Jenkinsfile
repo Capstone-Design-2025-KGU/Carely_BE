@@ -31,6 +31,10 @@ pipeline {
                 ls -la
                 ./gradlew clean build -x test
                 ls -la
+                echo "[DEBUG] 현재 application.yml:"
+                cat src/main/resources/application.yml
+                jar xf build/libs/*.jar BOOT-INF/classes/application.yml
+                cat BOOT-INF/classes/application.yml
                 '''
             }
         }
@@ -46,8 +50,6 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'my-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
-                        echo "[DEBUG] 현재 application.yml:"
-                        cat src/main/resources/application.yml
                         docker build --platform linux/amd64 -t $AWS_DOCKER_REGISTRY/$APP_NAME:$APP_VERSION .
                         aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_DOCKER_REGISTRY
                         docker push $AWS_DOCKER_REGISTRY/$APP_NAME:$APP_VERSION
