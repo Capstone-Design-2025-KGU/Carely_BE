@@ -19,6 +19,8 @@ import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
 import univ.kgu.carely.domain.team.service.PostService;
 
+// ToDo 전체적으로 엔드포인트 수정이 필요할 것 같음.
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
