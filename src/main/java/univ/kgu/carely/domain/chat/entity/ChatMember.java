@@ -1,11 +1,19 @@
 package univ.kgu.carely.domain.chat.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import univ.kgu.carely.domain.member.entity.Member;
 
 //ChatMessage_ChatRoom 을 연결하는 중간 테이블
 
+@Getter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChatMember {
 
     @Id

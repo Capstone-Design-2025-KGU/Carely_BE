@@ -79,7 +79,8 @@ public class Member {
     @Builder.Default
     private Boolean isVerified = false;
 
-    private String profileImage;
+    @Builder.Default
+    private String profileImage = String.valueOf((int) (Math.random() * 10) + 1);
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
