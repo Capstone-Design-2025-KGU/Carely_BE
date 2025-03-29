@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ import univ.kgu.carely.domain.member.service.MemberService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -76,6 +77,14 @@ public class MemberController {
         Boolean success = memberService.updateSkill(reqUpdateSkillDTO);
 
         return ResponseEntity.ok(success);
+    }
+
+    @GetMapping("/{memberId}")
+    @Operation(summary = "특정 멤버의 정보 API", description = "특정 멤버의 정보를 조회한다.")
+    public ResponseEntity<ResMemberPublicInfoDTO> findMember(@PathVariable("memberId") Long memberId) {
+        ResMemberPublicInfoDTO publicInfo = memberService.getMemberPublicInfo(memberId);
+
+        return ResponseEntity.ok(publicInfo);
     }
 
 }
