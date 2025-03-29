@@ -40,7 +40,8 @@ pipeline {
                 ls -la
                 echo "[DEBUG] 현재 application.yml:"
                 cat src/main/resources/application.yml
-                jar xf build/libs/*.jar BOOT-INF/classes/application.yml
+                APP_JAR=$(ls build/libs/*-SNAPSHOT.jar | grep -v plain)
+                jar xf $APP_JAR BOOT-INF/classes/application.yml
                 cat BOOT-INF/classes/application.yml
                 '''
             }
