@@ -124,7 +124,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO){
+    public Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO) {
         Member member = currentMember();
 
         Skill skill = member.getSkill();

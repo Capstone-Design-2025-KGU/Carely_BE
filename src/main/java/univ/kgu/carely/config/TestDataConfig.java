@@ -47,12 +47,6 @@ public class TestDataConfig {
     public CommandLineRunner commandLineRunner() {
         return args -> {
             log.info("Test Data are Injecting");
-
-            ChatRoom chatRoom = ChatRoom.builder()
-                    .roomName("테스트 채팅방")
-                    .build();
-
-            chatRoomRepository.save(chatRoom);
 // Tester
             Address address1 = Address.builder()
                     .province("서울")
@@ -688,7 +682,6 @@ public class TestDataConfig {
                     ChatMember.builder().chatRoom(groupRoom3).member(savedMembers.get(7)).build(),
                     ChatMember.builder().chatRoom(groupRoom3).member(savedMembers.get(8)).build()
             ));
-
         };
     }
 }
