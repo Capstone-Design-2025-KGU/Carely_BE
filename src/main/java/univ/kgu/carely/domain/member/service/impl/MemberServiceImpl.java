@@ -13,6 +13,7 @@ import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -136,6 +137,17 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return true;
+    }
+
+    @Override
+    public ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member) {
+        return ResMemberSmallInfoDTO.builder()
+                .memberId(member.getMemberId())
+                .username(member.getUsername())
+                .name(member.getName())
+                .memberType(member.getMemberType())
+                .profileImage(member.getProfileImage())
+                .build();
     }
 
     @Override

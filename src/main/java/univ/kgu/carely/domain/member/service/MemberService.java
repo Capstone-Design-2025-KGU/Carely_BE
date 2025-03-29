@@ -7,13 +7,14 @@ import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 
 public interface MemberService {
 
     /**
      * 현재 인증된 사용자 정보를 가져온다.
-     * 
+     *
      * @return 현재 인증된 사용자
      */
     Member currentMember();
@@ -67,11 +68,19 @@ public interface MemberService {
 
     /**
      * 보조 능력 수준을 수정한다.
-     * 
-     * @param reqUpdateSkillDTO 수정된 보조 능력 
+     *
+     * @param reqUpdateSkillDTO 수정된 보조 능력
      * @return 보조 능력 수정 여부
      */
     Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO);
+
+    /**
+     * ResMemberSmallInfoDTO 로 변환한다.
+     *
+     * @param member 간단한 정보만 담으려고 하는 member
+     * @return 간단한 정보가 담긴 ResMemberSmallInfoDTO
+     */
+    ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member);
 
     ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId);
 

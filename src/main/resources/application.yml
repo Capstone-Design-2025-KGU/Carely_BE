@@ -8,6 +8,11 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
+    properties:
+      hibernate:
+        show-sql: true
+        default_batch_fetch_size: 100
+        format_sql: true
     show-sql: true
     hibernate:
       ddl-auto: create
