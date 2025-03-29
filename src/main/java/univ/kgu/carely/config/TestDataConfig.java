@@ -20,17 +20,28 @@ import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.common.enums.SkillLevel;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
+import univ.kgu.carely.domain.team.entity.Comment;
+import univ.kgu.carely.domain.team.entity.Post;
+import univ.kgu.carely.domain.team.entity.Team;
+import univ.kgu.carely.domain.team.entity.TeamMate;
+import univ.kgu.carely.domain.team.entity.TeamRole;
+import univ.kgu.carely.domain.team.repository.CommentRepository;
+import univ.kgu.carely.domain.team.repository.PostRepository;
+import univ.kgu.carely.domain.team.repository.TeamRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile({"test","default"})
+@Profile({"test", "default"})
 @Slf4j
 public class TestDataConfig {
 
     private final MemberRepository memberRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMemberRepository chatMemberRepository;
+    private final TeamRepository teamRepository;
     private final BCryptPasswordEncoder encoder;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     @Bean
     public CommandLineRunner commandLineRunner() {
@@ -64,7 +75,7 @@ public class TestDataConfig {
                     .username("flutter")
                     .password(encoder.encode("1234"))
                     .name("박성민")
-                    .phoneNumber("010-4183-5678")
+                    .phoneNumber("010-4321-5678")
                     .birth(LocalDate.of(2001, 10, 30))
                     .story("저는 테스터 계정입니다.")
                     .memberType(MemberType.FAMILY)
@@ -74,9 +85,7 @@ public class TestDataConfig {
                     .skill(skill1)
                     .build();
 
-
 // Member 1
-
 
             Member member1 = Member.builder()
                     .username("user1")
@@ -376,6 +385,7 @@ public class TestDataConfig {
                     .memberType(MemberType.FAMILY)
                     .isVisible(true)
                     .isVerified(true)
+                    .profileImage(null)
                     .address(address10)
                     .skill(skill10)
                     .build();
@@ -543,8 +553,102 @@ public class TestDataConfig {
             Member savedTester = memberRepository.save(tester);
 
             memberRepository.saveAll(
-                    List.of(member1, member2, member3, member4, member5, member6, member7, member8, member9, member10,
+                    List.of(tester, member1, member2, member3, member4, member5, member6, member7, member8, member9,
+                            member10,
                             member11, member12, member13, member14, member15));
+
+            Team team = Team.builder()
+                    .teamName("경기대 화이팅")
+                    .address(address15)
+                    .build();
+
+            team = teamRepository.save(team);
+
+            TeamMate teamMate = TeamMate.builder()
+                    .team(team)
+                    .member(member1)
+                    .role(TeamRole.LEADER)
+                    .build();
+
+            TeamMate teamMate1 = TeamMate.builder()
+                    .team(team)
+                    .member(member2)
+                    .role(TeamRole.MATE)
+                    .build();
+
+            TeamMate teamMate2 = TeamMate.builder()
+                    .team(team)
+                    .member(member3)
+                    .role(TeamRole.MATE)
+                    .build();
+
+            team.getTeamMates().addAll(List.of(teamMate, teamMate1, teamMate2));
+
+            teamRepository.save(team);
+
+            Team team1 = Team.builder()
+                    .address(address1)
+                    .teamName("잉?")
+                    .build();
+
+            TeamMate tm1 = TeamMate.builder()
+                    .team(team1)
+                    .role(TeamRole.LEADER)
+                    .member(member5)
+                    .build();
+
+            TeamMate tm2 = TeamMate.builder()
+                    .team(team)
+                    .role(TeamRole.MATE)
+                    .member(member6)
+                    .build();
+
+            team1.getTeamMates().addAll(List.of(tm1, tm2));
+
+            teamRepository.save(team1);
+
+            Post post = Post.builder()
+                    .title("안녕하세욥")
+                    .content("반가워용")
+                    .team(team)
+                    .member(member1)
+                    .build();
+
+            post = postRepository.save(post);
+
+            Comment comment = Comment.builder()
+                    .post(post)
+                    .member(member2)
+                    .content("네")
+                    .build();
+
+            Comment comment2 = Comment.builder()
+                    .post(post)
+                    .member(member3)
+                    .content("저도 반가워요!")
+                    .build();
+
+            post.getComments().addAll(List.of(comment, comment2));
+            postRepository.save(post);
+
+            Post post1 = Post.builder()
+                    .title("두번째 팀입니다.")
+                    .member(member5)
+                    .team(team1)
+                    .content("강남팸")
+                    .build();
+
+            post1 = postRepository.save(post1);
+
+            Comment comment1 = Comment.builder()
+                    .member(member6)
+                    .post(post1)
+                    .content("ㅎㅎㅎㅎㅎ")
+                    .build();
+
+            post1.getComments().add(comment1);
+
+            postRepository.save(post1);
 
             // 멤버 다시 불러오기 (DB에서 실제 ID 포함된 멤버 객체로)
             List<Member> savedMembers = memberRepository.findAll();
