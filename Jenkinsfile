@@ -6,7 +6,7 @@ pipeline {
         APP_NAME = 'carely'
         AWS_DEFAULT_REGION = 'ap-northeast-2'
         AWS_DOCKER_REGISTRY = '920373025050.dkr.ecr.ap-northeast-2.amazonaws.com'
-        AWS_ECS_CLUSTER = 'carely-cluster-main'
+        AWS_ECS_CLUSTER = 'carely-cluster'
         AWS_ECS_SERVICE_PROD ='carely-service'
         AWS_ECS_TD_PROD = 'carely-task'
     }
