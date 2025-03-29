@@ -123,7 +123,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-<<<<<<< HEAD
     @Transactional
     public Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO) {
         Member member = currentMember();
@@ -139,7 +138,6 @@ public class MemberServiceImpl implements MemberService {
 
         return true;
     }
-
     public ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member) {
         return ResMemberSmallInfoDTO.builder()
                 .memberId(member.getMemberId())

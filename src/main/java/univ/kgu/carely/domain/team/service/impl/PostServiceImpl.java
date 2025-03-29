@@ -10,10 +10,7 @@ import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
-<<<<<<< HEAD
 import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
-=======
->>>>>>> 9731157 (feat : PostService에서 응답 전용 DTO를 반환하도록 수정)
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.repository.PostRepository;
