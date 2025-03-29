@@ -1,6 +1,8 @@
 package univ.kgu.carely.domain.team.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
@@ -8,6 +10,7 @@ import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
+import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.repository.PostRepository;
@@ -98,6 +101,19 @@ public class PostServiceImpl implements PostService {
         postRepository.delete(post);
 
         return true;
+    }
+
+    @Override
+    @Transactional
+    public Page<ResPostOutlineDTO> readPagedPost(String query, Long teamId, Pageable pageable) {
+        Member member = memberService.currentMember();
+        Team team = teamRepository.findById(teamId).orElseThrow();
+
+        if(!teamMateRepository.existsByTeamAndMember(team, member)) {
+            throw new RuntimeException("본인이 속한 그룹의 게시글만 볼 수 있습니다.");
+        }
+
+        return postRepository.findPostOutlineBy(query, team, pageable);
     }
 
 }

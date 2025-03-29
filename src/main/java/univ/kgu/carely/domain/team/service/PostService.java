@@ -1,8 +1,12 @@
 package univ.kgu.carely.domain.team.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
+import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Post;
 
 public interface PostService {
@@ -48,4 +52,7 @@ public interface PostService {
      * @return 게시글 응답용 DTO
      */
     ResPostDTO toResPostDTO(Post post);
+
+    @Transactional
+    Page<ResPostOutlineDTO> readPagedPost(String query, Long teamId, Pageable pageable);
 }
