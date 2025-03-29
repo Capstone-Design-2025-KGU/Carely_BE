@@ -138,4 +138,32 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    @Override
+    @Transactional
+    public ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+
+        if(!member.getIsVisible()){
+            throw new RuntimeException("해당 멤버는 비공개상태 입니다.");
+        }
+
+        return toResMemberPublicInfoDTO(member);
+    }
+
+    @Override
+    public ResMemberPublicInfoDTO toResMemberPublicInfoDTO(Member member) {
+        return ResMemberPublicInfoDTO.builder()
+                .memberId(member.getMemberId())
+                .username(member.getUsername())
+                .name(member.getName())
+                .birth(member.getBirth())
+                .story(member.getStory())
+                .memberType(member.getMemberType())
+                .profileImage(member.getProfileImage())
+                .createdAt(member.getCreatedAt())
+                .address(member.getAddress())
+                .skill(member.getSkill())
+                .build();
+    }
+
 }
