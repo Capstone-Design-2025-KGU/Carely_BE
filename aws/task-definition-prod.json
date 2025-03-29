@@ -1,0 +1,33 @@
+{
+  "requiresCompatibilities": ["FARGATE"],
+  "family": "carely",
+  "containerDefinitions": [
+    {
+      "name": "carely-container",
+      "image": "920373025050.dkr.ecr.ap-northeast-2.amazonaws.com/carely:#APP_VERSION#",
+      "portMappings": [
+        {
+          "name": "carely-task-port",
+          "containerPort": 8081,
+          "hostPort": 8081,
+          "protocol": "tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "ecs/carely-logs",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "volumes": [],
+  "networkMode": "awsvpc",
+  "memory": "512",
+  "cpu": "256",
+  "executionRoleArn": "arn:aws:iam::920373025050:role/carely-task-excution"
+}
