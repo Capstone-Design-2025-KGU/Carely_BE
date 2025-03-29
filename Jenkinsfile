@@ -16,6 +16,13 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'carely-application', variable: 'application')]) {
                     sh 'cp ${application}  src/main/resources/application.yml'
+                    sh '''
+                    echo "[DEBUG] before copy"
+                    ls -la src/main/resources
+                    cp ${application}  src/main/resources/application.yml
+                    echo "[DEBUG] after copy"
+                    ls -la src/main/resources
+                    '''
                 }
             }
         }
