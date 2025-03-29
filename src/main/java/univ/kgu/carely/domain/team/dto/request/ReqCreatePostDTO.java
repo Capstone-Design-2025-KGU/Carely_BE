@@ -15,6 +15,4 @@ public class ReqCreatePostDTO {
 
     private String content;
 
-    private Long teamId;
-
 }
