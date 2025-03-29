@@ -14,14 +14,12 @@ import univ.kgu.carely.domain.team.repository.CommentRepository;
 import univ.kgu.carely.domain.team.repository.PostRepository;
 import univ.kgu.carely.domain.team.repository.TeamMateRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
-import univ.kgu.carely.domain.team.service.PostService;
 
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
     private final MemberService memberService;
-    private final PostService postService;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final TeamMateRepository teamMateRepository;

@@ -16,6 +16,7 @@ import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.repository.PostRepository;
 import univ.kgu.carely.domain.team.repository.TeamMateRepository;
 import univ.kgu.carely.domain.team.repository.TeamRepository;
+import univ.kgu.carely.domain.team.service.CommentService;
 import univ.kgu.carely.domain.team.service.PostService;
 
 @Service
@@ -23,6 +24,7 @@ import univ.kgu.carely.domain.team.service.PostService;
 public class PostServiceImpl implements PostService {
 
     private final MemberService memberService;
+    private final CommentService commentService;
     private final PostRepository postRepository;
     private final TeamRepository teamRepository;
     private final TeamMateRepository teamMateRepository;
@@ -30,8 +32,12 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public ResPostDTO createPost(ReqCreatePostDTO createPostDTO, Long teamId) {
-        Team team = teamRepository.findById(teamId).orElseThrow();
         Member member = memberService.currentMember();
+        Team team = teamRepository.findById(teamId).orElseThrow();
+
+        if(!teamMateRepository.existsByTeamAndMember(team, member)){
+            throw new RuntimeException("본인이 속한 그룹에만 글을 작성할 수 있습니다.");
+        }
 
         Post post = Post.builder()
                 .title(createPostDTO.getTitle())
@@ -67,6 +73,7 @@ public class PostServiceImpl implements PostService {
                 .content(post.getContent())
                 .createdAt(post.getCreatedAt())
                 .writer(memberService.toResMemberSmallInfoDTO(post.getMember()))
+                .resCommentDTOS(post.getComments().stream().map(commentService::toResCommentDTO).toList())
                 .build();
     }
 
