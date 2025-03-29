@@ -27,12 +27,12 @@ import univ.kgu.carely.domain.team.service.PostService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/teams/{teamId}")
+@RequestMapping("/api/teams/{teamId}/posts")
 public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/posts")
+    @GetMapping("")
     @Operation(summary = "그룹 내 게시글 조회 API")
     public ResponseEntity<Page<ResPostOutlineDTO>> readPostList(@PathVariable("teamId") Long teamId,
                                                                 @RequestParam(value = "query", defaultValue = "") String query,
@@ -42,7 +42,7 @@ public class PostController {
         return ResponseEntity.ok(outlineDTOS);
     }
 
-    @GetMapping("/posts/{postId}")
+    @GetMapping("/{postId}")
     @Operation(summary = "단일 게시글 조회 API")
     public ResponseEntity<ResPostDTO> readPost(@PathVariable("teamId") Long teamId,
                                                @PathVariable("postId") Long postId) {
@@ -51,7 +51,7 @@ public class PostController {
         return ResponseEntity.ok(resPostDTO);
     }
 
-    @PostMapping("/posts")
+    @PostMapping("")
     @Operation(summary = "게시글 작성 API")
     public ResponseEntity<ResPostDTO> createPost(@PathVariable("teamId") Long teamId,
                                                  @RequestBody ReqCreatePostDTO reqCreatePostDTO) {
@@ -60,7 +60,7 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
 
-    @PutMapping("/posts/{postId}")
+    @PutMapping("/{postId}")
     @Operation(summary = "게시글 수정 API")
     public ResponseEntity<ResPostDTO> updatePost(@PathVariable("teamId") Long teamId,
                                                  @PathVariable("postId") Long postId,
@@ -70,7 +70,7 @@ public class PostController {
         return ResponseEntity.ok(resPostDTO);
     }
 
-    @DeleteMapping("/posts/{postId}")
+    @DeleteMapping("/{postId}")
     @Operation(summary = "게시글 삭제 API")
     public ResponseEntity<Boolean> deletePost(@PathVariable("teamId") Long teamId,
                                               @PathVariable("postId") Long postId) {
