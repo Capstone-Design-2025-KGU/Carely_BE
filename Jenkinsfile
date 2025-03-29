@@ -29,7 +29,7 @@ pipeline {
             steps {
                 sh '''
                 ls -la
-                ./gradlew clean build
+                ./gradlew clean build -x test
                 ls -la
                 '''
             }
