@@ -20,6 +20,8 @@ import univ.kgu.carely.domain.team.service.TeamService;
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
+    private static final int SEARCH_RANGE = 2000;
+
     private final MemberService memberService;
     private final TeamRepository teamRepository;
     private final TeamMateRepository teamMateRepository;
@@ -109,7 +111,7 @@ public class TeamServiceImpl implements TeamService {
     public Page<ResTeamOutlineDTO> searchNeighbor(Pageable pageable) {
         Member member = memberService.currentMember();
 
-        return teamRepository.findTeamOutlineWithinDistance(member, 2000, pageable);
+        return teamRepository.findTeamOutlineWithinDistance(member, SEARCH_RANGE, pageable);
     }
 
 }
