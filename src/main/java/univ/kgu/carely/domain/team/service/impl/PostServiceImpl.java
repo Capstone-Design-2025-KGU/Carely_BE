@@ -26,8 +26,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public ResPostDTO createPost(ReqCreatePostDTO createPostDTO) {
-        Team team = teamRepository.findById(createPostDTO.getTeamId()).orElseThrow();
+    public ResPostDTO createPost(ReqCreatePostDTO createPostDTO, Long teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow();
         Member member = memberService.currentMember();
 
         Post post = Post.builder()
@@ -69,9 +69,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public ResPostDTO updatePost(ReqUpdatePostDTO updatePostDTO) {
+    public ResPostDTO updatePost(ReqUpdatePostDTO updatePostDTO, Long postId) {
         Member member = memberService.currentMember();
-        Post post = postRepository.findById(updatePostDTO.getPostId()).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow();
 
         if(!post.getMember().getMemberId().equals(member.getMemberId())) {
             throw new RuntimeException("본인 게시글만 수정할 수 있습니다.");
