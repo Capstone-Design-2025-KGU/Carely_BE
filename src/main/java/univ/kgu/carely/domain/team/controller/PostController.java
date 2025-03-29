@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
@@ -31,8 +34,12 @@ public class PostController {
 
     @GetMapping("/posts")
     @Operation(summary = "그룹 내 게시글 조회 API")
-    public ResponseEntity<Page<ResPostOutlineDTO>> readPostList(@PathVariable("teamId") Long teamId) {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<Page<ResPostOutlineDTO>> readPostList(@PathVariable("teamId") Long teamId,
+                                                                @RequestParam(value = "query", defaultValue = "") String query,
+                                                                @PageableDefault Pageable pageable) {
+        Page<ResPostOutlineDTO> outlineDTOS = postService.readPagedPost(query, teamId, pageable);
+
+        return ResponseEntity.ok(outlineDTOS);
     }
 
     @GetMapping("/posts/{postId}")
