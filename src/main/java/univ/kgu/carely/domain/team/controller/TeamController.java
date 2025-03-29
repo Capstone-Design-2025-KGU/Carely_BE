@@ -31,7 +31,7 @@ public class TeamController {
         return ResponseEntity.ok(success);
     }
 
-    @PostMapping("/join/{teamId}")
+    @PostMapping("/{teamId}/join")
     @Operation(summary = "그룹 가입 API", description = "그룹 가입 API")
     public ResponseEntity<Boolean> joinTeam(@PathVariable("teamId") Long teamId) {
         Boolean success = teamService.joinTeam(teamId);
@@ -39,7 +39,7 @@ public class TeamController {
         return ResponseEntity.ok(success);
     }
 
-    @DeleteMapping("/exit/{teamId}")
+    @DeleteMapping("/{teamId}/exit")
     @Operation(summary = "그룹 탈퇴 API", description = "그룹 탈퇴 API")
     public ResponseEntity<Boolean> exitTeam(@PathVariable("teamId") Long teamId){
         Boolean success = teamService.exitTeam(teamId);
@@ -47,7 +47,7 @@ public class TeamController {
         return ResponseEntity.ok(success);
     }
 
-    @DeleteMapping("/close/{teamId}")
+    @DeleteMapping("/{teamId}/close")
     @Operation(summary = "그룹 폐쇄 API", description = "그룹 폐쇄 API")
     public ResponseEntity<Boolean> closeTeam(@PathVariable("teamId") Long teamId) {
         Boolean success = teamService.closeTeam(teamId);
