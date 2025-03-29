@@ -124,7 +124,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO){
+    public Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO) {
         Member member = currentMember();
 
         Skill skill = member.getSkill();
@@ -138,8 +138,6 @@ public class MemberServiceImpl implements MemberService {
 
         return true;
     }
-
-    @Override
     public ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member) {
         return ResMemberSmallInfoDTO.builder()
                 .memberId(member.getMemberId())
@@ -149,5 +147,4 @@ public class MemberServiceImpl implements MemberService {
                 .profileImage(member.getProfileImage())
                 .build();
     }
-
 }

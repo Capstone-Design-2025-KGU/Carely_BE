@@ -26,6 +26,13 @@ import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
 import univ.kgu.carely.domain.team.repository.CommentRepository;
+import univ.kgu.carely.domain.team.repository.PostRepository
+import univ.kgu.carely.domain.team.entity.Comment;
+import univ.kgu.carely.domain.team.entity.Post;
+import univ.kgu.carely.domain.team.entity.Team;
+import univ.kgu.carely.domain.team.entity.TeamMate;
+import univ.kgu.carely.domain.team.entity.TeamRole;
+import univ.kgu.carely.domain.team.repository.CommentRepository;
 import univ.kgu.carely.domain.team.repository.PostRepository;
 import univ.kgu.carely.domain.team.repository.TeamRepository;
 
@@ -47,12 +54,6 @@ public class TestDataConfig {
     public CommandLineRunner commandLineRunner() {
         return args -> {
             log.info("Test Data are Injecting");
-
-            ChatRoom chatRoom = ChatRoom.builder()
-                    .roomName("테스트 채팅방")
-                    .build();
-
-            chatRoomRepository.save(chatRoom);
 // Tester
             Address address1 = Address.builder()
                     .province("서울")
@@ -689,6 +690,98 @@ public class TestDataConfig {
                     ChatMember.builder().chatRoom(groupRoom3).member(savedMembers.get(8)).build()
             ));
 
+            Team team = Team.builder()
+                    .teamName("경기대 화이팅")
+                    .address(address15)
+                    .build();
+
+            team = teamRepository.save(team);
+
+            TeamMate teamMate = TeamMate.builder()
+                    .team(team)
+                    .member(member1)
+                    .role(TeamRole.LEADER)
+                    .build();
+
+            TeamMate teamMate1 = TeamMate.builder()
+                    .team(team)
+                    .member(member2)
+                    .role(TeamRole.MATE)
+                    .build();
+
+            TeamMate teamMate2 = TeamMate.builder()
+                    .team(team)
+                    .member(member3)
+                    .role(TeamRole.MATE)
+                    .build();
+
+            team.getTeamMates().addAll(List.of(teamMate, teamMate1, teamMate2));
+
+            teamRepository.save(team);
+
+            Team team1 = Team.builder()
+                    .address(address1)
+                    .teamName("잉?")
+                    .build();
+
+            TeamMate tm1 = TeamMate.builder()
+                    .team(team1)
+                    .role(TeamRole.LEADER)
+                    .member(member5)
+                    .build();
+
+            TeamMate tm2 = TeamMate.builder()
+                    .team(team)
+                    .role(TeamRole.MATE)
+                    .member(member6)
+                    .build();
+
+            team1.getTeamMates().addAll(List.of(tm1, tm2));
+
+            teamRepository.save(team1);
+
+            Post post = Post.builder()
+                    .title("안녕하세욥")
+                    .content("반가워용")
+                    .team(team)
+                    .member(member1)
+                    .build();
+
+            post = postRepository.save(post);
+
+            Comment comment = Comment.builder()
+                    .post(post)
+                    .member(member2)
+                    .content("네")
+                    .build();
+
+            Comment comment2 = Comment.builder()
+                    .post(post)
+                    .member(member3)
+                    .content("저도 반가워요!")
+                    .build();
+
+            post.getComments().addAll(List.of(comment, comment2));
+            postRepository.save(post);
+
+            Post post1 = Post.builder()
+                    .title("두번째 팀입니다.")
+                    .member(member5)
+                    .team(team1)
+                    .content("강남팸")
+                    .build();
+
+            post1 = postRepository.save(post1);
+
+            Comment comment1 = Comment.builder()
+                    .member(member6)
+                    .post(post1)
+                    .content("ㅎㅎㅎㅎㅎ")
+                    .build();
+
+            post1.getComments().add(comment1);
+
+            postRepository.save(post1);
         };
     }
 }

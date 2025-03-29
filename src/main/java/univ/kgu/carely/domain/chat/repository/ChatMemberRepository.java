@@ -14,7 +14,7 @@ public interface ChatMemberRepository extends JpaRepository<ChatMember, Long> {
      * @param chatRoomId
      * @return List<ChatMember>
      */
-    List<ChatMember> findByMemberId(Long chatRoomId);
+    List<ChatMember> findByMember_MemberId(Long chatRoomId);
 
     /**
      * 특정한 채팅방에 속한 모든 멤버를 조회합니다.

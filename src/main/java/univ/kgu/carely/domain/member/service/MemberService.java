@@ -60,6 +60,7 @@ public interface MemberService {
      */
     ResMemberPrivateInfoDTO getPrivateInfo();
 
+
     Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO);
 
     /**
