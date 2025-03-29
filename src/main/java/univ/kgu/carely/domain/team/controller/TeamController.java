@@ -17,7 +17,7 @@ import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 import univ.kgu.carely.domain.team.service.TeamService;
 
 @RestController
-@RequestMapping("/api/team")
+@RequestMapping("/api/teams")
 @RequiredArgsConstructor
 public class TeamController {
 
