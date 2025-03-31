@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
 
         if(principal instanceof CustomUserDetails c){
             log.info("{}", c.getMemberId());
-            return memberRepository.findByUsername(c.getUsername());
+            return memberRepository.getReferenceById(c.getMemberId());
         }
 
         return null;
