@@ -57,7 +57,7 @@ public class MeetingController {
     }
 
     @DeleteMapping("/{meetingId}")
-    @Operation(summary = "", description = "")
+    @Operation(summary = "약속 삭제 API", description = "약속을 삭제한다.")
     public ResponseEntity<Boolean> deleteMeeting(@PathVariable("meetingId") Long meetingId){
         Boolean success = meetingService.deleteMeeting(meetingId);
 
