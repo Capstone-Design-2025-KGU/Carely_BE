@@ -32,7 +32,13 @@ public interface MeetingService {
      */
     ResMeetingDTO acceptMeeting(Long meetingId);
 
-    @Transactional
+    /**
+     * 약속을 수정한다.
+     *
+     * @param meetingId           수정할 약속 ID
+     * @param reqMeetingCreateDTO 수정할 약속 내용
+     * @return 수정된 약속
+     */
     ResMeetingDTO updateMeeting(Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO);
 
     ResMeetingDTO toResMeetingDTO(Meeting meeting);

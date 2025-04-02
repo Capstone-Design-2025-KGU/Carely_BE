@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,15 @@ public class MeetingController {
     @Operation(summary = "약속 수락 API", description = "약속을 수락한다.")
     public ResponseEntity<ResMeetingDTO> acceptMeeting(@PathVariable("meetingId") Long meetingId) {
         ResMeetingDTO meeting = meetingService.acceptMeeting(meetingId);
+
+        return ResponseEntity.ok(meeting);
+    }
+
+    @PutMapping("/{meetingId}")
+    @Operation(summary = "약속 수정 API", description = "약속을 수정한다.")
+    public ResponseEntity<ResMeetingDTO> updateMeeting(@PathVariable("meetingId") Long meetingId,
+                                                       @RequestBody ReqMeetingCreateDTO reqMeetingCreateDTO){
+        ResMeetingDTO meeting = meetingService.updateMeeting(meetingId, reqMeetingCreateDTO);
 
         return ResponseEntity.ok(meeting);
     }

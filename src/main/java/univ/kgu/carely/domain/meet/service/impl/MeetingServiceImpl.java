@@ -97,6 +97,10 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("본인이 수정할 수 있는 약속이 아닙니다.");
         }
 
+        if(meeting.getStatus().equals(MeetingStatus.FINISH)){
+            throw new RuntimeException("끝난 약속은 수정할 수 없습니다.");
+        }
+
         meeting.setStatus(MeetingStatus.PENDING);
         meeting.setStartTime(reqMeetingCreateDTO.getStartTime());
         meeting.setEndTime(reqMeetingCreateDTO.getEndTime());
