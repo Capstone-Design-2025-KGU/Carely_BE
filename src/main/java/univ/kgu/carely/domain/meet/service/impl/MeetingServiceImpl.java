@@ -38,6 +38,10 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("약속 시작 시간과 끝 시간이 잘못 설정되었습니다.");
         }
 
+        if(reqMeetingCreateDTO.getStartTime().isBefore(LocalDateTime.now())){
+            throw new RuntimeException("시작시간은 현재 시간 이후부터 설정이 가능합니다.");
+        }
+
         Member opponentMember = memberRepository.findById(opponentMemberId).orElseThrow(() ->
                 new RuntimeException("상대방이 존재하지 않습니다."));
 
@@ -142,6 +146,10 @@ public class MeetingServiceImpl implements MeetingService {
 
         if(!member.getMemberId().equals(meeting.getReceiver().getMemberId())) {
             throw new RuntimeException("약속을 요청받은 사람만 약속을 마무리할 수 있습니다.");
+        }
+
+        if(!meeting.getStatus().equals(MeetingStatus.ACCEPT)){
+            throw new RuntimeException("수락된 약속이 아니면 종료할 수 없습니다.");
         }
 
         if(LocalDateTime.now().isBefore(meeting.getEndTime())) {
