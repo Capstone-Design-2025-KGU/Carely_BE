@@ -44,14 +44,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ResMemberPublicInfoDTO> searchNeighborMember() {
+    public List<ResMemberPublicInfoDTO> searchNeighborMember(String query) {
         Member member = currentMember();
 
         if (member == null) {
             throw new RuntimeException("인증된 회원만 이용할 수 있습니다.");
         }
 
-        return memberRepository.findAllWithinDistance(member.getAddress().getLatitude(), member.getAddress().getLongitude(),
+        return memberRepository.findAllWithinDistance(query, member.getAddress().getLatitude(), member.getAddress().getLongitude(),
                 SEARCH_RANGE);
     }
 
