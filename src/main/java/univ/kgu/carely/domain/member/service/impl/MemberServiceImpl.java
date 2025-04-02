@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.member.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -33,13 +35,15 @@ public class MemberServiceImpl implements MemberService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(principal instanceof CustomUserDetails c){
-            return memberRepository.findByUsername(c.getUsername());
+            log.info("{}", c.getMemberId());
+            return memberRepository.getReferenceById(c.getMemberId());
         }
 
         return null;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ResMemberPublicInfoDTO> searchNeighborMember() {
         Member member = currentMember();
 
@@ -116,6 +120,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResMemberPrivateInfoDTO getPrivateInfo(){
         Member member = currentMember();
 
@@ -151,7 +156,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
 

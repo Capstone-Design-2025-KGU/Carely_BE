@@ -9,8 +9,8 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
-import univ.kgu.carely.domain.team.repository.TeamMateRepository;
-import univ.kgu.carely.domain.team.repository.TeamRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 
 @Configuration
 @RequiredArgsConstructor

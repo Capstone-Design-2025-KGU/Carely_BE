@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")

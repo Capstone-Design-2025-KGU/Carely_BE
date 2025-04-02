@@ -16,6 +16,8 @@ public class DummyRunner {
     private final TeamMateDummy teamMateDummy;
     private final ChatRoomDummy chatRoomDummy;
     private final ChatMemberDummy chatMemberDummy;
+    private final PostDummy postDummy;
+    private final CommentDummy commentDummy;
 
     @Bean
     public CommandLineRunner runner() {
@@ -25,6 +27,8 @@ public class DummyRunner {
             teamMateDummy.makeTeamMate();
             chatRoomDummy.makeChatRoom();
             chatMemberDummy.makeChatMember();
+            postDummy.makePost();
+            commentDummy.makeComment();
         };
     }
 

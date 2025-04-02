@@ -10,9 +10,10 @@ import univ.kgu.carely.domain.team.dto.response.ResCommentDTO;
 import univ.kgu.carely.domain.team.entity.Comment;
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
-import univ.kgu.carely.domain.team.repository.CommentRepository;
-import univ.kgu.carely.domain.team.repository.PostRepository;
-import univ.kgu.carely.domain.team.repository.TeamMateRepository;
+import univ.kgu.carely.domain.team.repository.comment.CommentRepository;
+import univ.kgu.carely.domain.team.repository.post.PostRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
 
 @Service
@@ -23,12 +24,14 @@ public class CommentServiceImpl implements CommentService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final TeamMateRepository teamMateRepository;
+    private final TeamRepository teamRepository;
 
     @Override
     @Transactional
     public Boolean createComment(Long postId, ReqCommentDTO reqCommentDTO) {
         Member member = memberService.currentMember();
-        Post post = postRepository.findById(postId).orElseThrow();
+        Post post = postRepository.findById(postId).orElseThrow(()->
+                new RuntimeException("찾으려는 게시글이 없습니다."));
         Team team = post.getTeam();
 
         if (!teamMateRepository.existsByTeamAndMember(team, member)) {
@@ -50,7 +53,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Boolean updateComment(ReqCommentDTO reqCommentDTO, Long commentId) {
         Member member = memberService.currentMember();
-        Comment comment = commentRepository.findById(commentId).orElseThrow();
+        Comment comment = commentRepository.getReferenceById(commentId);
 
         if (!comment.getMember().getMemberId().equals(member.getMemberId())) {
             throw new RuntimeException("본인이 작성한 댓글만 수정이 가능합니다.");
@@ -76,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public Boolean deleteComment(Long commentId) {
         Member member = memberService.currentMember();
-        Comment comment = commentRepository.findById(commentId).orElseThrow();
+        Comment comment = commentRepository.getReferenceById(commentId);
 
         if(!comment.getMember().getMemberId().equals(member.getMemberId())){
             throw new RuntimeException("본인이 작성한 댓글만 삭제가 가능합니다.");

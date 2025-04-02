@@ -12,8 +12,8 @@ import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.entity.TeamMate;
 import univ.kgu.carely.domain.team.entity.TeamRole;
-import univ.kgu.carely.domain.team.repository.TeamMateRepository;
-import univ.kgu.carely.domain.team.repository.TeamRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 import univ.kgu.carely.domain.team.service.TeamService;
 
 @Service
@@ -44,7 +44,7 @@ public class TeamServiceImpl implements TeamService {
                 .role(TeamRole.LEADER)
                 .build();
 
-        team.getTeamMates().add(teamMate);
+        teamMateRepository.save(teamMate);
 
         return true;
     }
@@ -53,7 +53,8 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public Boolean joinTeam(Long teamId) {
         Member member = memberService.currentMember();
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.findById(teamId).orElseThrow(()->
+                new RuntimeException("해당 그룹이 존재하지 않습니다."));
 
         Boolean alreadyExist = teamMateRepository.existsByTeamAndMember(team, member);
 
@@ -67,7 +68,7 @@ public class TeamServiceImpl implements TeamService {
                 .role(TeamRole.MATE)
                 .build();
 
-        team.getTeamMates().add(teamMate);
+        teamMateRepository.save(teamMate);
 
         return true;
     }
@@ -76,12 +77,13 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public Boolean exitTeam(Long teamId) {
         Member member = memberService.currentMember();
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.getReferenceById(teamId);
 
-        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow();
+        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(()->
+                new RuntimeException("소속이 아닌 그룹을 탈퇴할 수 없습니다."));
 
         if(teamMate.getRole().equals(TeamRole.LEADER)){
-            throw new RuntimeException("그룹장은 그룹을 탈퇴할 수 없습니다!");
+            throw new RuntimeException("그룹장은 그룹을 탈퇴할 수 없습니다.");
         }
 
         teamMateRepository.delete(teamMate);
@@ -93,9 +95,10 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public Boolean closeTeam(Long teamId) {
         Member member = memberService.currentMember();
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.getReferenceById(teamId);
 
-        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow();
+        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(()->
+                new RuntimeException("소속이 아닌 그룹을 탈퇴할 수 없습니다."));
 
         if(!teamMate.getRole().equals(TeamRole.LEADER)){
             throw new RuntimeException("그룹장만 그룹을 해체할 수 있습니다.");
