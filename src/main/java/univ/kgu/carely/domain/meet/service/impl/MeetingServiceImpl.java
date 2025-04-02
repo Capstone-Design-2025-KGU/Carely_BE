@@ -17,6 +17,8 @@ import univ.kgu.carely.domain.member.service.MemberService;
 @RequiredArgsConstructor
 public class MeetingServiceImpl implements MeetingService {
 
+    public static final String NOT_EXIST_MEETING_EXCEPTION_MESSAGE = "해당 약속이 존재하지 않습니다.";
+
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
@@ -27,11 +29,11 @@ public class MeetingServiceImpl implements MeetingService {
         Member member = memberService.currentMember();
 
         if(member.getMemberId().equals(opponentMemberId)){
-            throw new RuntimeException("본인에게 만남을 요청할 수 없습니다.");
+            throw new RuntimeException("본인에게 약속을 요청할 수 없습니다.");
         }
 
         if(reqMeetingCreateDTO.getStartTime().isAfter(reqMeetingCreateDTO.getEndTime())){
-            throw new RuntimeException("만남 시작 시간과 끝 시간이 잘못 설정되었습니다.");
+            throw new RuntimeException("약속 시작 시간과 끝 시간이 잘못 설정되었습니다.");
         }
 
         Member opponentMember = memberRepository.findById(opponentMemberId).orElseThrow(() ->
@@ -56,14 +58,31 @@ public class MeetingServiceImpl implements MeetingService {
     public ResMeetingDTO readMeeting(Long meetingId) {
         Member member = memberService.currentMember();
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
-                new RuntimeException("해당 만남이 존재하지 않습니다."));
+                new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
         if (!member.getMemberId().equals(meeting.getSender().getMemberId())
                 && !member.getMemberId().equals(meeting.getReceiver().getMemberId())) {
-            throw new RuntimeException("본인이 포함된 만남이 아닙니다.");
+            throw new RuntimeException("본인이 포함된 약속이 아닙니다.");
         }
 
         return toResMeetingDTO(meeting);
+    }
+
+    @Override
+    @Transactional
+    public ResMeetingDTO acceptMeeting(Long meetingId) {
+        Member member = memberService.currentMember();
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(()->
+                new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
+
+        if(!member.getMemberId().equals(meeting.getReceiver().getMemberId())){
+            throw new RuntimeException("본인이 수락할 수 있는 약속이 아닙니다.");
+        }
+
+        meeting.setStatus(MeetingStatus.ACCEPT);
+        Meeting save = meetingRepository.save(meeting);
+
+        return toResMeetingDTO(save);
     }
 
     @Override
