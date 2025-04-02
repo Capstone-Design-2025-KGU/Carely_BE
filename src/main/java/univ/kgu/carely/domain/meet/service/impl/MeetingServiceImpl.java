@@ -18,6 +18,7 @@ import univ.kgu.carely.domain.member.service.MemberService;
 public class MeetingServiceImpl implements MeetingService {
 
     public static final String NOT_EXIST_MEETING_EXCEPTION_MESSAGE = "해당 약속이 존재하지 않습니다.";
+    public static final String NOT_YOUR_MEETING_EXCEPTION_MESSAGE = "본인이 포함된 약속이 아닙니다.";
 
     private final MemberService memberService;
     private final MemberRepository memberRepository;
@@ -62,7 +63,7 @@ public class MeetingServiceImpl implements MeetingService {
 
         if (!member.getMemberId().equals(meeting.getSender().getMemberId())
                 && !member.getMemberId().equals(meeting.getReceiver().getMemberId())) {
-            throw new RuntimeException("본인이 포함된 약속이 아닙니다.");
+            throw new RuntimeException(NOT_YOUR_MEETING_EXCEPTION_MESSAGE);
         }
 
         return toResMeetingDTO(meeting);
@@ -80,6 +81,27 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         meeting.setStatus(MeetingStatus.ACCEPT);
+        Meeting save = meetingRepository.save(meeting);
+
+        return toResMeetingDTO(save);
+    }
+
+    @Override
+    @Transactional
+    public ResMeetingDTO updateMeeting(Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
+        Member member = memberService.currentMember();
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(()->
+                new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
+
+        if(!member.getMemberId().equals(meeting.getSender().getMemberId())){
+            throw new RuntimeException("본인이 수정할 수 있는 약속이 아닙니다.");
+        }
+
+        meeting.setStatus(MeetingStatus.PENDING);
+        meeting.setStartTime(reqMeetingCreateDTO.getStartTime());
+        meeting.setEndTime(reqMeetingCreateDTO.getEndTime());
+        meeting.setChore(reqMeetingCreateDTO.getChore());
+
         Meeting save = meetingRepository.save(meeting);
 
         return toResMeetingDTO(save);

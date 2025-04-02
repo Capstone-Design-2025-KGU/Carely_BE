@@ -32,5 +32,8 @@ public interface MeetingService {
      */
     ResMeetingDTO acceptMeeting(Long meetingId);
 
+    @Transactional
+    ResMeetingDTO updateMeeting(Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO);
+
     ResMeetingDTO toResMeetingDTO(Meeting meeting);
 }
