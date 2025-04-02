@@ -21,7 +21,7 @@ public class MeetingController {
     private final MeetingService meetingService;
 
     @PostMapping("/new/{opponentMemberId}")
-    @Operation(summary = "미팅 요청 API", description = "미팅을 요청(생성)한다.")
+    @Operation(summary = "약속 요청 API", description = "약속을 요청(생성)한다.")
     public ResponseEntity<ResMeetingDTO> createMeeting(@PathVariable("opponentMemberId") Long opponentMemberId,
                                                        @RequestBody ReqMeetingCreateDTO reqMeetingCreateDTO) {
         ResMeetingDTO meeting = meetingService.createMeeting(opponentMemberId, reqMeetingCreateDTO);
@@ -30,9 +30,17 @@ public class MeetingController {
     }
 
     @GetMapping("/{meetingId}")
-    @Operation(summary = "미팅 조회 API", description = "미팅을 조회한다.")
+    @Operation(summary = "약속 조회 API", description = "약속을 조회한다.")
     public ResponseEntity<ResMeetingDTO> readMeeting(@PathVariable("meetingId") Long meetingId) {
         ResMeetingDTO meeting = meetingService.readMeeting(meetingId);
+
+        return ResponseEntity.ok(meeting);
+    }
+
+    @PostMapping("/{meetingId}")
+    @Operation(summary = "약속 수락 API", description = "약속을 수락한다.")
+    public ResponseEntity<ResMeetingDTO> acceptMeeting(@PathVariable("meetingId") Long meetingId) {
+        ResMeetingDTO meeting = meetingService.acceptMeeting(meetingId);
 
         return ResponseEntity.ok(meeting);
     }
