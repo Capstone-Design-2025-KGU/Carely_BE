@@ -41,5 +41,13 @@ public interface MeetingService {
      */
     ResMeetingDTO updateMeeting(Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO);
 
+    /**
+     * 약속을 삭제한다.
+     * 
+     * @param meetingId 삭제할 약속 ID
+     * @return 약속 삭제 성공 여부
+     */
+    Boolean deleteMeeting(Long meetingId);
+
     ResMeetingDTO toResMeetingDTO(Meeting meeting);
 }

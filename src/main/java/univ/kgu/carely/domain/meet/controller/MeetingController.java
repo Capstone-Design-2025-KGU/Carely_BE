@@ -3,6 +3,7 @@ package univ.kgu.carely.domain.meet.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,6 +54,14 @@ public class MeetingController {
         ResMeetingDTO meeting = meetingService.updateMeeting(meetingId, reqMeetingCreateDTO);
 
         return ResponseEntity.ok(meeting);
+    }
+
+    @DeleteMapping("/{meetingId}")
+    @Operation(summary = "", description = "")
+    public ResponseEntity<Boolean> deleteMeeting(@PathVariable("meetingId") Long meetingId){
+        Boolean success = meetingService.deleteMeeting(meetingId);
+
+        return ResponseEntity.ok(success);
     }
 
 }

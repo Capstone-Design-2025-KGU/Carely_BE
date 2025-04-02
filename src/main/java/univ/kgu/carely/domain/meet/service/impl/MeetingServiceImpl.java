@@ -29,11 +29,11 @@ public class MeetingServiceImpl implements MeetingService {
     public ResMeetingDTO createMeeting(Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
         Member member = memberService.currentMember();
 
-        if(member.getMemberId().equals(opponentMemberId)){
+        if (member.getMemberId().equals(opponentMemberId)) {
             throw new RuntimeException("본인에게 약속을 요청할 수 없습니다.");
         }
 
-        if(reqMeetingCreateDTO.getStartTime().isAfter(reqMeetingCreateDTO.getEndTime())){
+        if (reqMeetingCreateDTO.getStartTime().isAfter(reqMeetingCreateDTO.getEndTime())) {
             throw new RuntimeException("약속 시작 시간과 끝 시간이 잘못 설정되었습니다.");
         }
 
@@ -73,10 +73,10 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional
     public ResMeetingDTO acceptMeeting(Long meetingId) {
         Member member = memberService.currentMember();
-        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(()->
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
-        if(!member.getMemberId().equals(meeting.getReceiver().getMemberId())){
+        if (!member.getMemberId().equals(meeting.getReceiver().getMemberId())) {
             throw new RuntimeException("본인이 수락할 수 있는 약속이 아닙니다.");
         }
 
@@ -90,14 +90,14 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional
     public ResMeetingDTO updateMeeting(Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
         Member member = memberService.currentMember();
-        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(()->
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
-        if(!member.getMemberId().equals(meeting.getSender().getMemberId())){
+        if (!member.getMemberId().equals(meeting.getSender().getMemberId())) {
             throw new RuntimeException("본인이 수정할 수 있는 약속이 아닙니다.");
         }
 
-        if(meeting.getStatus().equals(MeetingStatus.FINISH)){
+        if (meeting.getStatus().equals(MeetingStatus.FINISH)) {
             throw new RuntimeException("끝난 약속은 수정할 수 없습니다.");
         }
 
@@ -109,6 +109,27 @@ public class MeetingServiceImpl implements MeetingService {
         Meeting save = meetingRepository.save(meeting);
 
         return toResMeetingDTO(save);
+    }
+
+    @Override
+    @Transactional
+    public Boolean deleteMeeting(Long meetingId) {
+        Member member = memberService.currentMember();
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
+                new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
+
+        if (!member.getMemberId().equals(meeting.getSender().getMemberId())
+                && !member.getMemberId().equals(meeting.getReceiver().getMemberId())){
+            throw new RuntimeException(NOT_YOUR_MEETING_EXCEPTION_MESSAGE);
+        }
+
+        if(meeting.getStatus().equals(MeetingStatus.FINISH)){
+            throw new RuntimeException("완료된 약속은 삭제할 수 없습니다.");
+        }
+
+        meetingRepository.delete(meeting);
+
+        return true;
     }
 
     @Override
