@@ -25,6 +25,11 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional
     public ResMeetingDTO createMeeting(Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
         Member member = memberService.currentMember();
+
+        if(member.getMemberId().equals(opponentMemberId)){
+            throw new RuntimeException("본인에게 만남을 요청할 수 없습니다.");
+        }
+
         Member opponentMember = memberRepository.findById(opponentMemberId).orElseThrow(() ->
                 new RuntimeException("상대방이 존재하지 않습니다."));
 
