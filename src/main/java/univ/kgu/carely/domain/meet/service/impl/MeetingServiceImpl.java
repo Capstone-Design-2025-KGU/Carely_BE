@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.meet.service.impl;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -130,6 +131,27 @@ public class MeetingServiceImpl implements MeetingService {
         meetingRepository.delete(meeting);
 
         return true;
+    }
+
+    @Override
+    @Transactional
+    public ResMeetingDTO finishMeeting(Long meetingId) {
+        Member member = memberService.currentMember();
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(()->
+                new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
+
+        if(!member.getMemberId().equals(meeting.getReceiver().getMemberId())) {
+            throw new RuntimeException("약속을 요청받은 사람만 약속을 마무리할 수 있습니다.");
+        }
+
+        if(LocalDateTime.now().isBefore(meeting.getEndTime())) {
+            throw new RuntimeException("아직 약속 종료시간이 아닙니다.");
+        }
+
+        meeting.setStatus(MeetingStatus.FINISH);
+        Meeting save = meetingRepository.save(meeting);
+
+        return toResMeetingDTO(save);
     }
 
     @Override

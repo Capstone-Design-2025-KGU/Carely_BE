@@ -64,4 +64,12 @@ public class MeetingController {
         return ResponseEntity.ok(success);
     }
 
+    @PostMapping("/{meetingId}/end")
+    @Operation(summary = "약속 종료 API", description = "약속을 종료한다.")
+    public ResponseEntity<ResMeetingDTO> finishMeeting(@PathVariable("meetingId") Long meetingId) {
+        ResMeetingDTO meeting = meetingService.finishMeeting(meetingId);
+
+        return ResponseEntity.ok(meeting);
+    }
+
 }

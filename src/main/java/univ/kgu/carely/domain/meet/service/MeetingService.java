@@ -49,5 +49,13 @@ public interface MeetingService {
      */
     Boolean deleteMeeting(Long meetingId);
 
+    /**
+     * 약속을 마무리한다.
+     *
+     * @param meetingId 마무리 하려고 하는 약속 ID
+     * @return 마무리 처리 된 약속
+     */
+    ResMeetingDTO finishMeeting(Long meetingId);
+
     ResMeetingDTO toResMeetingDTO(Meeting meeting);
 }
