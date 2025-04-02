@@ -30,6 +30,10 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("본인에게 만남을 요청할 수 없습니다.");
         }
 
+        if(reqMeetingCreateDTO.getStartTime().isAfter(reqMeetingCreateDTO.getEndTime())){
+            throw new RuntimeException("만남 시작 시간과 끝 시간이 잘못 설정되었습니다.");
+        }
+
         Member opponentMember = memberRepository.findById(opponentMemberId).orElseThrow(() ->
                 new RuntimeException("상대방이 존재하지 않습니다."));
 
