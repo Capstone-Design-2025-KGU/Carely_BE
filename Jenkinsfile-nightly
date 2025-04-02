@@ -1,11 +1,12 @@
-FROM alpine:3.18
+pipeline {
+    agent any
 
-RUN apk update && apk add --no-cache \
-    bash \
-    curl \
-    jq \
-    docker \
-    python3 \
-    py3-pip
+    stages {
 
-RUN pip install awscli
+        stage('Build Docker images') {
+            steps {
+                sh 'docker build -f ci/Dockerfile-aws-cli -t my-aws-cli .'
+            }
+        }
+    }
+}
