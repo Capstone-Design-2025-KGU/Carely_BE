@@ -49,7 +49,8 @@ public class Meeting {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private MeetingStatus status;
+    @Builder.Default
+    private MeetingStatus status = MeetingStatus.PENDING;
 
     @Column(name = "created_at")
     @CreatedDate
