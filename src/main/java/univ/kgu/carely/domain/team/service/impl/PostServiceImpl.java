@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public ResPostDTO createPost(ReqCreatePostDTO createPostDTO, Long teamId) {
         Member member = memberService.currentMember();
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.getReferenceById(teamId);
 
         if(!teamMateRepository.existsByTeamAndMember(team, member)){
             throw new RuntimeException("본인이 속한 그룹에만 글을 작성할 수 있습니다.");
@@ -114,7 +114,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Page<ResPostOutlineDTO> readPagedPost(String query, Long teamId, Pageable pageable) {
         Member member = memberService.currentMember();
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.getReferenceById(teamId);
 
         if(!teamMateRepository.existsByTeamAndMember(team, member)) {
             throw new RuntimeException("본인이 속한 그룹의 게시글만 볼 수 있습니다.");
