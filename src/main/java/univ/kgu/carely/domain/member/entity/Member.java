@@ -117,19 +117,19 @@ public class Member {
     @Builder.Default
     private Set<Memo> memos = new HashSet<>();
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sender")
     @Builder.Default
     private List<Memory> sendMemories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receiver")
     @Builder.Default
     private List<Memory> receiveMemories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sender")
     @Builder.Default
     private List<Meeting> sendMeetings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receiver")
     @Builder.Default
     private List<Meeting> receiveMeetings = new ArrayList<>();
 
