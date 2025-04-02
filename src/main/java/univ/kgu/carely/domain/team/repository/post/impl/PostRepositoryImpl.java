@@ -1,8 +1,7 @@
-package univ.kgu.carely.domain.team.repository;
+package univ.kgu.carely.domain.team.repository.post.impl;
 
 import static univ.kgu.carely.domain.member.entity.QMember.member;
 import static univ.kgu.carely.domain.team.entity.QComment.comment;
-import static univ.kgu.carely.domain.team.entity.QTeam.team;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,6 +14,7 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
 import univ.kgu.carely.domain.team.entity.QPost;
 import univ.kgu.carely.domain.team.entity.Team;
+import univ.kgu.carely.domain.team.repository.post.CustomPostRepository;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements CustomPostRepository {

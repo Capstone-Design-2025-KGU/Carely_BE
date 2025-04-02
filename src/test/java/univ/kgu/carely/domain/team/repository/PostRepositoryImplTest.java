@@ -1,7 +1,6 @@
 package univ.kgu.carely.domain.team.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Team;
+import univ.kgu.carely.domain.team.repository.post.PostRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")

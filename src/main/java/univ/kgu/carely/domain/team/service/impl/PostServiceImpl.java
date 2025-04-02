@@ -13,9 +13,9 @@ import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
-import univ.kgu.carely.domain.team.repository.PostRepository;
-import univ.kgu.carely.domain.team.repository.TeamMateRepository;
-import univ.kgu.carely.domain.team.repository.TeamRepository;
+import univ.kgu.carely.domain.team.repository.post.PostRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
 import univ.kgu.carely.domain.team.service.PostService;
 

@@ -10,9 +10,9 @@ import univ.kgu.carely.domain.team.dto.response.ResCommentDTO;
 import univ.kgu.carely.domain.team.entity.Comment;
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
-import univ.kgu.carely.domain.team.repository.CommentRepository;
-import univ.kgu.carely.domain.team.repository.PostRepository;
-import univ.kgu.carely.domain.team.repository.TeamMateRepository;
+import univ.kgu.carely.domain.team.repository.comment.CommentRepository;
+import univ.kgu.carely.domain.team.repository.post.PostRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
 
 @Service
