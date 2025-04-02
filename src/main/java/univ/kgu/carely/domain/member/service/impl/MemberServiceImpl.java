@@ -40,6 +40,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ResMemberPublicInfoDTO> searchNeighborMember() {
         Member member = currentMember();
 
@@ -116,6 +117,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResMemberPrivateInfoDTO getPrivateInfo(){
         Member member = currentMember();
 
@@ -151,7 +153,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
 
