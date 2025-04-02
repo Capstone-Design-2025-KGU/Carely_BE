@@ -41,10 +41,12 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String username = jwtUtil.getUsername(token);
+        Long memberId = jwtUtil.getMemberId(token);
 //        String role = jwtUtil.getRole(token);
 
         Member member = new Member();
         member.setUsername(username);
+        member.setMemberId(memberId);
 
         CustomUserDetails customUserDetails = new CustomUserDetails(member);
 
