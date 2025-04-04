@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,6 +53,14 @@ public class MeetingController {
     public ResponseEntity<ResMeetingDTO> updateMeeting(@PathVariable("meetingId") Long meetingId,
                                                        @RequestBody ReqMeetingCreateDTO reqMeetingCreateDTO){
         ResMeetingDTO meeting = meetingService.updateMeeting(meetingId, reqMeetingCreateDTO);
+
+        return ResponseEntity.ok(meeting);
+    }
+
+    @PatchMapping("/{meetingId}")
+    @Operation(summary = "약속 거부 API", description = "약속을 거부한다.(PENDING 상태로 변경한다.)")
+    public ResponseEntity<ResMeetingDTO> rejectMeeting(@PathVariable("meetingId") Long meetingId) {
+        ResMeetingDTO meeting = meetingService.rejectMeeting(meetingId);
 
         return ResponseEntity.ok(meeting);
     }
