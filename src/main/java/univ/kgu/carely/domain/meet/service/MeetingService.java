@@ -42,6 +42,14 @@ public interface MeetingService {
     ResMeetingDTO updateMeeting(Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO);
 
     /**
+     * 약속을 거절한다.
+     *
+     * @param meetingId 거절하려고 하는 약속
+     * @return 거절된 상태가 반영된 약속
+     */
+    ResMeetingDTO rejectMeeting(Long meetingId);
+
+    /**
      * 약속을 삭제한다.
      * 
      * @param meetingId 삭제할 약속 ID

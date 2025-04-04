@@ -118,6 +118,27 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional
+    public ResMeetingDTO rejectMeeting(Long meetingId) {
+        Member member = memberService.currentMember();
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
+                new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
+
+        if(!member.getMemberId().equals(meeting.getReceiver().getMemberId())){
+            throw new RuntimeException("본인이 거절할 수 있는 약속이 아닙니다.");
+        }
+
+        if(meeting.getStatus().equals(MeetingStatus.FINISH)){
+            throw new RuntimeException("끝난 약속은 거절할 수 없습니다.");
+        }
+
+        meeting.setStatus(MeetingStatus.PENDING);
+        Meeting save = meetingRepository.save(meeting);
+
+        return toResMeetingDTO(save);
+    }
+
+    @Override
+    @Transactional
     public Boolean deleteMeeting(Long meetingId) {
         Member member = memberService.currentMember();
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
