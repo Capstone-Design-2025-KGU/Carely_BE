@@ -117,6 +117,10 @@ public class Member {
     @Builder.Default
     private Set<Memo> memos = new HashSet<>();
 
+    @OneToMany(mappedBy = "writer")
+    @Builder.Default
+    private List<Memo> writeMemos = new ArrayList<>();
+
     @OneToMany(mappedBy = "sender")
     @Builder.Default
     private List<Memory> sendMemories = new ArrayList<>();
