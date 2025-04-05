@@ -80,6 +80,7 @@ public class MemoryServiceImpl implements MemoryService {
                 .updatedAt(memory.getUpdatedAt())
                 .sender(memberService.toResMemberSmallInfoDTO(memory.getSender()))
                 .receiver(memberService.toResMemberSmallInfoDTO(memory.getReceiver()))
+                .meetingId(memory.getMeeting().getId())
                 .build();
     }
 
