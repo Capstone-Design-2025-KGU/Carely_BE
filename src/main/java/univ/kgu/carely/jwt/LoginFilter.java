@@ -28,7 +28,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
 
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username,password,null);
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
+                null);
 
         return authenticationManager.authenticate(authToken);
     }
@@ -44,7 +45,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String token = jwtUtil.createJwt(username, role, memberId, EXPIRED_MS);
 
-        response.addHeader("Authorization", "Bearer " + token);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"token\":\"Bearer " + token + "\"}");
     }
 
     @Override
