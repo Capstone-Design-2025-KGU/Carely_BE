@@ -1,15 +1,13 @@
 package univ.kgu.carely.domain.meet.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReqMemoCreateDTO {
+public class ReqMemoUpdateDTO {
 
     private String comm;
     private String meal;

@@ -1,14 +1,10 @@
 package univ.kgu.carely.domain.meet.repository;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
-import univ.kgu.carely.domain.meet.dto.response.ResMemoryDTO;
-import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
+import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 
@@ -17,19 +13,14 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 class MemoryRepositoryTest {
 
     @Autowired
-    MemoryRepository memoryRepository;
+    MemoRepository memoRepository;
 
     @Autowired
     MemberRepository memberRepository;
 
     @Test
-    @DisplayName("w?")
     void test1() {
-        PageRequest pageRequest = PageRequest.of(0, 10);
         Member member = memberRepository.getReferenceById(1L);
-
-        Page<ResMemoryDTO> pagedMemoryByNameContaining = memoryRepository.findPagedMemoryByNameContaining("", member,
-                pageRequest);
-
+        memoRepository.findCurrentMemoByMemberAndMeetingStatusFinish(member);
     }
 }
