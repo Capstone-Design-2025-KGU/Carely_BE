@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
             return memberRepository.findByUsername(c.getUsername());
         }
 
-        return null;
+        throw new RuntimeException("로그인이 필요합니다.");
     }
 
     @Override
