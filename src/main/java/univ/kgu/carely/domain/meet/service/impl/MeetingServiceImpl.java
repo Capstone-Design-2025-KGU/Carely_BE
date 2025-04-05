@@ -8,7 +8,9 @@ import univ.kgu.carely.domain.meet.dto.request.ReqMeetingCreateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
+import univ.kgu.carely.domain.meet.entity.Memory;
 import univ.kgu.carely.domain.meet.repository.MeetingRepository;
+import univ.kgu.carely.domain.meet.repository.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MeetingService;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
@@ -24,6 +26,7 @@ public class MeetingServiceImpl implements MeetingService {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
+    private final MemoryRepository memoryRepository;
 
     @Override
     @Transactional
@@ -179,6 +182,14 @@ public class MeetingServiceImpl implements MeetingService {
 
         meeting.setStatus(MeetingStatus.FINISH);
         Meeting save = meetingRepository.save(meeting);
+
+        Memory memory = Memory.builder()
+                .sender(meeting.getSender())
+                .receiver(meeting.getReceiver())
+                .meeting(meeting)
+                .build();
+
+        memoryRepository.save(memory);
 
         return toResMeetingDTO(save);
     }
