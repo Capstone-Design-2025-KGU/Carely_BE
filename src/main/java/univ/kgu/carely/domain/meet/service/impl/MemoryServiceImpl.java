@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoryUpdateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoryDTO;
 import univ.kgu.carely.domain.meet.entity.Memory;
-import univ.kgu.carely.domain.meet.repository.MemoryRepository;
+import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MemoryService;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;

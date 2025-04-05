@@ -1,4 +1,4 @@
-package univ.kgu.carely.domain.meet.repository;
+package univ.kgu.carely.domain.meet.repository.memory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

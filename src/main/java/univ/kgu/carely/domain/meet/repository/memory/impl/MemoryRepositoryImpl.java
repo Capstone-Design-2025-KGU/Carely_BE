@@ -1,4 +1,4 @@
-package univ.kgu.carely.domain.meet.repository;
+package univ.kgu.carely.domain.meet.repository.memory.impl;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoryDTO;
 import univ.kgu.carely.domain.meet.entity.QMemory;
+import univ.kgu.carely.domain.meet.repository.memory.CustomMemoryRepository;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.entity.QMember;
