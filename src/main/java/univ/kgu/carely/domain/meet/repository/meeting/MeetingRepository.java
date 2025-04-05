@@ -1,4 +1,4 @@
-package univ.kgu.carely.domain.meet.repository;
+package univ.kgu.carely.domain.meet.repository.meeting;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import univ.kgu.carely.domain.meet.entity.Meeting;

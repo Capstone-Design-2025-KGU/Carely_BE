@@ -9,7 +9,7 @@ import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
 import univ.kgu.carely.domain.meet.entity.Memory;
-import univ.kgu.carely.domain.meet.repository.MeetingRepository;
+import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
 import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MeetingService;
 import univ.kgu.carely.domain.member.entity.Member;
