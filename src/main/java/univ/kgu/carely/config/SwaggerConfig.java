@@ -47,7 +47,7 @@ public class SwaggerConfig {
                                 .operationId("login")
                                 .requestBody(new RequestBody()
                                         .content(new Content()
-                                                .addMediaType("application/x-www-form-urlencoded",
+                                                .addMediaType("application/json",
                                                         new MediaType()
                                                                 .schema(new Schema<>()
                                                                         .type("object")

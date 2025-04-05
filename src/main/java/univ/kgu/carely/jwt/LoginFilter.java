@@ -1,10 +1,12 @@
 package univ.kgu.carely.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import univ.kgu.carely.domain.member.dto.CustomUserDetails;
+import univ.kgu.carely.jwt.dto.LoginDTO;
 
 @RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
@@ -20,13 +23,25 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
-        String username = obtainUsername(request);
-        String password = obtainPassword(request);
+//        String username = obtainUsername(request);
+//        String password = obtainPassword(request);
+
+        String username = null;
+        String password = null;
+
+        try {
+            LoginDTO loginDTO = objectMapper.readValue(request.getReader().lines().collect(Collectors.joining()), LoginDTO.class);
+            username = loginDTO.getUsername();
+            password = loginDTO.getPassword();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
                 null);
