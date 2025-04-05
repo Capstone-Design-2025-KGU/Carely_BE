@@ -39,7 +39,7 @@ public class SwaggerConfig {
 
     private Paths loginPath() {
         return new Paths()
-                .addPathItem("/login", new PathItem()
+                .addPathItem("/api/login", new PathItem()
                         .post(new Operation()
                                 .tags(List.of("Authentication"))
                                 .summary("로그인")
@@ -47,7 +47,7 @@ public class SwaggerConfig {
                                 .operationId("login")
                                 .requestBody(new RequestBody()
                                         .content(new Content()
-                                                .addMediaType("application/x-www-form-urlencoded",
+                                                .addMediaType("application/json",
                                                         new MediaType()
                                                                 .schema(new Schema<>()
                                                                         .type("object")
