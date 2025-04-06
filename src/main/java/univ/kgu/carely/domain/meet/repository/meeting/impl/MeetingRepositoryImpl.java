@@ -1,6 +1,5 @@
 package univ.kgu.carely.domain.meet.repository.meeting.impl;
 
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
@@ -17,7 +16,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
 
     @Override
     public Boolean existsBySenderAndReceiverAndMeetingStatusIsAccept(Member sender, Member receiver) {
-        return jpaQueryFactory.select(Expressions.booleanPath("exists"))
+        return null != jpaQueryFactory.selectOne()
                 .from(meeting)
                 .where(meeting.sender.eq(sender)
                         .and(meeting.receiver.eq(receiver))
