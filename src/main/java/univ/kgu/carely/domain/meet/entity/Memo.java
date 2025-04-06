@@ -64,7 +64,8 @@ public class Memo {
     @JoinColumn(name = "writer_id", nullable = false)
     private Member writer;
 
+    // OneToOne을 설정할 경우 FetchType.LAZY가 적용이 안돼기 때문에 ManyToOne을 적용한 뒤 unique를 설정하여 OneToOne처럼 이용 가능하도록 설계함.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "meeting_id", nullable = false)
+    @JoinColumn(name = "meeting_id", nullable = false, unique = true)
     private Meeting meeting;
 }

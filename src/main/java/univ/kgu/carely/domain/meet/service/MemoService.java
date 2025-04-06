@@ -7,7 +7,9 @@ import univ.kgu.carely.domain.meet.entity.Memo;
 public interface MemoService {
     ResMemoDTO updateMemo(Long memoId, ReqMemoUpdateDTO reqMemoUpdateDTO);
 
-    ResMemoDTO readCurrentMemo(Long memberId);
+    ResMemoDTO readCurrentFinishedMemo(Long memberId);
 
     ResMemoDTO toResMemoDTO(Memo memo);
+
+    ResMemoDTO readMemo(Long meetingId);
 }

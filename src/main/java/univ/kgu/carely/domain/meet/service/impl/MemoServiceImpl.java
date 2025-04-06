@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoUpdateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoDTO;
+import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.Memo;
 import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
 import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
@@ -47,7 +48,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemoDTO readCurrentMemo(Long memberId) {
+    public ResMemoDTO readCurrentFinishedMemo(Long memberId) {
         Member member = memberService.currentMember();
         Member memoMember = memberRepository.getReferenceById(memberId);
 
@@ -56,6 +57,20 @@ public class MemoServiceImpl implements MemoService {
         }
 
         Memo memo = memoRepository.findCurrentMemoByMemberAndMeetingStatusFinish(memoMember);
+
+        return toResMemoDTO(memo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResMemoDTO readMemo(Long meetingId) {
+        Member member = memberService.currentMember();
+        Meeting meeting = meetingRepository.getReferenceById(meetingId);
+        Memo memo = memoRepository.findByMeeting(meeting);
+
+        if(!member.getMemberId().equals(meeting.getSender().getMemberId())){
+            throw new RuntimeException("본인이 작성한 메모가 아닙니다.");
+        }
 
         return toResMemoDTO(memo);
     }

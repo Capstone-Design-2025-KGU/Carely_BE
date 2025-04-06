@@ -146,6 +146,7 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         meeting.setStatus(MeetingStatus.PENDING);
+        meeting.getMemos().clear();
         Meeting save = meetingRepository.save(meeting);
 
         return toResMeetingDTO(save);
