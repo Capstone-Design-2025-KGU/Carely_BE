@@ -1,7 +1,6 @@
 package univ.kgu.carely.domain.member.service;
 
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
@@ -24,7 +23,7 @@ public interface MemberService {
      *
      * @return 검색된 데이터
      */
-    List<ResMemberPublicInfoDTO> searchNeighborMember(String query);
+    List<ResMemberPublicInfoDTO> searchNeighborMember(Member member, String query);
 
     /**
      * 회원가입을 진행한다.
@@ -53,10 +52,11 @@ public interface MemberService {
     /**
      * 이웃 인증을 진행한다.
      *
+     * @param member
      * @param reqCoordinationDTO GPS 기반 현재 위치 정보
      * @return 이웃 인증 성공 여부. 성공시 true, 실패시 false
      */
-    Boolean verifyNeighbor(ReqCoordinationDTO reqCoordinationDTO);
+    Boolean verifyNeighbor(Member member, ReqCoordinationDTO reqCoordinationDTO);
 
 
     /**
@@ -64,15 +64,16 @@ public interface MemberService {
      *
      * @return 개인 정보
      */
-    ResMemberPrivateInfoDTO getPrivateInfo();
+    ResMemberPrivateInfoDTO getPrivateInfo(Member member);
 
     /**
      * 보조 능력 수준을 수정한다.
      *
+     * @param member
      * @param reqUpdateSkillDTO 수정된 보조 능력
      * @return 보조 능력 수정 여부
      */
-    Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO);
+    Boolean updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO);
 
     /**
      * ResMemberSmallInfoDTO 로 변환한다.
