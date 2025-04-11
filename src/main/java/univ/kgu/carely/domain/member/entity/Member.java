@@ -31,6 +31,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.meet.entity.Meeting;
+import univ.kgu.carely.domain.meet.entity.Memo;
+import univ.kgu.carely.domain.meet.entity.Memory;
 import univ.kgu.carely.domain.team.entity.Comment;
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.TeamMate;
@@ -109,5 +112,29 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private Set<Memo> memos = new HashSet<>();
+
+    @OneToMany(mappedBy = "writer")
+    @Builder.Default
+    private List<Memo> writeMemos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender")
+    @Builder.Default
+    private List<Memory> sendMemories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver")
+    @Builder.Default
+    private List<Memory> receiveMemories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender")
+    @Builder.Default
+    private List<Meeting> sendMeetings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiver")
+    @Builder.Default
+    private List<Meeting> receiveMeetings = new ArrayList<>();
 
 }
