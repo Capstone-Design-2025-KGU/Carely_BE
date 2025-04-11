@@ -1,4 +1,4 @@
-package univ.kgu.carely.domain.team.repository;
+package univ.kgu.carely.domain.team.repository.post;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

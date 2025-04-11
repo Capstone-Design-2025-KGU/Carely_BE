@@ -24,7 +24,7 @@ public interface MemberService {
      *
      * @return 검색된 데이터
      */
-    List<ResMemberPublicInfoDTO> searchNeighborMember();
+    List<ResMemberPublicInfoDTO> searchNeighborMember(String query);
 
     /**
      * 회원가입을 진행한다.

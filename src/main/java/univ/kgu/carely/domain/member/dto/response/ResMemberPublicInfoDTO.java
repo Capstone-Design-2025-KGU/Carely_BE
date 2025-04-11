@@ -22,7 +22,6 @@ import univ.kgu.carely.domain.common.enums.MemberType;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Schema(title = "멤버의 공개 정보 응답 DTO", description = "멤버의 공개된 정보를 응답할 때 사용하는 DTO")
 public class ResMemberPublicInfoDTO {
 

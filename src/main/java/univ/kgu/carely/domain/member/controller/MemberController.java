@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
@@ -25,10 +26,12 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/search-neighbor")
+    @GetMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
-    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor() {
-        return ResponseEntity.ok(memberService.searchNeighborMember());
+    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(@RequestParam("query") String query) {
+        List<ResMemberPublicInfoDTO> memberList = memberService.searchNeighborMember(query);
+
+        return ResponseEntity.ok(memberList);
     }
 
     @PostMapping("/new")

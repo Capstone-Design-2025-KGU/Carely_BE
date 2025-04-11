@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.member.service.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
@@ -33,21 +35,23 @@ public class MemberServiceImpl implements MemberService {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(principal instanceof CustomUserDetails c){
-            return memberRepository.findByUsername(c.getUsername());
+            log.info("{}", c.getMemberId());
+            return memberRepository.getReferenceById(c.getMemberId());
         }
 
         throw new RuntimeException("로그인이 필요합니다.");
     }
 
     @Override
-    public List<ResMemberPublicInfoDTO> searchNeighborMember() {
+    @Transactional(readOnly = true)
+    public List<ResMemberPublicInfoDTO> searchNeighborMember(String query) {
         Member member = currentMember();
 
         if (member == null) {
             throw new RuntimeException("인증된 회원만 이용할 수 있습니다.");
         }
 
-        return memberRepository.findAllWithinDistance(member.getAddress().getLatitude(), member.getAddress().getLongitude(),
+        return memberRepository.findAllWithinDistance(query, member.getAddress().getLatitude(), member.getAddress().getLongitude(),
                 SEARCH_RANGE);
     }
 
@@ -116,6 +120,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResMemberPrivateInfoDTO getPrivateInfo(){
         Member member = currentMember();
 
@@ -151,7 +156,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
 

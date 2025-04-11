@@ -1,4 +1,4 @@
-package univ.kgu.carely.domain.team.repository;
+package univ.kgu.carely.domain.team.repository.team.impl;
 
 import static univ.kgu.carely.domain.team.entity.QTeamMate.teamMate;
 
@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 import univ.kgu.carely.domain.team.entity.QTeam;
+import univ.kgu.carely.domain.team.repository.team.CustomTeamRepository;
 
 @RequiredArgsConstructor
 public class TeamRepositoryImpl implements CustomTeamRepository {

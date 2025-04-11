@@ -9,7 +9,7 @@ import univ.kgu.carely.domain.common.embeded.Address;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.team.entity.Team;
-import univ.kgu.carely.domain.team.repository.TeamRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 
 @Configuration
 @RequiredArgsConstructor

@@ -17,7 +17,7 @@ public interface CustomMemberRepository {
      * @param meter      중심으로부터 확인하려고 하는 범위
      * @return 범위 내의 모든 멤버
      */
-    List<ResMemberPublicInfoDTO> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter);
+    List<ResMemberPublicInfoDTO> findAllWithinDistance(String query, BigDecimal lat, BigDecimal lng, int meter);
 
     /**
      * 위도/경도 좌표를 가지고 거리를 측정한다.

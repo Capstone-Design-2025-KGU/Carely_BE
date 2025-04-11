@@ -1,4 +1,4 @@
-package univ.kgu.carely.domain.team.repository;
+package univ.kgu.carely.domain.team.repository.team;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

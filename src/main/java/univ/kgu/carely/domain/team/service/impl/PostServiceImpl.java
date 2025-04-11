@@ -13,9 +13,9 @@ import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Post;
 import univ.kgu.carely.domain.team.entity.Team;
-import univ.kgu.carely.domain.team.repository.PostRepository;
-import univ.kgu.carely.domain.team.repository.TeamMateRepository;
-import univ.kgu.carely.domain.team.repository.TeamRepository;
+import univ.kgu.carely.domain.team.repository.post.PostRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
+import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
 import univ.kgu.carely.domain.team.service.PostService;
 
@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public ResPostDTO createPost(ReqCreatePostDTO createPostDTO, Long teamId) {
         Member member = memberService.currentMember();
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.getReferenceById(teamId);
 
         if(!teamMateRepository.existsByTeamAndMember(team, member)){
             throw new RuntimeException("본인이 속한 그룹에만 글을 작성할 수 있습니다.");
@@ -114,7 +114,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public Page<ResPostOutlineDTO> readPagedPost(String query, Long teamId, Pageable pageable) {
         Member member = memberService.currentMember();
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.getReferenceById(teamId);
 
         if(!teamMateRepository.existsByTeamAndMember(team, member)) {
             throw new RuntimeException("본인이 속한 그룹의 게시글만 볼 수 있습니다.");

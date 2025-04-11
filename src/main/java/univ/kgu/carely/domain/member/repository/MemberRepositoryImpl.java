@@ -39,7 +39,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
      * @return 범위 내의 모든 멤버
      */
     @Override
-    public List<ResMemberPublicInfoDTO> findAllWithinDistance(BigDecimal lat, BigDecimal lng, int meter) {
+    public List<ResMemberPublicInfoDTO> findAllWithinDistance(String query, BigDecimal lat, BigDecimal lng, int meter) {
         // MySQL에서 지원하는 위도/경도로 거리 비교하는 함수 이용
         NumberExpression<Double> distance = Expressions.numberTemplate(Double.class,
                 "ST_Distance_Sphere(POINT({0}, {1}), POINT({2}, {3}))",
@@ -67,6 +67,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .from(member)
                 .where(member.isVerified
                         .and(member.isVisible)
+                        .and(member.name.contains(query))
                         .and(distance.loe(meter)))
                 .fetch();
     }
