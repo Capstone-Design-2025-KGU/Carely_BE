@@ -23,7 +23,6 @@ public class TeamServiceImpl implements TeamService {
 
     private static final int SEARCH_RANGE = 2000;
 
-    private final MemberService memberService;
     private final TeamRepository teamRepository;
     private final TeamMateRepository teamMateRepository;
     private final MemberRepository memberRepository;

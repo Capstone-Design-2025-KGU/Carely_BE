@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
@@ -36,8 +38,9 @@ public class PostController {
     @Operation(summary = "그룹 내 게시글 조회 API")
     public ResponseEntity<Page<ResPostOutlineDTO>> readPostList(@PathVariable("teamId") Long teamId,
                                                                 @RequestParam(value = "query", defaultValue = "") String query,
-                                                                @PageableDefault Pageable pageable) {
-        Page<ResPostOutlineDTO> outlineDTOS = postService.readPagedPost(query, teamId, pageable);
+                                                                @PageableDefault Pageable pageable,
+                                                                @AuthenticationPrincipal(expression = "member") Member member) {
+        Page<ResPostOutlineDTO> outlineDTOS = postService.readPagedPost(member, query, teamId, pageable);
 
         return ResponseEntity.ok(outlineDTOS);
     }
@@ -45,8 +48,9 @@ public class PostController {
     @GetMapping("/{postId}")
     @Operation(summary = "단일 게시글 조회 API")
     public ResponseEntity<ResPostDTO> readPost(@PathVariable("teamId") Long teamId,
-                                               @PathVariable("postId") Long postId) {
-        ResPostDTO resPostDTO = postService.readPost(postId);
+                                               @PathVariable("postId") Long postId,
+                                               @AuthenticationPrincipal(expression = "member") Member member) {
+        ResPostDTO resPostDTO = postService.readPost(member, postId);
 
         return ResponseEntity.ok(resPostDTO);
     }
@@ -54,8 +58,9 @@ public class PostController {
     @PostMapping("")
     @Operation(summary = "게시글 작성 API")
     public ResponseEntity<ResPostDTO> createPost(@PathVariable("teamId") Long teamId,
-                                                 @RequestBody ReqCreatePostDTO reqCreatePostDTO) {
-        ResPostDTO post = postService.createPost(reqCreatePostDTO, teamId);
+                                                 @RequestBody ReqCreatePostDTO reqCreatePostDTO,
+                                                 @AuthenticationPrincipal(expression = "member") Member member) {
+        ResPostDTO post = postService.createPost(member, reqCreatePostDTO, teamId);
 
         return ResponseEntity.ok(post);
     }
@@ -64,8 +69,9 @@ public class PostController {
     @Operation(summary = "게시글 수정 API")
     public ResponseEntity<ResPostDTO> updatePost(@PathVariable("teamId") Long teamId,
                                                  @PathVariable("postId") Long postId,
-                                                 @RequestBody ReqUpdatePostDTO reqUpdatePostDTO) {
-        ResPostDTO resPostDTO = postService.updatePost(reqUpdatePostDTO, postId);
+                                                 @RequestBody ReqUpdatePostDTO reqUpdatePostDTO,
+                                                 @AuthenticationPrincipal(expression = "member") Member member) {
+        ResPostDTO resPostDTO = postService.updatePost(member, reqUpdatePostDTO, postId);
 
         return ResponseEntity.ok(resPostDTO);
     }
@@ -73,8 +79,9 @@ public class PostController {
     @DeleteMapping("/{postId}")
     @Operation(summary = "게시글 삭제 API")
     public ResponseEntity<Boolean> deletePost(@PathVariable("teamId") Long teamId,
-                                              @PathVariable("postId") Long postId) {
-        Boolean success = postService.deletePost(postId);
+                                              @PathVariable("postId") Long postId,
+                                              @AuthenticationPrincipal(expression = "member") Member member) {
+        Boolean success = postService.deletePost(member, postId);
 
         return ResponseEntity.ok(success);
     }
