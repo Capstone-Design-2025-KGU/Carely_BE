@@ -18,7 +18,6 @@ import univ.kgu.carely.domain.member.service.MemberService;
 @RequiredArgsConstructor
 public class MemoServiceImpl implements MemoService {
 
-    public static final String NOT_EXIST_MEMO_EXCEPTION_MESSAGE = "해당 메모는 존재하지 않습니다.";
     private final MemberService memberService;
     private final MeetingRepository meetingRepository;
     private final MemoRepository memoRepository;
@@ -43,7 +42,7 @@ public class MemoServiceImpl implements MemoService {
 
         Memo save = memoRepository.save(memo);
 
-        return toResMemoDTO(memo);
+        return toResMemoDTO(save);
     }
 
     @Override
