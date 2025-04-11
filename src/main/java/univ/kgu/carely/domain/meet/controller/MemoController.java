@@ -4,7 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,18 +30,18 @@ public class MemoController {
         return ResponseEntity.ok(resMemoDTO);
     }
 
-    @PostMapping("")
+    @PutMapping("/{meetingId}")
     @Operation(summary = "메모 수정(작성) API", description = "메모를 수정(작성)한다.")
-    public ResponseEntity<ResMemoDTO> updateMemo(@RequestParam("memo_id") Long memoId,
+    public ResponseEntity<ResMemoDTO> updateMemo(@PathVariable("meetingId") Long meetingId,
                                                  @RequestBody ReqMemoUpdateDTO reqMemoUpdateDTO) {
-        ResMemoDTO resMemoDTO = memoService.updateMemo(memoId, reqMemoUpdateDTO);
+        ResMemoDTO resMemoDTO = memoService.updateMemo(meetingId, reqMemoUpdateDTO);
 
         return ResponseEntity.ok(resMemoDTO);
     }
 
-    @GetMapping("")
+    @GetMapping("/{meetingId}")
     @Operation(summary = "메모 조회 API", description = "해당 약속과 연관된 메모를 조회한다.")
-    public ResponseEntity<ResMemoDTO> readMemo(@RequestParam("meeting_id") Long meetingId) {
+    public ResponseEntity<ResMemoDTO> readMemo(@PathVariable("meetingId") Long meetingId) {
         ResMemoDTO resMemoDTO = memoService.readMemo(meetingId);
 
         return ResponseEntity.ok(resMemoDTO);

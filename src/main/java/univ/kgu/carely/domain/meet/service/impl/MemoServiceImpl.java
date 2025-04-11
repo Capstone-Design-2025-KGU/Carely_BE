@@ -26,10 +26,10 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional
-    public ResMemoDTO updateMemo(Long memoId, ReqMemoUpdateDTO reqMemoUpdateDTO) {
+    public ResMemoDTO updateMemo(Long meetingId, ReqMemoUpdateDTO reqMemoUpdateDTO) {
         Member member = memberService.currentMember();
-        Memo memo = memoRepository.findById(memoId).orElseThrow(() ->
-                new RuntimeException(NOT_EXIST_MEMO_EXCEPTION_MESSAGE));
+        Meeting meeting = meetingRepository.getReferenceById(meetingId);
+        Memo memo = memoRepository.findByMeeting(meeting);
 
         if(!member.getMemberId().equals(memo.getWriter().getMemberId())){
             throw new RuntimeException("본인이 수정 가능한 메모가 아닙니다.");
