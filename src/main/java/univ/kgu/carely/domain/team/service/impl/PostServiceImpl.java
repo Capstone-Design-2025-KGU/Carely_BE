@@ -31,8 +31,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public ResPostDTO createPost(ReqCreatePostDTO createPostDTO, Long teamId) {
-        Member member = memberService.currentMember();
+    public ResPostDTO createPost(Member member, ReqCreatePostDTO createPostDTO, Long teamId) {
         Team team = teamRepository.getReferenceById(teamId);
 
         if(!teamMateRepository.existsByTeamAndMember(team, member)){
@@ -53,8 +52,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResPostDTO readPost(Long postId) {
-        Member member = memberService.currentMember();
+    public ResPostDTO readPost(Member member, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow();
         Team team = post.getTeam();
 
@@ -79,8 +77,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public ResPostDTO updatePost(ReqUpdatePostDTO updatePostDTO, Long postId) {
-        Member member = memberService.currentMember();
+    public ResPostDTO updatePost(Member member, ReqUpdatePostDTO updatePostDTO, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow();
 
         if(!post.getMember().getMemberId().equals(member.getMemberId())) {
@@ -97,8 +94,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Boolean deletePost(Long postId) {
-        Member member = memberService.currentMember();
+    public Boolean deletePost(Member member, Long postId) {
         Post post = postRepository.findById(postId).orElseThrow();
 
         if(!post.getMember().getMemberId().equals(member.getMemberId())){
@@ -112,8 +108,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Page<ResPostOutlineDTO> readPagedPost(String query, Long teamId, Pageable pageable) {
-        Member member = memberService.currentMember();
+    public Page<ResPostOutlineDTO> readPagedPost(Member member, String query, Long teamId, Pageable pageable) {
         Team team = teamRepository.getReferenceById(teamId);
 
         if(!teamMateRepository.existsByTeamAndMember(team, member)) {
