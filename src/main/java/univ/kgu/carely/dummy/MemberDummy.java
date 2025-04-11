@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +26,8 @@ public class MemberDummy {
     private final MemberRepository memberRepository;
 
     public void makeMember() {
+        GeometryFactory gf = new GeometryFactory(new PrecisionModel(), 4326);
+
         Address address1 = Address.builder()
                 .province("서울")
                 .city("강남구")
@@ -30,6 +35,7 @@ public class MemberDummy {
                 .details("123")
                 .latitude(BigDecimal.valueOf(37.300627))
                 .longitude(BigDecimal.valueOf(127.037393))
+                .location(gf.createPoint(new Coordinate(37.300627, 127.037393)))
                 .build();
 
         Skill skill1 = Skill.builder()
@@ -75,6 +81,7 @@ public class MemberDummy {
                 .details("경기대 8강의동")
                 .latitude(BigDecimal.valueOf(37.300781))
                 .longitude(BigDecimal.valueOf(127.039357))
+                .location(gf.createPoint(new Coordinate(37.300781, 127.039357)))
                 .build();
 
         Skill skill2 = Skill.builder()
@@ -106,6 +113,7 @@ public class MemberDummy {
                 .details("경기대 기숙사")
                 .latitude(BigDecimal.valueOf(37.297700))
                 .longitude(BigDecimal.valueOf(127.038627))
+                .location(gf.createPoint(new Coordinate(37.297700, 127.038627)))
                 .build();
 
         Skill skill3 = Skill.builder()
@@ -137,6 +145,7 @@ public class MemberDummy {
                 .details("수원 외국어 고등학교")
                 .latitude(BigDecimal.valueOf(37.295942))
                 .longitude(BigDecimal.valueOf(127.035106))
+                .location(gf.createPoint(new Coordinate(37.295942, 127.035106)))
                 .build();
 
         Skill skill4 = Skill.builder()
@@ -168,6 +177,7 @@ public class MemberDummy {
                 .details("경기대 도서관")
                 .latitude(BigDecimal.valueOf(37.301131))
                 .longitude(BigDecimal.valueOf(127.035591))
+                .location(gf.createPoint(new Coordinate(37.301131, 127.035591)))
                 .build();
 
         Skill skill5 = Skill.builder()
@@ -199,6 +209,7 @@ public class MemberDummy {
                 .details("경기대 2강의동")
                 .latitude(BigDecimal.valueOf(37.299603))
                 .longitude(BigDecimal.valueOf(127.033605))
+                .location(gf.createPoint(new Coordinate(37.299603, 127.033605)))
                 .build();
 
         Skill skill6 = Skill.builder()
@@ -230,6 +241,7 @@ public class MemberDummy {
                 .details("수원 역사 박물관")
                 .latitude(BigDecimal.valueOf(37.297632))
                 .longitude(BigDecimal.valueOf(127.035301))
+                .location(gf.createPoint(new Coordinate(37.297632, 127.035301)))
                 .build();
 
         Skill skill7 = Skill.builder()
@@ -261,6 +273,7 @@ public class MemberDummy {
                 .details("창용초등학교")
                 .latitude(BigDecimal.valueOf(37.299185))
                 .longitude(BigDecimal.valueOf(127.031417))
+                .location(gf.createPoint(new Coordinate(37.299185, 127.031417)))
                 .build();
 
         Skill skill8 = Skill.builder()
@@ -292,6 +305,7 @@ public class MemberDummy {
                 .details("경기대 9강의동")
                 .latitude(BigDecimal.valueOf(37.304126))
                 .longitude(BigDecimal.valueOf(127.033916))
+                .location(gf.createPoint(new Coordinate(37.304126, 127.033916)))
                 .build();
 
         Skill skill9 = Skill.builder()
@@ -323,6 +337,7 @@ public class MemberDummy {
                 .details("광교역")
                 .latitude(BigDecimal.valueOf(37.302104))
                 .longitude(BigDecimal.valueOf(127.044228))
+                .location(gf.createPoint(new Coordinate(37.302104, 127.044228)))
                 .build();
 
         Skill skill10 = Skill.builder()
@@ -355,6 +370,7 @@ public class MemberDummy {
                 .details("광교 홍재 도서관")
                 .latitude(BigDecimal.valueOf(37.302906))
                 .longitude(BigDecimal.valueOf(127.047461))
+                .location(gf.createPoint(new Coordinate(37.302906, 127.047461)))
                 .build();
 
         Skill skill11 = Skill.builder()
@@ -386,6 +402,7 @@ public class MemberDummy {
                 .details("광교 중학교")
                 .latitude(BigDecimal.valueOf(37.304502))
                 .longitude(BigDecimal.valueOf(127.044605))
+                .location(gf.createPoint(new Coordinate(37.304502, 127.044605)))
                 .build();
 
         Skill skill12 = Skill.builder()
@@ -417,6 +434,7 @@ public class MemberDummy {
                 .details("보훈 재활 체육센터")
                 .latitude(BigDecimal.valueOf(37.297572))
                 .longitude(BigDecimal.valueOf(127.024646))
+                .location(gf.createPoint(new Coordinate(37.297572, 127.024646)))
                 .build();
 
         Skill skill13 = Skill.builder()
@@ -448,6 +466,7 @@ public class MemberDummy {
                 .details("수원 보훈지청")
                 .latitude(BigDecimal.valueOf(37.295925))
                 .longitude(BigDecimal.valueOf(127.022575))
+                .location(gf.createPoint(new Coordinate(37.295925, 127.022575)))
                 .build();
 
         Skill skill14 = Skill.builder()
@@ -479,6 +498,7 @@ public class MemberDummy {
                 .details("광교 공원")
                 .latitude(BigDecimal.valueOf(37.301006))
                 .longitude(BigDecimal.valueOf(127.030117))
+                .location(gf.createPoint(new Coordinate(37.301006, 127.030117)))
                 .build();
 
         Skill skill15 = Skill.builder()

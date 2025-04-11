@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.locationtech.jts.geom.Point;
 
 @Embeddable
 @Getter
@@ -33,4 +34,7 @@ public class Address {
     @Schema(description = "경도", example = "127.0356645")
     @Column(name = "lng", precision = 10, scale = 7, nullable = false)
     private BigDecimal longitude;
+
+    @Column(nullable = false, columnDefinition = "POINT SRID 4326")
+    private Point location;
 }
