@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import univ.kgu.carely.config.QslConfig;
 
-@DataJpaTest
+//@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Import(QslConfig.class)
 class MemberRepositoryImplTest {
@@ -25,7 +27,7 @@ class MemberRepositoryImplTest {
     void findAllWithinDistance() {
         GeometryFactory gf = new GeometryFactory(new PrecisionModel(), 4326);
 
-        memberRepository.findAllWithinDistance("", gf.createPoint(new Coordinate(36,127)), 2000);
+        memberRepository.findAllWithinDistance("", gf.createPoint(new Coordinate(127.039357,37.300781)), 2000);
 
     }
 }
