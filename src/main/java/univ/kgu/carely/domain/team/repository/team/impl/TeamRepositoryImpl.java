@@ -1,6 +1,6 @@
 package univ.kgu.carely.domain.team.repository.team.impl;
 
-import static univ.kgu.carely.domain.common.embeded.QAddress.address;
+import static univ.kgu.carely.domain.common.embeded.address.QAddress.address;
 import static univ.kgu.carely.domain.team.entity.QTeamMate.teamMate;
 
 import com.querydsl.core.types.Projections;
