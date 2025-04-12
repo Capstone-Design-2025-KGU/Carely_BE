@@ -26,8 +26,8 @@ public class ResTeamOutlineDTO {
     private String teamName;
     @Schema(description = "주소")
     private Address address;
-    @Schema(description = "거리")
-    private Double distance;
+//    @Schema(description = "거리")
+//    private Double distance;
     @Schema(description = "회원 수")
     private Long memberCount;
 

@@ -114,7 +114,7 @@ public class TeamServiceImpl implements TeamService {
     public Page<ResTeamOutlineDTO> searchNeighbor(Pageable pageable) {
         Member member = memberService.currentMember();
 
-        return teamRepository.findTeamOutlineWithinDistance(member, SEARCH_RANGE, pageable);
+        return teamRepository.findTeamOutlineWithinDistance(member.getAddress().getLocation(), SEARCH_RANGE, pageable);
     }
 
 }

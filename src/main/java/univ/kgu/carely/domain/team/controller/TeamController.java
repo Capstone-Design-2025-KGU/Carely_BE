@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +58,7 @@ public class TeamController {
 
     @GetMapping("/search-neighbor")
     @Operation(summary = "주변 그룹 검색 API", description = "주변에 존재하는 그룹을 찾는다")
-    public ResponseEntity<Page<ResTeamOutlineDTO>> searchNeighbor(Pageable pageable) {
+    public ResponseEntity<Page<ResTeamOutlineDTO>> searchNeighbor(@PageableDefault() Pageable pageable) {
         Page<ResTeamOutlineDTO> resTeamOutlineDTOS = teamService.searchNeighbor(pageable);
 
         return ResponseEntity.ok(resTeamOutlineDTOS);

@@ -31,7 +31,7 @@ public class TeamDummy {
                 .details("경기대학교 수원캠퍼스 제 2공학관")
                 .latitude(BigDecimal.valueOf(37.3002807))
                 .longitude(BigDecimal.valueOf(127.0399276))
-                .location(gf.createPoint(new Coordinate(37.3002807, 127.0399276)))
+                .location(gf.createPoint(new Coordinate(127.0399276,37.3002807)))
                 .build();
 
         Team theSecondEngineeringMuseumTeam = Team.builder()
@@ -48,7 +48,7 @@ public class TeamDummy {
                 .details("경기대학교 수원캠퍼스 9강의동 호연관")
                 .latitude(BigDecimal.valueOf(37.3042111))
                 .longitude(BigDecimal.valueOf(127.0339176))
-                .location(gf.createPoint(new Coordinate(37.3042111, 127.0339176)))
+                .location(gf.createPoint(new Coordinate(127.0339176, 37.3042111)))
                 .build();
 
         Team theNineTeam = Team.builder()
