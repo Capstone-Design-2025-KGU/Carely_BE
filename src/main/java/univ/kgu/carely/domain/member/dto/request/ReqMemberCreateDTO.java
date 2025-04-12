@@ -5,8 +5,9 @@ import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import univ.kgu.carely.domain.common.embeded.Address;
+import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
+import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
 import univ.kgu.carely.domain.common.enums.MemberType;
 
 @Getter
@@ -31,7 +32,7 @@ public class ReqMemberCreateDTO {
     private MemberType memberType;
     @Schema(description = "회원 공개 여부", example = "true")
     private Boolean isVisible;
-    private Address address;
+    private ReqAddressDTO address;
     private Skill skill;
 
 }

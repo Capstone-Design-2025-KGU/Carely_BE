@@ -1,5 +1,6 @@
-package univ.kgu.carely.domain.common.embeded;
+package univ.kgu.carely.domain.common.embeded.address;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -35,6 +36,7 @@ public class Address {
     @Column(name = "lng", precision = 10, scale = 7, nullable = false)
     private BigDecimal longitude;
 
+    @JsonIgnore
     @Column(nullable = false, columnDefinition = "POINT SRID 4326")
     private Point location;
 }

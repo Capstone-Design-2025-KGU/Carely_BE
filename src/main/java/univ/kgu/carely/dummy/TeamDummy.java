@@ -1,16 +1,13 @@
 package univ.kgu.carely.dummy;
 
 import java.math.BigDecimal;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import univ.kgu.carely.domain.common.embeded.Address;
-import univ.kgu.carely.domain.member.entity.Member;
-import univ.kgu.carely.domain.member.repository.MemberRepository;
+import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 

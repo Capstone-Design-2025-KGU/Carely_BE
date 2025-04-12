@@ -6,14 +6,12 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
-import univ.kgu.carely.domain.common.embeded.Address;
+import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
-import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.entity.QMember;
 
 @RequiredArgsConstructor
