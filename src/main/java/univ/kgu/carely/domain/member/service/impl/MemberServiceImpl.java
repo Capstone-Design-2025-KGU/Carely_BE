@@ -4,15 +4,19 @@ import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.common.embeded.Skill;
+import univ.kgu.carely.domain.common.embeded.address.Address;
+import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
-import univ.kgu.carely.domain.member.dto.CustomUserDetails;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
@@ -30,19 +34,34 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
+    private final GeometryFactory gf;
 
     @Override
     @Transactional(readOnly = true)
-    public List<ResMemberPublicInfoDTO> searchNeighborMember(Member member, String query) {
+    public List<ResMemberMapDTO> searchNeighborMember(Member member, String query) {
         member = memberRepository.findById(member.getMemberId()).orElseThrow();
         BigDecimal memberLat = member.getAddress().getLatitude();
         BigDecimal memberLng = member.getAddress().getLongitude();
 
-        return memberRepository.findAllWithinDistance(query, memberLat, memberLng, SEARCH_RANGE);
+        Point point = gf.createPoint(new Coordinate(memberLng.doubleValue(), memberLat.doubleValue()));
+
+        return memberRepository.findAllWithinDistance(query, point, SEARCH_RANGE);
     }
 
     @Override
     public ResMemberPrivateInfoDTO createMember(ReqMemberCreateDTO reqMemberCreateDTO) {
+        ReqAddressDTO address = reqMemberCreateDTO.getAddress();
+        Address fullAddress = Address.builder()
+                .province(address.getProvince())
+                .city(address.getCity())
+                .district(address.getDistrict())
+                .details(address.getDetails())
+                .latitude(address.getLatitude())
+                .longitude(address.getLongitude())
+                .location(gf.createPoint(new Coordinate(address.getLongitude().doubleValue(),
+                        address.getLatitude().doubleValue())))
+                .build();
+
         Member member = Member.builder()
                 .username(reqMemberCreateDTO.getUsername())
                 .password(encoder.encode(reqMemberCreateDTO.getPassword()))
@@ -52,7 +71,7 @@ public class MemberServiceImpl implements MemberService {
                 .story(reqMemberCreateDTO.getStory())
                 .memberType(reqMemberCreateDTO.getMemberType())
                 .isVisible(reqMemberCreateDTO.getIsVisible())
-                .address(reqMemberCreateDTO.getAddress())
+                .address(fullAddress)
                 .skill(reqMemberCreateDTO.getSkill())
                 .build();
 
@@ -86,17 +105,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean isDuplicatedPhoneNumber(String phoneNumber){
+    public Boolean isDuplicatedPhoneNumber(String phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
     }
 
     @Override
     public Boolean verifyNeighbor(Member member, ReqCoordinationDTO reqCoordinationDTO) {
         member = memberRepository.findById(member.getMemberId()).orElseThrow();
-        Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
+
+        Point point = gf.createPoint(
+                new Coordinate(reqCoordinationDTO.getLng().doubleValue(), reqCoordinationDTO.getLat().doubleValue()));
+
+        Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), point);
 
         boolean verified = distance <= VERIFIED_DISTANCE;
-        if(verified) {
+        if (verified) {
             member.setIsVerified(verified);
             memberRepository.save(member);
         }
@@ -145,7 +168,7 @@ public class MemberServiceImpl implements MemberService {
     public ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
 
-        if(!member.getIsVisible()){
+        if (!member.getIsVisible()) {
             throw new RuntimeException("해당 멤버는 비공개상태 입니다.");
         }
 

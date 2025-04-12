@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import univ.kgu.carely.domain.common.embeded.Address;
+import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 
