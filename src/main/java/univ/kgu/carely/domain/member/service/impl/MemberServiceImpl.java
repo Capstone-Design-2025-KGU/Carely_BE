@@ -51,8 +51,7 @@ public class MemberServiceImpl implements MemberService {
             throw new RuntimeException("인증된 회원만 이용할 수 있습니다.");
         }
 
-        return memberRepository.findAllWithinDistance(query, member.getAddress().getLatitude(), member.getAddress().getLongitude(),
-                SEARCH_RANGE);
+        return memberRepository.findAllWithinDistance(query, member.getAddress().getLocation(), SEARCH_RANGE);
     }
 
     @Override

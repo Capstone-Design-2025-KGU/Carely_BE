@@ -2,12 +2,12 @@ package univ.kgu.carely.domain.member.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import org.locationtech.jts.geom.Point;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 
 public interface CustomMemberRepository {
-    Member findByName(String name);
 
     /**
      * 입력한 위도/경도를 기준으로 해당 범위 내에 존재하는 모든 멤버를 찾는다.
@@ -17,7 +17,7 @@ public interface CustomMemberRepository {
      * @param meter      중심으로부터 확인하려고 하는 범위
      * @return 범위 내의 모든 멤버
      */
-    List<ResMemberPublicInfoDTO> findAllWithinDistance(String query, BigDecimal lat, BigDecimal lng, int meter);
+    List<ResMemberPublicInfoDTO> findAllWithinDistance(String query, Point p, int meter);
 
     /**
      * 위도/경도 좌표를 가지고 거리를 측정한다.
