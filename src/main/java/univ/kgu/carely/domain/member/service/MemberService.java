@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
@@ -24,7 +25,7 @@ public interface MemberService {
      *
      * @return 검색된 데이터
      */
-    List<ResMemberPublicInfoDTO> searchNeighborMember(String query);
+    List<ResMemberMapDTO> searchNeighborMember(String query);
 
     /**
      * 회원가입을 진행한다.

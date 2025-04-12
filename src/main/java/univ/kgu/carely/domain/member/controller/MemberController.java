@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -28,8 +29,8 @@ public class MemberController {
 
     @GetMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
-    public ResponseEntity<List<ResMemberPublicInfoDTO>> searchNeighbor(@RequestParam("query") String query) {
-        List<ResMemberPublicInfoDTO> memberList = memberService.searchNeighborMember(query);
+    public ResponseEntity<List<ResMemberMapDTO>> searchNeighbor(@RequestParam("query") String query) {
+        List<ResMemberMapDTO> memberList = memberService.searchNeighborMember(query);
 
         return ResponseEntity.ok(memberList);
     }

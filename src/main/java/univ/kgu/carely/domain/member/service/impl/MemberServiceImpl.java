@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.CustomUserDetails;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
@@ -49,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ResMemberPublicInfoDTO> searchNeighborMember(String query) {
+    public List<ResMemberMapDTO> searchNeighborMember(String query) {
         Member member = currentMember();
 
         if (member == null) {
@@ -124,7 +126,10 @@ public class MemberServiceImpl implements MemberService {
     public Boolean verifyNeighbor(ReqCoordinationDTO reqCoordinationDTO) {
         Member member = currentMember();
 
-        Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), reqCoordinationDTO);
+        Point point = gf.createPoint(
+                new Coordinate(reqCoordinationDTO.getLng().doubleValue(), reqCoordinationDTO.getLat().doubleValue()));
+
+        Double distance = memberRepository.checkVerifiedPlaceWithGPS(member.getMemberId(), point);
 
         boolean verified = distance <= VERIFIED_DISTANCE;
         if (verified) {
