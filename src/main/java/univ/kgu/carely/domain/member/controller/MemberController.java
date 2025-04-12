@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
+import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
 
 @RestController
@@ -29,8 +31,9 @@ public class MemberController {
 
     @GetMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
-    public ResponseEntity<List<ResMemberMapDTO>> searchNeighbor(@RequestParam(value = "query", defaultValue = "") String query) {
-        List<ResMemberMapDTO> memberList = memberService.searchNeighborMember(query);
+    public ResponseEntity<List<ResMemberMapDTO>> searchNeighbor(@RequestParam(value = "query", defaultValue = "") String query,
+                                                                @AuthenticationPrincipal(expression = "member") Member member) {
+        List<ResMemberMapDTO> memberList = memberService.searchNeighborMember(member, query);
 
         return ResponseEntity.ok(memberList);
     }
@@ -61,31 +64,34 @@ public class MemberController {
 
     @PostMapping("/verify")
     @Operation(summary = "동네 인증 API", description = "GPS 좌표를 기준으로 설정한 주소와 거리차이를 계산해 동네 인증을 진행한다.")
-    public ResponseEntity<Boolean> verifyNeighbor(@RequestBody ReqCoordinationDTO reqCoordinationDTO) {
-        Boolean verified = memberService.verifyNeighbor(reqCoordinationDTO);
+    public ResponseEntity<Boolean> verifyNeighbor(@RequestBody ReqCoordinationDTO reqCoordinationDTO,
+                                                  @AuthenticationPrincipal(expression = "member") Member member) {
+        Boolean verified = memberService.verifyNeighbor(member, reqCoordinationDTO);
 
         return ResponseEntity.ok(verified);
     }
 
     @PostMapping("/profile/my")
     @Operation(summary = "개인 정보 조회 API", description = "개인 정보 조회")
-    public ResponseEntity<ResMemberPrivateInfoDTO> getPrivateInfo(){
-        ResMemberPrivateInfoDTO privateInfo = memberService.getPrivateInfo();
+    public ResponseEntity<ResMemberPrivateInfoDTO> getPrivateInfo(@AuthenticationPrincipal(expression = "member") Member member){
+        ResMemberPrivateInfoDTO privateInfo = memberService.getPrivateInfo(member);
 
         return ResponseEntity.ok(privateInfo);
     }
 
     @PutMapping("/profile/my/skill")
     @Operation(summary = "능력 수정 API", description = "능력 수정을 진행한다.")
-    public ResponseEntity<Boolean> updateSkill(@RequestBody ReqUpdateSkillDTO reqUpdateSkillDTO){
-        Boolean success = memberService.updateSkill(reqUpdateSkillDTO);
+    public ResponseEntity<Boolean> updateSkill(@RequestBody ReqUpdateSkillDTO reqUpdateSkillDTO,
+                                               @AuthenticationPrincipal(expression = "member") Member member){
+        Boolean success = memberService.updateSkill(member, reqUpdateSkillDTO);
 
         return ResponseEntity.ok(success);
     }
 
     @GetMapping("/{memberId}")
     @Operation(summary = "특정 멤버의 정보 API", description = "특정 멤버의 정보를 조회한다.")
-    public ResponseEntity<ResMemberPublicInfoDTO> findMember(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<ResMemberPublicInfoDTO> findMember(@PathVariable("memberId") Long memberId,
+                                                             @AuthenticationPrincipal(expression = "member") Member member) {
         ResMemberPublicInfoDTO publicInfo = memberService.getMemberPublicInfo(memberId);
 
         return ResponseEntity.ok(publicInfo);

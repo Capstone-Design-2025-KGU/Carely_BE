@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.member.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,14 +52,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ResMemberMapDTO> searchNeighborMember(String query) {
-        Member member = currentMember();
+    public List<ResMemberMapDTO> searchNeighborMember(Member member, String query) {
+        member = memberRepository.findById(member.getMemberId()).orElseThrow();
+        BigDecimal memberLat = member.getAddress().getLatitude();
+        BigDecimal memberLng = member.getAddress().getLongitude();
 
-        if (member == null) {
-            throw new RuntimeException("인증된 회원만 이용할 수 있습니다.");
-        }
+        Point point = gf.createPoint(new Coordinate(memberLng.doubleValue(), memberLat.doubleValue()));
 
-        return memberRepository.findAllWithinDistance(query, member.getAddress().getLocation(), SEARCH_RANGE);
+        return memberRepository.findAllWithinDistance(query, point, SEARCH_RANGE);
     }
 
     @Override
@@ -123,8 +124,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean verifyNeighbor(ReqCoordinationDTO reqCoordinationDTO) {
-        Member member = currentMember();
+    public Boolean verifyNeighbor(Member member, ReqCoordinationDTO reqCoordinationDTO) {
+        member = memberRepository.findById(member.getMemberId()).orElseThrow();
 
         Point point = gf.createPoint(
                 new Coordinate(reqCoordinationDTO.getLng().doubleValue(), reqCoordinationDTO.getLat().doubleValue()));
@@ -142,16 +143,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemberPrivateInfoDTO getPrivateInfo() {
-        Member member = currentMember();
+    public ResMemberPrivateInfoDTO getPrivateInfo(Member member){
+        member = memberRepository.findById(member.getMemberId()).orElseThrow();
 
         return toResMemberPrivateInfoDTO(member);
     }
 
     @Override
     @Transactional
-    public Boolean updateSkill(ReqUpdateSkillDTO reqUpdateSkillDTO) {
-        Member member = currentMember();
+    public Boolean updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO) {
+        member = memberRepository.findById(member.getMemberId()).orElseThrow();
 
         Skill skill = member.getSkill();
         skill.setCommunication(reqUpdateSkillDTO.getCommunication());

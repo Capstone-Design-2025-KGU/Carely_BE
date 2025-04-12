@@ -13,7 +13,6 @@ import univ.kgu.carely.domain.team.entity.Team;
 import univ.kgu.carely.domain.team.repository.comment.CommentRepository;
 import univ.kgu.carely.domain.team.repository.post.PostRepository;
 import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
-import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
 
 @Service
@@ -24,12 +23,10 @@ public class CommentServiceImpl implements CommentService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final TeamMateRepository teamMateRepository;
-    private final TeamRepository teamRepository;
 
     @Override
     @Transactional
-    public Boolean createComment(Long postId, ReqCommentDTO reqCommentDTO) {
-        Member member = memberService.currentMember();
+    public Boolean createComment(Member member, Long postId, ReqCommentDTO reqCommentDTO) {
         Post post = postRepository.findById(postId).orElseThrow(()->
                 new RuntimeException("찾으려는 게시글이 없습니다."));
         Team team = post.getTeam();
@@ -51,8 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Boolean updateComment(ReqCommentDTO reqCommentDTO, Long commentId) {
-        Member member = memberService.currentMember();
+    public Boolean updateComment(Member member, ReqCommentDTO reqCommentDTO, Long commentId) {
         Comment comment = commentRepository.getReferenceById(commentId);
 
         if (!comment.getMember().getMemberId().equals(member.getMemberId())) {
@@ -77,8 +73,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Boolean deleteComment(Long commentId) {
-        Member member = memberService.currentMember();
+    public Boolean deleteComment(Member member, Long commentId) {
         Comment comment = commentRepository.getReferenceById(commentId);
 
         if(!comment.getMember().getMemberId().equals(member.getMemberId())){

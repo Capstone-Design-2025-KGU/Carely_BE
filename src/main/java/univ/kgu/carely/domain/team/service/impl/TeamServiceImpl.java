@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
+import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.team.dto.request.ReqCreateTeamDTO;
 import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
@@ -22,15 +23,13 @@ public class TeamServiceImpl implements TeamService {
 
     private static final int SEARCH_RANGE = 2000;
 
-    private final MemberService memberService;
     private final TeamRepository teamRepository;
     private final TeamMateRepository teamMateRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional
-    public Boolean createTeam(ReqCreateTeamDTO reqCreateTeamDTO) {
-        Member member = memberService.currentMember();
-
+    public Boolean createTeam(Member member, ReqCreateTeamDTO reqCreateTeamDTO) {
         Team team = Team.builder()
                 .teamName(reqCreateTeamDTO.getTeamName())
                 .address(reqCreateTeamDTO.getAddress())
@@ -51,8 +50,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public Boolean joinTeam(Long teamId) {
-        Member member = memberService.currentMember();
+    public Boolean joinTeam(Member member, Long teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow(()->
                 new RuntimeException("해당 그룹이 존재하지 않습니다."));
 
@@ -75,8 +73,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public Boolean exitTeam(Long teamId) {
-        Member member = memberService.currentMember();
+    public Boolean exitTeam(Member member, Long teamId) {
         Team team = teamRepository.getReferenceById(teamId);
 
         TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(()->
@@ -93,8 +90,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public Boolean closeTeam(Long teamId) {
-        Member member = memberService.currentMember();
+    public Boolean closeTeam(Member member, Long teamId) {
         Team team = teamRepository.getReferenceById(teamId);
 
         TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(()->
@@ -111,8 +107,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ResTeamOutlineDTO> searchNeighbor(Pageable pageable) {
-        Member member = memberService.currentMember();
+    public Page<ResTeamOutlineDTO> searchNeighbor(Member member, Pageable pageable) {
+        member = memberRepository.findById(member.getMemberId()).orElseThrow();
 
         return teamRepository.findTeamOutlineWithinDistance(member.getAddress().getLocation(), SEARCH_RANGE, pageable);
     }

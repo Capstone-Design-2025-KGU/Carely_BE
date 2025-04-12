@@ -208,7 +208,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public ResMeetingDTO toResMeetingDTO(Meeting meeting) {
-        return ResMeetingDTO.builder()
+        ResMeetingDTO resMeeting = ResMeetingDTO.builder()
                 .meetingId(meeting.getId())
                 .startTime(meeting.getStartTime())
                 .endTime(meeting.getEndTime())
@@ -219,6 +219,11 @@ public class MeetingServiceImpl implements MeetingService {
                 .sender(memberService.toResMemberSmallInfoDTO(meeting.getSender()))
                 .receiver(memberService.toResMemberSmallInfoDTO(meeting.getReceiver()))
                 .build();
+        if (!meeting.getStatus().equals(MeetingStatus.PENDING)) {
+            resMeeting.setAddress(meeting.getReceiver().getAddress());
+        }
+
+        return resMeeting;
     }
 
 }

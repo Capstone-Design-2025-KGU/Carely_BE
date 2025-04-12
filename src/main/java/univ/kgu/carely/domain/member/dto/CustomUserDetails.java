@@ -12,6 +12,9 @@ public class CustomUserDetails implements UserDetails {
 
     private final Member member;
 
+    public Member getMember() {
+        return member;
+    }
 
     /**
      * 해당 유저의 권한을 반환한다.
