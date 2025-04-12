@@ -3,13 +3,14 @@ package univ.kgu.carely.domain.meet.service;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoUpdateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoDTO;
 import univ.kgu.carely.domain.meet.entity.Memo;
+import univ.kgu.carely.domain.member.entity.Member;
 
 public interface MemoService {
-    ResMemoDTO updateMemo(Long meetingId, ReqMemoUpdateDTO reqMemoUpdateDTO);
+    ResMemoDTO updateMemo(Member member, Long meetingId, ReqMemoUpdateDTO reqMemoUpdateDTO);
 
-    ResMemoDTO readCurrentFinishedMemo(Long memberId);
+    ResMemoDTO readCurrentFinishedMemo(Member member, Long memberId);
 
     ResMemoDTO toResMemoDTO(Memo memo);
 
-    ResMemoDTO readMemo(Long meetingId);
+    ResMemoDTO readMemo(Member member, Long meetingId);
 }
