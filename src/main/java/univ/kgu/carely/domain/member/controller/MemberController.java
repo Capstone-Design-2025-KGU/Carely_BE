@@ -29,7 +29,7 @@ public class MemberController {
 
     @GetMapping("/search-neighbor")
     @Operation(summary = "이웃 검색 API", description = "이웃을 검색한다.")
-    public ResponseEntity<List<ResMemberMapDTO>> searchNeighbor(@RequestParam("query") String query) {
+    public ResponseEntity<List<ResMemberMapDTO>> searchNeighbor(@RequestParam(value = "query", defaultValue = "") String query) {
         List<ResMemberMapDTO> memberList = memberService.searchNeighborMember(query);
 
         return ResponseEntity.ok(memberList);
