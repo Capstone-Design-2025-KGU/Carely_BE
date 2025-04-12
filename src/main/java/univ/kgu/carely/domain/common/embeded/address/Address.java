@@ -1,5 +1,6 @@
-package univ.kgu.carely.domain.common.embeded;
+package univ.kgu.carely.domain.common.embeded.address;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -9,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.locationtech.jts.geom.Point;
 
 @Embeddable
 @Getter
@@ -33,4 +35,8 @@ public class Address {
     @Schema(description = "경도", example = "127.0356645")
     @Column(name = "lng", precision = 10, scale = 7, nullable = false)
     private BigDecimal longitude;
+
+    @JsonIgnore
+    @Column(nullable = false, columnDefinition = "POINT SRID 4326")
+    private Point location;
 }
