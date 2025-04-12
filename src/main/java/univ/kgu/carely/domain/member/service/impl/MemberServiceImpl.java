@@ -32,18 +32,6 @@ public class MemberServiceImpl implements MemberService {
     private final BCryptPasswordEncoder encoder;
 
     @Override
-    public Member currentMember(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if(principal instanceof CustomUserDetails c){
-            log.info("{}", c.getMemberId());
-            return memberRepository.getReferenceById(c.getMemberId());
-        }
-
-        throw new RuntimeException("로그인이 필요합니다.");
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<ResMemberPublicInfoDTO> searchNeighborMember(Member member, String query) {
         member = memberRepository.findById(member.getMemberId()).orElseThrow();
