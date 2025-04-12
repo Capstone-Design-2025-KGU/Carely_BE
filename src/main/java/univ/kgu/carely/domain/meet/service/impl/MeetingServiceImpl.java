@@ -33,9 +33,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional
-    public ResMeetingDTO createMeeting(Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
-        Member member = memberService.currentMember();
-
+    public ResMeetingDTO createMeeting(Member member, Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
         if (member.getMemberId().equals(opponentMemberId)) {
             throw new RuntimeException("본인에게 약속을 요청할 수 없습니다.");
         }
@@ -67,8 +65,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMeetingDTO readMeeting(Long meetingId) {
-        Member member = memberService.currentMember();
+    public ResMeetingDTO readMeeting(Member member, Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
@@ -82,8 +79,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional
-    public ResMeetingDTO acceptMeeting(Long meetingId) {
-        Member member = memberService.currentMember();
+    public ResMeetingDTO acceptMeeting(Member member, Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
@@ -107,8 +103,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional
-    public ResMeetingDTO updateMeeting(Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
-        Member member = memberService.currentMember();
+    public ResMeetingDTO updateMeeting(Member member, Long meetingId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
@@ -132,8 +127,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional
-    public ResMeetingDTO rejectMeeting(Long meetingId) {
-        Member member = memberService.currentMember();
+    public ResMeetingDTO rejectMeeting(Member member, Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
@@ -146,16 +140,15 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         meeting.setStatus(MeetingStatus.PENDING);
-        meeting.getMemos().clear();
-        Meeting save = meetingRepository.save(meeting);
+        Memo memo = memoRepository.findByMeeting(meeting);
+        memoRepository.delete(memo);
 
-        return toResMeetingDTO(save);
+        return toResMeetingDTO(meeting);
     }
 
     @Override
     @Transactional
-    public Boolean deleteMeeting(Long meetingId) {
-        Member member = memberService.currentMember();
+    public Boolean deleteMeeting(Member member, Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
@@ -175,8 +168,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     @Transactional
-    public ResMeetingDTO finishMeeting(Long meetingId) {
-        Member member = memberService.currentMember();
+    public ResMeetingDTO finishMeeting(Member member, Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
