@@ -13,13 +13,6 @@ import univ.kgu.carely.domain.member.entity.Member;
 public interface MemberService {
 
     /**
-     * 현재 인증된 사용자 정보를 가져온다.
-     *
-     * @return 현재 인증된 사용자
-     */
-    Member currentMember();
-
-    /**
      * 인증된 동네 기준 주변 이웃을 검색한다.
      *
      * @return 검색된 데이터

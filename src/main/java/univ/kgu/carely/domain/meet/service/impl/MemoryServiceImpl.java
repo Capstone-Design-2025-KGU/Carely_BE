@@ -23,9 +23,7 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional
-    public ResMemoryDTO updateMemory(Long memoryId, ReqMemoryUpdateDTO reqMemoryUpdateDTO) {
-        Member member = memberService.currentMember();
-
+    public ResMemoryDTO updateMemory(Member member, Long memoryId, ReqMemoryUpdateDTO reqMemoryUpdateDTO) {
         Memory memory = memoryRepository.findById(memoryId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEMORY_EXCEPTION_MESSAGE));
 
@@ -48,8 +46,7 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemoryDTO readMemory(Long memoryId) {
-        Member member = memberService.currentMember();
+    public ResMemoryDTO readMemory(Member member, Long memoryId) {
         Memory memory = memoryRepository.findById(memoryId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEMORY_EXCEPTION_MESSAGE));
 
@@ -63,9 +60,7 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ResMemoryDTO> readPagedMemory(String query, Pageable pageable) {
-        Member member = memberService.currentMember();
-
+    public Page<ResMemoryDTO> readPagedMemory(Member member, String query, Pageable pageable) {
         return memoryRepository.findPagedMemoryByNameContaining(query, member,
                 pageable);
     }

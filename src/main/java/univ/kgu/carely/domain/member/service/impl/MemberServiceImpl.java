@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,6 @@ import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
-import univ.kgu.carely.domain.member.dto.CustomUserDetails;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
@@ -37,18 +35,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
     private final GeometryFactory gf;
-
-    @Override
-    public Member currentMember() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof CustomUserDetails c) {
-            log.info("{}", c.getMemberId());
-            return memberRepository.getReferenceById(c.getMemberId());
-        }
-
-        throw new RuntimeException("로그인이 필요합니다.");
-    }
 
     @Override
     @Transactional(readOnly = true)

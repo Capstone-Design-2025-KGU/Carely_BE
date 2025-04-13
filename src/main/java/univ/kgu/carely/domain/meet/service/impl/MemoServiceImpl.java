@@ -25,8 +25,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional
-    public ResMemoDTO updateMemo(Long meetingId, ReqMemoUpdateDTO reqMemoUpdateDTO) {
-        Member member = memberService.currentMember();
+    public ResMemoDTO updateMemo(Member member, Long meetingId, ReqMemoUpdateDTO reqMemoUpdateDTO) {
         Meeting meeting = meetingRepository.getReferenceById(meetingId);
         Memo memo = memoRepository.findByMeeting(meeting);
 
@@ -47,8 +46,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemoDTO readCurrentFinishedMemo(Long memberId) {
-        Member member = memberService.currentMember();
+    public ResMemoDTO readCurrentFinishedMemo(Member member, Long memberId) {
         Member memoMember = memberRepository.getReferenceById(memberId);
 
         if(!meetingRepository.existsBySenderAndReceiverAndMeetingStatusIsAccept(member, memoMember)){
@@ -62,8 +60,7 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemoDTO readMemo(Long meetingId) {
-        Member member = memberService.currentMember();
+    public ResMemoDTO readMemo(Member member, Long meetingId) {
         Meeting meeting = meetingRepository.getReferenceById(meetingId);
         Memo memo = memoRepository.findByMeeting(meeting);
 

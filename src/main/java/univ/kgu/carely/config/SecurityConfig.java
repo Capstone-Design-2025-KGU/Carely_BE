@@ -63,8 +63,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth->auth
-                        .requestMatchers("/login", "/", "/api/users/new", "/swagger-ui/**").permitAll()
-                        .requestMatchers("/admin").hasRole("USER")
+                        .requestMatchers("/api/login", "/", "/api/members/new","/api/members/check/**", "/swagger-ui/**").permitAll()
                         .anyRequest().permitAll());
 
         http.sessionManagement(session -> session
