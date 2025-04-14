@@ -1,4 +1,4 @@
-package univ.kgu.carely.domain.member.repository;
+package univ.kgu.carely.domain.member.repository.impl;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanTemplate;
@@ -8,8 +8,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
+import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.entity.QMember;
+import univ.kgu.carely.domain.member.repository.CustomMemberRepository;
 
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements CustomMemberRepository {
@@ -54,5 +60,34 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .from(member)
                 .where(member.memberId.eq(memberId))
                 .fetchOne();
+    }
+
+    @Override
+    public Page<ResMembersRecommendedDTO> findRecommendedMembers(int meter, Member my, Pageable pageable) {
+        NumberTemplate<Double> distance = Expressions.numberTemplate(Double.class,
+                "ST_DISTANCE_SPHERE({0}, {1})", my.getAddress().getLocation(), member.address.location);
+
+        NumberTemplate<Integer> withTime = Expressions.numberTemplate(Integer.class, "");
+
+        BooleanTemplate isNearby = Expressions.booleanTemplate("ST_CONTAINS(ST_BUFFER({0}, {1}), {2})",
+                my.getAddress().getLocation(), meter, member.address.location);
+
+        List<ResMembersRecommendedDTO> resMembersRecommendedDTOS = jpaQueryFactory.select(
+                        Projections.fields(ResMembersRecommendedDTO.class,
+                                member.memberId,
+                                member.name,
+                                member.profileImage,
+                                member.memberType,
+                                distance.as("distance")
+//                        withTime.as("withTime")
+                        ))
+                .from(member)
+                .where(isNearby)
+                .orderBy(distance.asc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+
+        return new PageImpl<>(resMembersRecommendedDTOS);
     }
 }

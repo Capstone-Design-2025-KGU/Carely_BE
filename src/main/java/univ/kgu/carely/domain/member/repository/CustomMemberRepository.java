@@ -2,7 +2,11 @@ package univ.kgu.carely.domain.member.repository;
 
 import java.util.List;
 import org.locationtech.jts.geom.Point;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
+import univ.kgu.carely.domain.member.entity.Member;
 
 public interface CustomMemberRepository {
 
@@ -22,4 +26,6 @@ public interface CustomMemberRepository {
      * @return 등록된 주소의 좌표와 요청 좌표의 차이 (단위 m)
      */
     Double checkVerifiedPlaceWithGPS(Long memberId, Point point);
+
+    Page<ResMembersRecommendedDTO> findRecommendedMembers(int meter, Member my, Pageable pageable);
 }
