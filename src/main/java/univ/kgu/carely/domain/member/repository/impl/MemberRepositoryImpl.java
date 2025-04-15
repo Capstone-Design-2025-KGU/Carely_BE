@@ -1,16 +1,22 @@
 package univ.kgu.carely.domain.member.repository.impl;
 
+import static univ.kgu.carely.domain.meet.entity.QMeeting.meeting;
+
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.BooleanTemplate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.meet.entity.QMeeting;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
@@ -72,22 +78,63 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
         BooleanTemplate isNearby = Expressions.booleanTemplate("ST_CONTAINS(ST_BUFFER({0}, {1}), {2})",
                 my.getAddress().getLocation(), meter, member.address.location);
 
-        List<ResMembersRecommendedDTO> resMembersRecommendedDTOS = jpaQueryFactory.select(
-                        Projections.fields(ResMembersRecommendedDTO.class,
-                                member.memberId,
-                                member.name,
-                                member.profileImage,
-                                member.memberType,
-                                distance.as("distance")
-//                        withTime.as("withTime")
-                        ))
-                .from(member)
-                .where(isNearby)
-                .orderBy(distance.asc())
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset())
-                .fetch();
+        List<ResMembersRecommendedDTO> resMembersRecommendedDTOS;
+        Long total;
 
-        return new PageImpl<>(resMembersRecommendedDTOS);
+        // FAMILY인 경우 약속을 받기만 가능함.
+        if(my.getMemberType().equals(MemberType.FAMILY)){
+            BooleanExpression findNearbyVisibleNotFamilyType = member.isVisible
+                    .and(member.isVerified)
+                    .and(member.memberType.ne(MemberType.FAMILY))
+                    .and(isNearby);
+
+            resMembersRecommendedDTOS = jpaQueryFactory.select(
+                            Projections.fields(ResMembersRecommendedDTO.class,
+                                    member.memberId,
+                                    member.name,
+                                    member.profileImage,
+                                    member.memberType,
+                                    distance.as("distance")
+                            ))
+                    .from(member)
+                    .where(findNearbyVisibleNotFamilyType)
+                    .orderBy(distance.asc())
+                    .limit(pageable.getPageSize())
+                    .offset(pageable.getOffset())
+                    .fetch();
+
+            total = jpaQueryFactory.select(member.memberId.count())
+                    .from(member)
+                    .where(findNearbyVisibleNotFamilyType)
+                    .fetchOne();
+        } else {
+            BooleanExpression findNearbyVisibleFamilyType = member.isVisible
+                    .and(member.isVerified)
+                    .and(member.memberType.eq(MemberType.FAMILY))
+                    .and(isNearby);
+
+            resMembersRecommendedDTOS = jpaQueryFactory.select(
+                            Projections.fields(ResMembersRecommendedDTO.class,
+                                    member.memberId,
+                                    member.name,
+                                    member.profileImage,
+                                    member.memberType,
+                                    distance.as("distance")
+                            ))
+                    .from(member)
+                    .where(findNearbyVisibleFamilyType)
+                    .orderBy(distance.asc())
+                    .limit(pageable.getPageSize())
+                    .offset(pageable.getOffset())
+                    .fetch();
+
+            total = jpaQueryFactory.select(member.memberId.count())
+                    .from(member)
+                    .where(findNearbyVisibleFamilyType)
+                    .fetchOne();
+        }
+
+        assert Objects.nonNull(total);
+        return new PageImpl<>(resMembersRecommendedDTOS, pageable, total);
     }
 }
