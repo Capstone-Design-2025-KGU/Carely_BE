@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -189,6 +192,14 @@ public class MemberServiceImpl implements MemberService {
                 .address(member.getAddress())
                 .skill(member.getSkill())
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ResMembersRecommendedDTO> getRecommendedNeighbors(Pageable pageable, Member member) {
+        member = memberRepository.findById(member.getMemberId()).orElseThrow();
+
+        return memberRepository.findRecommendedMembers(SEARCH_RANGE,member,pageable);
     }
 
 }

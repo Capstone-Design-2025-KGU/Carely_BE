@@ -3,6 +3,7 @@ package univ.kgu.carely.domain.member.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -102,11 +103,11 @@ public class MemberController {
 
     @GetMapping("/")
     @Operation(summary = "추천 이웃 정보 API", description = "이웃중 나와 잘 맞는 사람을 추천받는다.")
-    public ResponseEntity<List<ResMembersRecommendedDTO>> getRecommendedNeighbors(@PageableDefault Pageable pageable,
+    public ResponseEntity<Page<ResMembersRecommendedDTO>> getRecommendedNeighbors(@PageableDefault Pageable pageable,
                                                                                   @AuthenticationPrincipal(expression = "member") Member member) {
+        Page<ResMembersRecommendedDTO> recommendedNeighbors = memberService.getRecommendedNeighbors(pageable, member);
 
-
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(recommendedNeighbors);
     }
 
 }
