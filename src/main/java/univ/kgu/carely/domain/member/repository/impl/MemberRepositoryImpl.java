@@ -1,7 +1,5 @@
 package univ.kgu.carely.domain.member.repository.impl;
 
-import static univ.kgu.carely.domain.meet.entity.QMeeting.meeting;
-
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.BooleanTemplate;
@@ -70,21 +68,26 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
 
     @Override
     public Page<ResMembersRecommendedDTO> findRecommendedMembers(int meter, Member my, Pageable pageable) {
+        List<ResMembersRecommendedDTO> resMembersRecommendedDTOS;
+        Long total;
+
+        QMeeting mt = new QMeeting("mt");
+
         NumberTemplate<Double> distance = Expressions.numberTemplate(Double.class,
                 "ST_DISTANCE_SPHERE({0}, {1})", my.getAddress().getLocation(), member.address.location);
 
-        NumberTemplate<Integer> withTime = Expressions.numberTemplate(Integer.class, "");
+        NumberTemplate<Integer> withTime = Expressions.numberTemplate(Integer.class,
+                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))", mt.startTime, mt.endTime);
 
         BooleanTemplate isNearby = Expressions.booleanTemplate("ST_CONTAINS(ST_BUFFER({0}, {1}), {2})",
                 my.getAddress().getLocation(), meter, member.address.location);
-
-        List<ResMembersRecommendedDTO> resMembersRecommendedDTOS;
-        Long total;
 
         // FAMILY인 경우 약속을 받기만 가능함.
         if(my.getMemberType().equals(MemberType.FAMILY)){
             BooleanExpression findNearbyVisibleNotFamilyType = member.isVisible
                     .and(member.isVerified)
+                    .and(mt.receiver.eq(my)
+                            .or(mt.receiver.isNull()))
                     .and(member.memberType.ne(MemberType.FAMILY))
                     .and(isNearby);
 
@@ -94,22 +97,29 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                     member.name,
                                     member.profileImage,
                                     member.memberType,
-                                    distance.as("distance")
+                                    distance.as("distance"),
+                                    withTime.as("withTime")
                             ))
                     .from(member)
+                    .leftJoin(mt).on(member.eq(mt.sender))
                     .where(findNearbyVisibleNotFamilyType)
+                    .groupBy(mt.sender, member)
                     .orderBy(distance.asc())
                     .limit(pageable.getPageSize())
                     .offset(pageable.getOffset())
                     .fetch();
 
-            total = jpaQueryFactory.select(member.memberId.count())
+            total = jpaQueryFactory.select(member.count())
                     .from(member)
+                    .leftJoin(mt).on(member.eq(mt.sender))
                     .where(findNearbyVisibleNotFamilyType)
                     .fetchOne();
-        } else {
+
+        } else { // FAMILY가 아닌 경우 약속 요청만 가능함.
             BooleanExpression findNearbyVisibleFamilyType = member.isVisible
                     .and(member.isVerified)
+                    .and(mt.sender.eq(my)
+                            .or(mt.sender.isNull()))
                     .and(member.memberType.eq(MemberType.FAMILY))
                     .and(isNearby);
 
@@ -119,17 +129,21 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                     member.name,
                                     member.profileImage,
                                     member.memberType,
-                                    distance.as("distance")
+                                    distance.as("distance"),
+                                    withTime.as("withTime")
                             ))
                     .from(member)
+                    .leftJoin(mt).on(member.eq(mt.receiver))
                     .where(findNearbyVisibleFamilyType)
+                    .groupBy(mt.sender, member)
                     .orderBy(distance.asc())
                     .limit(pageable.getPageSize())
-                    .offset(pageable.getOffset())
+                    .offset(pageable.getOffset()) // 자기 자신을 제외하도록 함.
                     .fetch();
 
-            total = jpaQueryFactory.select(member.memberId.count())
+            total = jpaQueryFactory.select(member.count())
                     .from(member)
+                    .leftJoin(mt).on(member.eq(mt.receiver))
                     .where(findNearbyVisibleFamilyType)
                     .fetchOne();
         }

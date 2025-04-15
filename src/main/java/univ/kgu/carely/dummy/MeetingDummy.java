@@ -22,9 +22,11 @@ public class MeetingDummy {
 
     public void makeMeeting() {
         Member park = memberRepository.getReferenceById(1L);
+        Member cho = memberRepository.getReferenceById(2L);
 
         Member member3 = memberRepository.getReferenceById(3L);
         Member member4 = memberRepository.getReferenceById(4L);
+        Member member6 = memberRepository.getReferenceById(6L);
 
         LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         Meeting meeting1 = Meeting.builder()
@@ -54,7 +56,16 @@ public class MeetingDummy {
                 .status(MeetingStatus.FINISH)
                 .build();
 
-        meetingRepository.saveAll(List.of(meeting1, meeting2, meeting3));
+        Meeting meeting4 = Meeting.builder()
+                .chore("뭐할까")
+                .startTime(now.minusHours(2).minusDays(1))
+                .endTime(now.minusDays(1))
+                .sender(member6)
+                .receiver(cho)
+                .status(MeetingStatus.FINISH)
+                .build();
+
+        meetingRepository.saveAll(List.of(meeting1, meeting2, meeting3, meeting4));
     }
 
 }

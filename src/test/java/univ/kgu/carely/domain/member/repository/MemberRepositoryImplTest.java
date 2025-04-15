@@ -12,8 +12,10 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import univ.kgu.carely.config.QslConfig;
+import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 
 //@DataJpaTest
@@ -39,6 +41,21 @@ class MemberRepositoryImplTest {
 
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        memberRepository.findRecommendedMembers(2000, member, pageRequest);
+        Page<ResMembersRecommendedDTO> recommendedMembers = memberRepository.findRecommendedMembers(2000, member,
+                pageRequest);
+
+        recommendedMembers.getContent().forEach(System.out::println);
+    }
+
+    @Test
+    void findRecommendedMembers1() {
+        Member member = memberRepository.findById(4L).orElseThrow();
+
+        PageRequest pageRequest = PageRequest.of(0,10);
+
+        Page<ResMembersRecommendedDTO> recommendedMembers = memberRepository.findRecommendedMembers(2000, member,
+                pageRequest);
+
+        recommendedMembers.getContent().forEach(System.out::println);
     }
 }
