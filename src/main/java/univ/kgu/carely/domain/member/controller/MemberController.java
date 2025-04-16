@@ -3,6 +3,9 @@ package univ.kgu.carely.domain.member.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,7 @@ import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
 
@@ -95,6 +99,15 @@ public class MemberController {
         ResMemberPublicInfoDTO publicInfo = memberService.getMemberPublicInfo(memberId);
 
         return ResponseEntity.ok(publicInfo);
+    }
+
+    @GetMapping("/")
+    @Operation(summary = "추천 이웃 정보 API", description = "이웃중 나와 잘 맞는 사람을 추천받는다.")
+    public ResponseEntity<Page<ResMembersRecommendedDTO>> getRecommendedNeighbors(@PageableDefault Pageable pageable,
+                                                                                  @AuthenticationPrincipal(expression = "member") Member member) {
+        Page<ResMembersRecommendedDTO> recommendedNeighbors = memberService.getRecommendedNeighbors(pageable, member);
+
+        return ResponseEntity.ok(recommendedNeighbors);
     }
 
 }

@@ -1,6 +1,8 @@
 package univ.kgu.carely.domain.member.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
@@ -8,6 +10,7 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 
 public interface MemberService {
@@ -80,4 +83,6 @@ public interface MemberService {
     ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId);
 
     ResMemberPublicInfoDTO toResMemberPublicInfoDTO(Member member);
+
+    Page<ResMembersRecommendedDTO> getRecommendedNeighbors(Pageable pageable, Member member);
 }

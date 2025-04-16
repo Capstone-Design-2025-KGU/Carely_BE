@@ -18,6 +18,7 @@ public class DummyRunner {
     private final ChatMemberDummy chatMemberDummy;
     private final PostDummy postDummy;
     private final CommentDummy commentDummy;
+    private final MeetingDummy meetingDummy;
 
     @Bean
     public CommandLineRunner runner() {
@@ -29,6 +30,7 @@ public class DummyRunner {
             chatMemberDummy.makeChatMember();
             postDummy.makePost();
             commentDummy.makeComment();
+            meetingDummy.makeMeeting();
         };
     }
 

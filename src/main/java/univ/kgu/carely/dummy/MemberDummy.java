@@ -358,7 +358,6 @@ public class MemberDummy {
                 .memberType(MemberType.FAMILY)
                 .isVisible(true)
                 .isVerified(true)
-                .profileImage(null)
                 .address(address10)
                 .skill(skill10)
                 .build();
