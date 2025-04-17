@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.meet.repository.meeting.impl;
 
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
@@ -21,6 +22,17 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .where(meeting.sender.eq(sender)
                         .and(meeting.receiver.eq(receiver))
                         .and(meeting.status.eq(MeetingStatus.ACCEPT)))
+                .fetchOne();
+    }
+
+    @Override
+    public Integer sumAllTime(Long memberId) {
+        return jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
+                        "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                        meeting.startTime, meeting.endTime))
+                .from(meeting)
+                .where(meeting.sender.memberId.eq(memberId)
+                        .and(meeting.status.eq(MeetingStatus.FINISH)))
                 .fetchOne();
     }
 
