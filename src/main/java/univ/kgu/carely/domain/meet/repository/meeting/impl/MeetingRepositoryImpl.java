@@ -26,13 +26,24 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
     }
 
     @Override
-    public Integer sumAllTime(Long memberId) {
+    public Integer sumAllWithTime(Long memberId) {
         return jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
                         "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
                         meeting.startTime, meeting.endTime))
                 .from(meeting)
                 .where(meeting.sender.memberId.eq(memberId)
                         .and(meeting.status.eq(MeetingStatus.FINISH)))
+                .fetchOne();
+    }
+
+    @Override
+    public Integer sumOpponentWithTime(Long senderId, Long receiverId) {
+        return jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
+                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                meeting.startTime, meeting.endTime))
+                .from(meeting)
+                .where(meeting.sender.memberId.eq(senderId)
+                        .and(meeting.receiver.memberId.eq(receiverId)))
                 .fetchOne();
     }
 

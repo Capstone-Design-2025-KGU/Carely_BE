@@ -5,5 +5,7 @@ import univ.kgu.carely.domain.member.entity.Member;
 public interface CustomMeetingRepository {
     Boolean existsBySenderAndReceiverAndMeetingStatusIsAccept(Member sender, Member receiver);
 
-    Integer sumAllTime(Long memberId);
+    Integer sumAllWithTime(Long memberId);
+
+    Integer sumOpponentWithTime(Long my, Long opponent);
 }
