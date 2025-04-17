@@ -75,7 +75,7 @@ public class MemberController {
         return ResponseEntity.ok(verified);
     }
 
-    @PostMapping("/profile/my")
+    @GetMapping("/profile/my")
     @Operation(summary = "개인 정보 조회 API", description = "개인 정보 조회")
     public ResponseEntity<ResMemberPrivateInfoDTO> getPrivateInfo(@AuthenticationPrincipal(expression = "member") Member member){
         ResMemberPrivateInfoDTO privateInfo = memberService.getPrivateInfo(member);
