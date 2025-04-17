@@ -101,7 +101,7 @@ public class MemberController {
         return ResponseEntity.ok(publicInfo);
     }
 
-    @GetMapping("/")
+    @GetMapping("/recommend")
     @Operation(summary = "추천 이웃 정보 API", description = "이웃중 나와 잘 맞는 사람을 추천받는다.")
     public ResponseEntity<Page<ResMembersRecommendedDTO>> getRecommendedNeighbors(@PageableDefault Pageable pageable,
                                                                                   @AuthenticationPrincipal(expression = "member") Member member) {
