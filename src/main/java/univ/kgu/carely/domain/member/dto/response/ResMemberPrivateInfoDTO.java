@@ -44,6 +44,8 @@ public class ResMemberPrivateInfoDTO {
     private String profileImage;
     @Schema(description = "회원 생성 일시")
     private LocalDateTime createdAt;
+    @Schema(description = "요양 총 시간")
+    private Integer withTimeSum;
     @Schema(description = "회원 주소")
     private Address address;
     @Schema(description = "회원 보조 기술")
