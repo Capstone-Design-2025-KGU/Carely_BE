@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.meet.entity.MeetingStatus;
 import univ.kgu.carely.domain.meet.entity.QMeeting;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
@@ -204,7 +205,8 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                             meeting.startTime, meeting.endTime))
                     .from(meeting)
                     .where(meeting.sender.memberId.eq(opponentId)
-                            .and(meeting.receiver.memberId.eq(selfId)))
+                            .and(meeting.receiver.memberId.eq(selfId))
+                            .and(meeting.status.eq(MeetingStatus.FINISH)))
                     .fetchOne();
         } else {
             withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
@@ -212,7 +214,8 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                             meeting.startTime, meeting.endTime))
                     .from(meeting)
                     .where(meeting.receiver.memberId.eq(opponentId)
-                            .and(meeting.sender.memberId.eq(selfId)))
+                            .and(meeting.sender.memberId.eq(selfId))
+                            .and(meeting.status.eq(MeetingStatus.FINISH)))
                     .fetchOne();
         }
 
@@ -242,7 +245,8 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 member.skill))
                 .from(member)
                 .leftJoin(member.sendMeetings, meeting)
-                .where(member.memberId.eq(memberId))
+                .where(member.memberId.eq(memberId)
+                        .and(meeting.status.eq(MeetingStatus.FINISH)))
                 .fetchOne();
     }
 
