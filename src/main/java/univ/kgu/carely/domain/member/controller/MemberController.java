@@ -96,7 +96,7 @@ public class MemberController {
     @Operation(summary = "특정 멤버의 정보 API", description = "특정 멤버의 정보를 조회한다.")
     public ResponseEntity<ResMemberPublicInfoDTO> findMember(@PathVariable("memberId") Long memberId,
                                                              @AuthenticationPrincipal(expression = "member") Member member) {
-        ResMemberPublicInfoDTO publicInfo = memberService.getMemberPublicInfo(memberId);
+        ResMemberPublicInfoDTO publicInfo = memberService.getMemberPublicInfo(memberId, member);
 
         return ResponseEntity.ok(publicInfo);
     }

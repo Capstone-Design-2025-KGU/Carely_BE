@@ -1,10 +1,13 @@
 package univ.kgu.carely.domain.member.repository.impl;
 
+import static univ.kgu.carely.domain.meet.entity.QMeeting.meeting;
+
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.BooleanTemplate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberTemplate;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Objects;
@@ -13,9 +16,11 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.meet.entity.QMeeting;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.entity.QMember;
@@ -151,4 +156,63 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
         assert Objects.nonNull(total);
         return new PageImpl<>(resMembersRecommendedDTOS, pageable, total);
     }
+
+    @Override
+    public ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentId, Long selfId) {
+        ResMemberPublicInfoDTO resMemberPublicInfoDTO;
+
+        Member selfMember = jpaQueryFactory.select(Projections.fields(Member.class,
+                        Projections.fields(Address.class,
+                                member.address.location)
+                                .as("address"),
+                        member.memberType))
+                .from(member)
+                .where(member.memberId.eq(selfId))
+                .fetchOne();
+
+        JPAQuery<ResMemberPublicInfoDTO> query = jpaQueryFactory.select(
+                        Projections.fields(ResMemberPublicInfoDTO.class,
+                                member.memberId,
+                                member.username,
+                                member.name,
+                                member.birth,
+                                member.story,
+                                member.memberType,
+                                member.profileImage,
+                                member.createdAt,
+                                Expressions.numberTemplate(Double.class,
+                                        "ST_DISTANCE_SPHERE({0}, {1})",
+                                        selfMember.getAddress().getLocation(), member.address.location).as("distance"),
+                                Expressions.numberTemplate(Integer.class,
+                                                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                                                meeting.startTime, meeting.endTime)
+                                        .as("withTime"),
+                                Projections.fields(Address.class,
+                                                member.address.province,
+                                                member.address.city,
+                                                member.address.district,
+                                                member.address.details,
+                                                member.address.latitude,
+                                                member.address.longitude)
+                                        .as("address"),
+                                member.skill))
+                .from(member);
+
+        if(selfMember.getMemberType().equals(MemberType.FAMILY)) {
+            resMemberPublicInfoDTO = query.leftJoin(member.sendMeetings, meeting)
+                    .where(member.memberId.eq(opponentId)
+                            .and(meeting.receiver.memberId.eq(selfId)))
+                    .groupBy(meeting.sender)
+                    .fetchOne();
+        } else {
+            resMemberPublicInfoDTO = query.leftJoin(member.receiveMeetings, meeting)
+                    .where(member.memberId.eq(opponentId)
+                            .and(meeting.sender.memberId.eq(selfId)))
+                    .groupBy(meeting.receiver)
+                    .fetchOne();
+        }
+
+        return resMemberPublicInfoDTO;
+    }
+
 }

@@ -168,8 +168,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+    public ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentMemberId, Member self) {
+        Member member = memberRepository.findById(opponentMemberId).orElseThrow();
 
         if (!member.getIsVisible()) {
             throw new RuntimeException("해당 멤버는 비공개상태 입니다.");

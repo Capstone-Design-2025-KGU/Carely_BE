@@ -80,7 +80,7 @@ public interface MemberService {
      */
     ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member);
 
-    ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId);
+    ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentMemberId, Member self);
 
     ResMemberPublicInfoDTO toResMemberPublicInfoDTO(Member member);
 
