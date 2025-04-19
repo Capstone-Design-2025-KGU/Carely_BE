@@ -24,8 +24,6 @@ public class ResMemberPrivateInfoDTO {
     private Long memberId;
     @Schema(description = "회원 ID")
     private String username;
-    @Schema(description = "회원 비밀번호")
-    private String password;
     @Schema(description = "회원 이름")
     private String name;
     @Schema(description = "회원 전화번호")
@@ -44,6 +42,8 @@ public class ResMemberPrivateInfoDTO {
     private String profileImage;
     @Schema(description = "회원 생성 일시")
     private LocalDateTime createdAt;
+    @Schema(description = "요양 총 시간")
+    private Integer withTimeSum;
     @Schema(description = "회원 주소")
     private Address address;
     @Schema(description = "회원 보조 기술")

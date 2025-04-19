@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
@@ -21,6 +22,7 @@ import univ.kgu.carely.domain.common.enums.MemberType;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Schema(title = "멤버의 공개 정보 응답 DTO", description = "멤버의 공개된 정보를 응답할 때 사용하는 DTO")
 public class ResMemberPublicInfoDTO {
 
@@ -42,6 +44,8 @@ public class ResMemberPublicInfoDTO {
     private LocalDateTime createdAt;
     @Schema(description = "거리")
     private Double distance;
+    @Schema(description = "함께한 시간")
+    private Integer withTime;
     @Schema(description = "멤버 주소")
     private Address address;
     @Schema(description = "멤버 기술")

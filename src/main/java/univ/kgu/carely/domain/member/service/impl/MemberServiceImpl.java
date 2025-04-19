@@ -87,7 +87,6 @@ public class MemberServiceImpl implements MemberService {
         return ResMemberPrivateInfoDTO.builder()
                 .memberId(member.getMemberId())
                 .username(member.getUsername())
-                .password(member.getPassword())
                 .name(member.getName())
                 .phoneNumber(member.getPhoneNumber())
                 .birth(member.getBirth())
@@ -133,9 +132,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     public ResMemberPrivateInfoDTO getPrivateInfo(Member member){
-        member = memberRepository.findById(member.getMemberId()).orElseThrow();
-
-        return toResMemberPrivateInfoDTO(member);
+        return memberRepository.getMemberPrivateInfo(member.getMemberId());
     }
 
     @Override
@@ -168,30 +165,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemberPublicInfoDTO getMemberPublicInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+    public ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentMemberId, Member self) {
+        Member member = memberRepository.findById(opponentMemberId).orElseThrow();
 
         if (!member.getIsVisible()) {
             throw new RuntimeException("해당 멤버는 비공개상태 입니다.");
         }
 
-        return toResMemberPublicInfoDTO(member);
-    }
-
-    @Override
-    public ResMemberPublicInfoDTO toResMemberPublicInfoDTO(Member member) {
-        return ResMemberPublicInfoDTO.builder()
-                .memberId(member.getMemberId())
-                .username(member.getUsername())
-                .name(member.getName())
-                .birth(member.getBirth())
-                .story(member.getStory())
-                .memberType(member.getMemberType())
-                .profileImage(member.getProfileImage())
-                .createdAt(member.getCreatedAt())
-                .address(member.getAddress())
-                .skill(member.getSkill())
-                .build();
+        return memberRepository.getMemberPublicInfo(opponentMemberId, self.getMemberId());
     }
 
     @Override

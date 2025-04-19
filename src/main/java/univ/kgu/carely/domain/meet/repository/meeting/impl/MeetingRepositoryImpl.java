@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.meet.repository.meeting.impl;
 
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
