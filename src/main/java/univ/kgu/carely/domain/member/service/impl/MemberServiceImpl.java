@@ -87,7 +87,6 @@ public class MemberServiceImpl implements MemberService {
         return ResMemberPrivateInfoDTO.builder()
                 .memberId(member.getMemberId())
                 .username(member.getUsername())
-                .password(member.getPassword())
                 .name(member.getName())
                 .phoneNumber(member.getPhoneNumber())
                 .birth(member.getBirth())
@@ -133,9 +132,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     public ResMemberPrivateInfoDTO getPrivateInfo(Member member){
-        member = memberRepository.findById(member.getMemberId()).orElseThrow();
-
-        return toResMemberPrivateInfoDTO(member);
+        return memberRepository.getMemberPrivateInfo(member.getMemberId());
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
@@ -31,4 +32,6 @@ public interface CustomMemberRepository {
     Page<ResMembersRecommendedDTO> findRecommendedMembers(int meter, Member my, Pageable pageable);
 
     ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentId, Long selfId);
+
+    ResMemberPrivateInfoDTO getMemberPrivateInfo(Long memberId);
 }

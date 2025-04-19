@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.BooleanTemplate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberTemplate;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +19,7 @@ import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.meet.entity.QMeeting;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
+import univ.kgu.carely.domain.member.dto.response.ResMemberPrivateInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberPublicInfoDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
@@ -218,6 +218,32 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
 
         resMemberPublicInfoDTO.setWithTime(Objects.requireNonNullElse(withTime,0)); // 함께한 시간이 없는 경우 0으로 return
         return resMemberPublicInfoDTO;
+    }
+
+    @Override
+    public ResMemberPrivateInfoDTO getMemberPrivateInfo(Long memberId) {
+        return jpaQueryFactory.select(Projections.fields(ResMemberPrivateInfoDTO.class,
+                member.memberId,
+                member.username,
+                member.name,
+                member.phoneNumber,
+                member.birth,
+                member.story,
+                member.memberType,
+                member.isVisible,
+                member.isVerified,
+                member.profileImage,
+                member.createdAt,
+                Expressions.numberTemplate(Integer.class,
+                        "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                        meeting.startTime, meeting.endTime)
+                        .as("withTimeSum"),
+                member.address,
+                member.skill))
+                .from(member)
+                .leftJoin(member.sendMeetings, meeting)
+                .where(member.memberId.eq(memberId))
+                .fetchOne();
     }
 
 }

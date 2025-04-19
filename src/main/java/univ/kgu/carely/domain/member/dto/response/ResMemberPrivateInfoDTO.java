@@ -24,8 +24,6 @@ public class ResMemberPrivateInfoDTO {
     private Long memberId;
     @Schema(description = "회원 ID")
     private String username;
-    @Schema(description = "회원 비밀번호")
-    private String password;
     @Schema(description = "회원 이름")
     private String name;
     @Schema(description = "회원 전화번호")
