@@ -175,23 +175,7 @@ public class MemberServiceImpl implements MemberService {
             throw new RuntimeException("해당 멤버는 비공개상태 입니다.");
         }
 
-        return toResMemberPublicInfoDTO(member);
-    }
-
-    @Override
-    public ResMemberPublicInfoDTO toResMemberPublicInfoDTO(Member member) {
-        return ResMemberPublicInfoDTO.builder()
-                .memberId(member.getMemberId())
-                .username(member.getUsername())
-                .name(member.getName())
-                .birth(member.getBirth())
-                .story(member.getStory())
-                .memberType(member.getMemberType())
-                .profileImage(member.getProfileImage())
-                .createdAt(member.getCreatedAt())
-                .address(member.getAddress())
-                .skill(member.getSkill())
-                .build();
+        return memberRepository.getMemberPublicInfo(opponentMemberId, self.getMemberId());
     }
 
     @Override

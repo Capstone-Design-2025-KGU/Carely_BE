@@ -170,7 +170,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .where(member.memberId.eq(selfId))
                 .fetchOne();
 
-        JPAQuery<ResMemberPublicInfoDTO> query = jpaQueryFactory.select(
+        resMemberPublicInfoDTO = jpaQueryFactory.select(
                         Projections.fields(ResMemberPublicInfoDTO.class,
                                 member.memberId,
                                 member.username,
@@ -183,10 +183,6 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                 Expressions.numberTemplate(Double.class,
                                         "ST_DISTANCE_SPHERE({0}, {1})",
                                         selfMember.getAddress().getLocation(), member.address.location).as("distance"),
-                                Expressions.numberTemplate(Integer.class,
-                                                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
-                                                meeting.startTime, meeting.endTime)
-                                        .as("withTime"),
                                 Projections.fields(Address.class,
                                                 member.address.province,
                                                 member.address.city,
@@ -196,22 +192,31 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                                 member.address.longitude)
                                         .as("address"),
                                 member.skill))
-                .from(member);
+                .from(member)
+                .where(member.memberId.eq(opponentId))
+                .fetchOne();
+
+        Integer withTime;
 
         if(selfMember.getMemberType().equals(MemberType.FAMILY)) {
-            resMemberPublicInfoDTO = query.leftJoin(member.sendMeetings, meeting)
-                    .where(member.memberId.eq(opponentId)
+            withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
+                            "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                            meeting.startTime, meeting.endTime))
+                    .from(meeting)
+                    .where(meeting.sender.memberId.eq(opponentId)
                             .and(meeting.receiver.memberId.eq(selfId)))
-                    .groupBy(meeting.sender)
                     .fetchOne();
         } else {
-            resMemberPublicInfoDTO = query.leftJoin(member.receiveMeetings, meeting)
-                    .where(member.memberId.eq(opponentId)
+            withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
+                            "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                            meeting.startTime, meeting.endTime))
+                    .from(meeting)
+                    .where(meeting.receiver.memberId.eq(opponentId)
                             .and(meeting.sender.memberId.eq(selfId)))
-                    .groupBy(meeting.receiver)
                     .fetchOne();
         }
 
+        resMemberPublicInfoDTO.setWithTime(Objects.requireNonNullElse(withTime,0)); // 함께한 시간이 없는 경우 0으로 return
         return resMemberPublicInfoDTO;
     }
 
