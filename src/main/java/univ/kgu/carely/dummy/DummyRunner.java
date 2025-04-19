@@ -1,12 +1,12 @@
 package univ.kgu.carely.dummy;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 @Profile("default")
 @RequiredArgsConstructor
 public class DummyRunner {
@@ -20,18 +20,16 @@ public class DummyRunner {
     private final CommentDummy commentDummy;
     private final MeetingDummy meetingDummy;
 
-    @Bean
-    public CommandLineRunner runner() {
-        return args -> {
-            memberDummy.makeMember();
-            teamDummy.makeTeam();
-            teamMateDummy.makeTeamMate();
-            chatRoomDummy.makeChatRoom();
-            chatMemberDummy.makeChatMember();
-            postDummy.makePost();
-            commentDummy.makeComment();
-            meetingDummy.makeMeeting();
-        };
+    @EventListener(ApplicationReadyEvent.class)
+    public void runner() {
+        memberDummy.makeMember();
+        teamDummy.makeTeam();
+        teamMateDummy.makeTeamMate();
+        chatRoomDummy.makeChatRoom();
+        chatMemberDummy.makeChatMember();
+        postDummy.makePost();
+        commentDummy.makeComment();
+        meetingDummy.makeMeeting();
     }
 
 }
