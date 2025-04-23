@@ -75,7 +75,7 @@ public class MemberController {
         return ResponseEntity.ok(verified);
     }
 
-    @PostMapping("/profile/my")
+    @GetMapping("/profile/my")
     @Operation(summary = "개인 정보 조회 API", description = "개인 정보 조회")
     public ResponseEntity<ResMemberPrivateInfoDTO> getPrivateInfo(@AuthenticationPrincipal(expression = "member") Member member){
         ResMemberPrivateInfoDTO privateInfo = memberService.getPrivateInfo(member);
@@ -96,12 +96,12 @@ public class MemberController {
     @Operation(summary = "특정 멤버의 정보 API", description = "특정 멤버의 정보를 조회한다.")
     public ResponseEntity<ResMemberPublicInfoDTO> findMember(@PathVariable("memberId") Long memberId,
                                                              @AuthenticationPrincipal(expression = "member") Member member) {
-        ResMemberPublicInfoDTO publicInfo = memberService.getMemberPublicInfo(memberId);
+        ResMemberPublicInfoDTO publicInfo = memberService.getMemberPublicInfo(memberId, member);
 
         return ResponseEntity.ok(publicInfo);
     }
 
-    @GetMapping("/")
+    @GetMapping("/recommend")
     @Operation(summary = "추천 이웃 정보 API", description = "이웃중 나와 잘 맞는 사람을 추천받는다.")
     public ResponseEntity<Page<ResMembersRecommendedDTO>> getRecommendedNeighbors(@PageableDefault Pageable pageable,
                                                                                   @AuthenticationPrincipal(expression = "member") Member member) {
