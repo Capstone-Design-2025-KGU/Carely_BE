@@ -89,7 +89,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 my.getAddress().getLocation(), meter, member.address.location);
 
         // FAMILY인 경우 약속을 받기만 가능함.
-        if(my.getMemberType().equals(MemberType.FAMILY)){
+        if (my.getMemberType().equals(MemberType.FAMILY)) {
             BooleanExpression findNearbyVisibleNotFamilyType = member.isVisible
                     .and(member.isVerified)
                     .and(mt.receiver.eq(my)
@@ -164,7 +164,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
 
         Member selfMember = jpaQueryFactory.select(Projections.fields(Member.class,
                         Projections.fields(Address.class,
-                                member.address.location)
+                                        member.address.location)
                                 .as("address"),
                         member.memberType))
                 .from(member)
@@ -199,7 +199,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
 
         Integer withTime;
 
-        if(selfMember.getMemberType().equals(MemberType.FAMILY)) {
+        if (selfMember.getMemberType().equals(MemberType.FAMILY)) {
             withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
                             "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
                             meeting.startTime, meeting.endTime))
@@ -219,35 +219,40 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                     .fetchOne();
         }
 
-        resMemberPublicInfoDTO.setWithTime(Objects.requireNonNullElse(withTime,0)); // 함께한 시간이 없는 경우 0으로 return
+        resMemberPublicInfoDTO.setWithTime(Objects.requireNonNullElse(withTime, 0)); // 함께한 시간이 없는 경우 0으로 return
         return resMemberPublicInfoDTO;
     }
 
     @Override
     public ResMemberPrivateInfoDTO getMemberPrivateInfo(Long memberId) {
-        return jpaQueryFactory.select(Projections.fields(ResMemberPrivateInfoDTO.class,
-                member.memberId,
-                member.username,
-                member.name,
-                member.phoneNumber,
-                member.birth,
-                member.story,
-                member.memberType,
-                member.isVisible,
-                member.isVerified,
-                member.profileImage,
-                member.createdAt,
-                Expressions.numberTemplate(Integer.class,
-                        "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
-                        meeting.startTime, meeting.endTime)
-                        .as("withTimeSum"),
-                member.address,
-                member.skill))
+        ResMemberPrivateInfoDTO dto = jpaQueryFactory.select(Projections.fields(ResMemberPrivateInfoDTO.class,
+                        member.memberId,
+                        member.username,
+                        member.name,
+                        member.phoneNumber,
+                        member.birth,
+                        member.story,
+                        member.memberType,
+                        member.isVisible,
+                        member.isVerified,
+                        member.profileImage,
+                        member.createdAt,
+                        Expressions.numberTemplate(Integer.class,
+                                        "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                                        meeting.startTime, meeting.endTime)
+                                .as("withTimeSum"),
+                        member.address,
+                        member.skill))
                 .from(member)
                 .leftJoin(member.sendMeetings, meeting)
                 .where(member.memberId.eq(memberId)
-                        .and(meeting.status.eq(MeetingStatus.FINISH)))
+                        .and(meeting.status.eq(MeetingStatus.FINISH)
+                                .or(meeting.isNull())))
                 .fetchOne();
+        if (Objects.isNull(dto.getWithTimeSum())) {
+            dto.setWithTimeSum(0);
+        }
+        return dto;
     }
 
 }
