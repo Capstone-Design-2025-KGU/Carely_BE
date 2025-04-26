@@ -237,21 +237,24 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                         member.isVerified,
                         member.profileImage,
                         member.createdAt,
-                        Expressions.numberTemplate(Integer.class,
-                                        "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
-                                        meeting.startTime, meeting.endTime)
-                                .as("withTimeSum"),
                         member.address,
                         member.skill))
                 .from(member)
                 .leftJoin(member.sendMeetings, meeting)
-                .where(member.memberId.eq(memberId)
-                        .and(meeting.status.eq(MeetingStatus.FINISH)
-                                .or(meeting.isNull())))
+                .where(member.memberId.eq(memberId))
                 .fetchOne();
-        if (Objects.isNull(dto.getWithTimeSum())) {
-            dto.setWithTimeSum(0);
-        }
+
+        Integer withTimeSum = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
+                                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                                meeting.startTime, meeting.endTime)
+                        .as("withTimeSum"))
+                .from(meeting)
+                .where(meeting.sender.memberId.eq(memberId))
+                .groupBy(meeting.sender)
+                .fetchOne();
+
+        dto.setWithTimeSum(Objects.requireNonNullElse(withTimeSum, 0));
+
         return dto;
     }
 
