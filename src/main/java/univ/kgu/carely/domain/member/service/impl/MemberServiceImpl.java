@@ -16,7 +16,7 @@ import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
 import univ.kgu.carely.domain.common.embeded.address.util.AddressMapper;
-import univ.kgu.carely.domain.common.embeded.skill.SkillMapper;
+import univ.kgu.carely.domain.common.embeded.skill.util.SkillMapper;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
