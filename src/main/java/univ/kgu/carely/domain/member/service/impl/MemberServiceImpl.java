@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public Skill updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO) {
-        member = memberRepository.findById(member.getMemberId()).orElseThrow();
+        member = memberRepository.getReferenceById(member.getMemberId());
 
         Skill skill = skillMapper.toEntity(reqUpdateSkillDTO);
         member.setSkill(skill);
