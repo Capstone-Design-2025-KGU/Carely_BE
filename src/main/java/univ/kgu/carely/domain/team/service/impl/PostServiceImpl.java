@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
@@ -23,11 +24,12 @@ import univ.kgu.carely.domain.team.service.PostService;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final MemberService memberService;
     private final CommentService commentService;
     private final PostRepository postRepository;
     private final TeamRepository teamRepository;
     private final TeamMateRepository teamMateRepository;
+
+    private final MemberMapper memberMapper;
 
     @Override
     @Transactional
@@ -70,7 +72,7 @@ public class PostServiceImpl implements PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .createdAt(post.getCreatedAt())
-                .writer(memberService.toResMemberSmallInfoDTO(post.getMember()))
+                .writer(memberMapper.toResMemberSmallInfoDto(post.getMember()))
                 .resCommentDTOS(post.getComments().stream().map(commentService::toResCommentDTO).toList())
                 .build();
     }

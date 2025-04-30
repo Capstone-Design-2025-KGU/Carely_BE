@@ -12,14 +12,17 @@ import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MemoryService;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
 public class MemoryServiceImpl implements MemoryService {
 
     public static final String NOT_EXIST_MEMORY_EXCEPTION_MESSAGE = "존재하지 않는 방명록입니다.";
-    private final MemberService memberService;
+
     private final MemoryRepository memoryRepository;
+
+    private final MemberMapper memberMapper;
 
     @Override
     @Transactional
@@ -73,8 +76,8 @@ public class MemoryServiceImpl implements MemoryService {
                 .receiverMemo(memory.getReceiverMemo())
                 .createdAt(memory.getCreatedAt())
                 .updatedAt(memory.getUpdatedAt())
-                .sender(memberService.toResMemberSmallInfoDTO(memory.getSender()))
-                .receiver(memberService.toResMemberSmallInfoDTO(memory.getReceiver()))
+                .sender(memberMapper.toResMemberSmallInfoDto(memory.getSender()))
+                .receiver(memberMapper.toResMemberSmallInfoDto(memory.getReceiver()))
                 .meetingId(memory.getMeeting().getId())
                 .build();
     }

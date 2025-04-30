@@ -17,6 +17,7 @@ import univ.kgu.carely.domain.meet.service.MeetingService;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +26,12 @@ public class MeetingServiceImpl implements MeetingService {
     public static final String NOT_EXIST_MEETING_EXCEPTION_MESSAGE = "해당 약속이 존재하지 않습니다.";
     public static final String NOT_YOUR_MEETING_EXCEPTION_MESSAGE = "본인이 포함된 약속이 아닙니다.";
 
-    private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
     private final MemoryRepository memoryRepository;
     private final MemoRepository memoRepository;
+
+    private final MemberMapper memberMapper;
 
     @Override
     @Transactional
@@ -208,8 +210,8 @@ public class MeetingServiceImpl implements MeetingService {
                 .status(meeting.getStatus())
                 .createdAt(meeting.getCreatedAt())
                 .updatedAt(meeting.getUpdatedAt())
-                .sender(memberService.toResMemberSmallInfoDTO(meeting.getSender()))
-                .receiver(memberService.toResMemberSmallInfoDTO(meeting.getReceiver()))
+                .sender(memberMapper.toResMemberSmallInfoDto(meeting.getSender()))
+                .receiver(memberMapper.toResMemberSmallInfoDto(meeting.getReceiver()))
                 .build();
         if (!meeting.getStatus().equals(MeetingStatus.PENDING)) {
             resMeeting.setAddress(meeting.getReceiver().getAddress());

@@ -39,11 +39,13 @@ public class MemberServiceImpl implements MemberService {
     private static final int SEARCH_RANGE = 2000;
 
     private final MemberRepository memberRepository;
-    private final BCryptPasswordEncoder encoder;
-    private final GeometryFactory gf;
+
     private final AddressMapper addressMapper;
     private final MemberMapper memberMapper;
     private final SkillMapper skillMapper;
+
+    private final BCryptPasswordEncoder encoder;
+    private final GeometryFactory gf;
 
     @Override
     @Transactional(readOnly = true)
@@ -117,17 +119,6 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return skill;
-    }
-
-    @Override
-    public ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member) {
-        return ResMemberSmallInfoDTO.builder()
-                .memberId(member.getMemberId())
-                .username(member.getUsername())
-                .name(member.getName())
-                .memberType(member.getMemberType())
-                .profileImage(member.getProfileImage())
-                .build();
     }
 
     @Override

@@ -73,14 +73,6 @@ public interface MemberService {
      */
     Skill updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO);
 
-    /**
-     * ResMemberSmallInfoDTO 로 변환한다.
-     *
-     * @param member 간단한 정보만 담으려고 하는 member
-     * @return 간단한 정보가 담긴 ResMemberSmallInfoDTO
-     */
-    ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member);
-
     ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentMemberId, Member self);
 
     Page<ResMembersRecommendedDTO> getRecommendedNeighbors(Pageable pageable, Member member);

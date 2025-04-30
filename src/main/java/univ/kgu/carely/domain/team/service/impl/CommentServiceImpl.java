@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 import univ.kgu.carely.domain.team.dto.request.ReqCommentDTO;
 import univ.kgu.carely.domain.team.dto.response.ResCommentDTO;
 import univ.kgu.carely.domain.team.entity.Comment;
@@ -19,10 +20,11 @@ import univ.kgu.carely.domain.team.service.CommentService;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private final MemberService memberService;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final TeamMateRepository teamMateRepository;
+
+    private final MemberMapper memberMapper;
 
     @Override
     @Transactional
@@ -67,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
                 .commentId(comment.getCommentId())
                 .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
-                .writer(memberService.toResMemberSmallInfoDTO(comment.getMember()))
+                .writer(memberMapper.toResMemberSmallInfoDto(comment.getMember()))
                 .build();
     }
 
