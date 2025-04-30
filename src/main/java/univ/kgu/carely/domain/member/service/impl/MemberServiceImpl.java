@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.common.embeded.Skill;
 import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
+import univ.kgu.carely.domain.common.embeded.address.util.AddressMapper;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
@@ -26,6 +27,7 @@ import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Slf4j
 @Service
@@ -38,6 +40,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder encoder;
     private final GeometryFactory gf;
+    private final AddressMapper addressMapper;
+    private final MemberMapper memberMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -54,51 +58,17 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public ResMemberPrivateInfoDTO createMember(ReqMemberCreateDTO reqMemberCreateDTO) {
         ReqAddressDTO address = reqMemberCreateDTO.getAddress();
-        Address fullAddress = Address.builder()
-                .province(address.getProvince())
-                .city(address.getCity())
-                .district(address.getDistrict())
-                .details(address.getDetails())
-                .latitude(address.getLatitude())
-                .longitude(address.getLongitude())
-                .location(gf.createPoint(new Coordinate(address.getLongitude().doubleValue(),
-                        address.getLatitude().doubleValue())))
-                .build();
+        Address fullAddress = addressMapper.toEntity(address);
+        fullAddress.setLocation(gf.createPoint(
+                new Coordinate(address.getLongitude().doubleValue(), address.getLatitude().doubleValue())));
 
-        Member member = Member.builder()
-                .username(reqMemberCreateDTO.getUsername())
-                .password(encoder.encode(reqMemberCreateDTO.getPassword()))
-                .name(reqMemberCreateDTO.getName())
-                .phoneNumber(reqMemberCreateDTO.getPhoneNumber())
-                .birth(reqMemberCreateDTO.getBirth())
-                .story(reqMemberCreateDTO.getStory())
-                .memberType(reqMemberCreateDTO.getMemberType())
-                .isVisible(reqMemberCreateDTO.getIsVisible())
-                .address(fullAddress)
-                .skill(reqMemberCreateDTO.getSkill())
-                .build();
+        Member member = memberMapper.toEntity(reqMemberCreateDTO);
+        member.setPassword(encoder.encode(reqMemberCreateDTO.getPassword()));
+        member.setAddress(fullAddress);
 
         Member save = memberRepository.save(member);
 
-        return toResMemberPrivateInfoDTO(save);
-    }
-
-    private ResMemberPrivateInfoDTO toResMemberPrivateInfoDTO(Member member) {
-        return ResMemberPrivateInfoDTO.builder()
-                .memberId(member.getMemberId())
-                .username(member.getUsername())
-                .name(member.getName())
-                .phoneNumber(member.getPhoneNumber())
-                .birth(member.getBirth())
-                .story(member.getStory())
-                .memberType(member.getMemberType())
-                .isVisible(member.getIsVisible())
-                .isVerified(member.getIsVerified())
-                .profileImage(member.getProfileImage())
-                .createdAt(member.getCreatedAt())
-                .address(member.getAddress())
-                .skill(member.getSkill())
-                .build();
+        return memberMapper.toResMemberPrivateInfoDto(save);
     }
 
     @Override
@@ -131,7 +101,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemberPrivateInfoDTO getPrivateInfo(Member member){
+    public ResMemberPrivateInfoDTO getPrivateInfo(Member member) {
         return memberRepository.getMemberPrivateInfo(member.getMemberId());
     }
 
@@ -180,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
     public Page<ResMembersRecommendedDTO> getRecommendedNeighbors(Pageable pageable, Member member) {
         member = memberRepository.findById(member.getMemberId()).orElseThrow();
 
-        return memberRepository.findRecommendedMembers(SEARCH_RANGE,member,pageable);
+        return memberRepository.findRecommendedMembers(SEARCH_RANGE, member, pageable);
     }
 
 }
