@@ -25,7 +25,7 @@ public interface CommentService {
      * @param commentId     수정하려고 하는 댓글 ID
      * @return 댓글 수정 성공 여부
      */
-    Boolean updateComment(Member member, ReqCommentDTO reqCommentDTO, Long commentId);
+    ResCommentDTO updateComment(Member member, ReqCommentDTO reqCommentDTO, Long commentId);
 
     /**
      * 댓글을 삭제한다.
@@ -35,12 +35,4 @@ public interface CommentService {
      * @return 댓글 삭제 성공 여부
      */
     Boolean deleteComment(Member member, Long commentId);
-
-    /**
-     * 댓글을 응답용 DTO로 변환한다.
-     *
-     * @param comment 변환하려고 하는 댓글 엔티티
-     * @return 변환된 DTO
-     */
-    ResCommentDTO toResCommentDTO(Comment comment);
 }

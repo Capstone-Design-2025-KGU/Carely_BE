@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
-import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.team.dto.request.ReqCreateTeamDTO;
 import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 import univ.kgu.carely.domain.team.entity.Team;
@@ -16,6 +15,7 @@ import univ.kgu.carely.domain.team.entity.TeamRole;
 import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
 import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 import univ.kgu.carely.domain.team.service.TeamService;
+import univ.kgu.carely.domain.team.util.TeamMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -27,15 +27,14 @@ public class TeamServiceImpl implements TeamService {
     private final TeamMateRepository teamMateRepository;
     private final MemberRepository memberRepository;
 
+    private final TeamMapper teamMapper;
+
     @Override
     @Transactional
-    public Boolean createTeam(Member member, ReqCreateTeamDTO reqCreateTeamDTO) {
-        Team team = Team.builder()
-                .teamName(reqCreateTeamDTO.getTeamName())
-                .address(reqCreateTeamDTO.getAddress())
-                .build();
+    public ResTeamOutlineDTO createTeam(Member member, ReqCreateTeamDTO reqCreateTeamDTO) {
+        Team team = teamMapper.toEntity(reqCreateTeamDTO);
 
-        teamRepository.save(team);
+        team = teamRepository.save(team);
 
         TeamMate teamMate = TeamMate.builder()
                 .member(member)
@@ -45,7 +44,8 @@ public class TeamServiceImpl implements TeamService {
 
         teamMateRepository.save(teamMate);
 
-        return true;
+        return teamMapper.toResTeamOutlineDto(team
+        );
     }
 
     @Override

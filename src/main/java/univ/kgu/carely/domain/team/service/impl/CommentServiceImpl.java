@@ -15,6 +15,7 @@ import univ.kgu.carely.domain.team.repository.comment.CommentRepository;
 import univ.kgu.carely.domain.team.repository.post.PostRepository;
 import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
+import univ.kgu.carely.domain.team.util.CommentMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final TeamMateRepository teamMateRepository;
 
-    private final MemberMapper memberMapper;
+    private final CommentMapper commentMapper;
 
     @Override
     @Transactional
@@ -50,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Boolean updateComment(Member member, ReqCommentDTO reqCommentDTO, Long commentId) {
+    public ResCommentDTO updateComment(Member member, ReqCommentDTO reqCommentDTO, Long commentId) {
         Comment comment = commentRepository.getReferenceById(commentId);
 
         if (!comment.getMember().getMemberId().equals(member.getMemberId())) {
@@ -60,17 +61,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setContent(reqCommentDTO.getContent());
         commentRepository.save(comment);
 
-        return true;
-    }
-
-    @Override
-    public ResCommentDTO toResCommentDTO(Comment comment) {
-        return ResCommentDTO.builder()
-                .commentId(comment.getCommentId())
-                .content(comment.getContent())
-                .createdAt(comment.getCreatedAt())
-                .writer(memberMapper.toResMemberSmallInfoDto(comment.getMember()))
-                .build();
+        return commentMapper.toResCommentDto(comment);
     }
 
     @Override
