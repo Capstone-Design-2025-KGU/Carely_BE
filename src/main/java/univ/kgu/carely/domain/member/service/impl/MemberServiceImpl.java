@@ -16,6 +16,7 @@ import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
 import univ.kgu.carely.domain.common.embeded.address.util.AddressMapper;
+import univ.kgu.carely.domain.common.embeded.skill.SkillMapper;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
@@ -42,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
     private final GeometryFactory gf;
     private final AddressMapper addressMapper;
     private final MemberMapper memberMapper;
+    private final SkillMapper skillMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -107,19 +109,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public Boolean updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO) {
+    public Skill updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO) {
         member = memberRepository.findById(member.getMemberId()).orElseThrow();
 
-        Skill skill = member.getSkill();
-        skill.setCommunication(reqUpdateSkillDTO.getCommunication());
-        skill.setMeal(reqUpdateSkillDTO.getMeal());
-        skill.setToilet(reqUpdateSkillDTO.getToilet());
-        skill.setBath(reqUpdateSkillDTO.getBath());
-        skill.setWalk(reqUpdateSkillDTO.getWalk());
-
+        Skill skill = skillMapper.toEntity(reqUpdateSkillDTO);
+        member.setSkill(skill);
         memberRepository.save(member);
 
-        return true;
+        return skill;
     }
 
     @Override
