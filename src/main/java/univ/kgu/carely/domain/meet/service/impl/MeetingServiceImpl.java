@@ -14,6 +14,7 @@ import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
 import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MeetingService;
+import univ.kgu.carely.domain.meet.util.MeetingMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -32,11 +33,12 @@ public class MeetingServiceImpl implements MeetingService {
     private final MemoRepository memoRepository;
 
     private final MemberMapper memberMapper;
+    private final MeetingMapper meetingMapper;
 
     @Override
     @Transactional
-    public ResMeetingDTO createMeeting(Member member, Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
-        if (member.getMemberId().equals(opponentMemberId)) {
+    public ResMeetingDTO createMeeting(Member self, Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
+        if (self.getMemberId().equals(opponentMemberId)) {
             throw new RuntimeException("본인에게 약속을 요청할 수 없습니다.");
         }
 
@@ -48,17 +50,10 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("시작시간은 현재 시간 이후부터 설정이 가능합니다.");
         }
 
-        Member opponentMember = memberRepository.findById(opponentMemberId).orElseThrow(() ->
+        Member receiver = memberRepository.findById(opponentMemberId).orElseThrow(() ->
                 new RuntimeException("상대방이 존재하지 않습니다."));
 
-        Meeting meeting = Meeting.builder()
-                .startTime(reqMeetingCreateDTO.getStartTime())
-                .endTime(reqMeetingCreateDTO.getEndTime())
-                .chore(reqMeetingCreateDTO.getChore())
-                .status(MeetingStatus.PENDING)
-                .sender(member)
-                .receiver(opponentMember)
-                .build();
+        Meeting meeting = meetingMapper.toEntity(reqMeetingCreateDTO, self, receiver);
 
         Meeting save = meetingRepository.save(meeting);
 
