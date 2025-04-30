@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.meet.util;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import univ.kgu.carely.domain.meet.dto.request.ReqMeetingCreateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
@@ -17,6 +18,9 @@ public interface MeetingMapper {
     @Mapping(target = "memos", ignore = true)
     @Mapping(target = "status", constant = "PENDING")
     Meeting toEntity(ReqMeetingCreateDTO dto, Member sender, Member receiver);
+
+    @Mapping(target = "status", constant = "PENDING")
+    Meeting updateEntity(@MappingTarget Meeting meeting, ReqMeetingCreateDTO dto);
 
     @Mapping(target = "meetingId", source = "id")
     ResMeetingDTO toResMeetingDto(Meeting meeting);

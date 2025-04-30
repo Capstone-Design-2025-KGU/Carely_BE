@@ -15,6 +15,8 @@ import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MeetingService;
 import univ.kgu.carely.domain.meet.util.MeetingMapper;
+import univ.kgu.carely.domain.meet.util.MemoMapper;
+import univ.kgu.carely.domain.meet.util.MemoryMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
@@ -32,8 +34,9 @@ public class MeetingServiceImpl implements MeetingService {
     private final MemoryRepository memoryRepository;
     private final MemoRepository memoRepository;
 
-    private final MemberMapper memberMapper;
     private final MeetingMapper meetingMapper;
+    private final MemoryMapper memoryMapper;
+    private final MemoMapper memoMapper;
 
     @Override
     @Transactional
@@ -87,11 +90,7 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setStatus(MeetingStatus.ACCEPT);
         Meeting save = meetingRepository.save(meeting);
 
-        Memo memo = Memo.builder()
-                .member(member)
-                .writer(meeting.getSender())
-                .meeting(save)
-                .build();
+        Memo memo = memoMapper.toEntity(save);
 
         memoRepository.save(memo);
 
@@ -112,10 +111,7 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("끝난 약속은 수정할 수 없습니다.");
         }
 
-        meeting.setStatus(MeetingStatus.PENDING);
-        meeting.setStartTime(reqMeetingCreateDTO.getStartTime());
-        meeting.setEndTime(reqMeetingCreateDTO.getEndTime());
-        meeting.setChore(reqMeetingCreateDTO.getChore());
+        meetingMapper.updateEntity(meeting, reqMeetingCreateDTO);
 
         Meeting save = meetingRepository.save(meeting);
 
@@ -184,18 +180,13 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setStatus(MeetingStatus.FINISH);
         Meeting save = meetingRepository.save(meeting);
 
-        Memory memory = Memory.builder()
-                .sender(meeting.getSender())
-                .receiver(meeting.getReceiver())
-                .meeting(save)
-                .build();
+        Memory memory = memoryMapper.toEntity(meeting);
 
         memoryRepository.save(memory);
 
         return toResMeetingDTO(save);
     }
 
-    @Override
     public ResMeetingDTO toResMeetingDTO(Meeting meeting) {
         ResMeetingDTO resMeeting = meetingMapper.toResMeetingDto(meeting);
         if (!meeting.getStatus().equals(MeetingStatus.PENDING)) {
