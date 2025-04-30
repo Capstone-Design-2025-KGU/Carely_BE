@@ -197,17 +197,7 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public ResMeetingDTO toResMeetingDTO(Meeting meeting) {
-        ResMeetingDTO resMeeting = ResMeetingDTO.builder()
-                .meetingId(meeting.getId())
-                .startTime(meeting.getStartTime())
-                .endTime(meeting.getEndTime())
-                .chore(meeting.getChore())
-                .status(meeting.getStatus())
-                .createdAt(meeting.getCreatedAt())
-                .updatedAt(meeting.getUpdatedAt())
-                .sender(memberMapper.toResMemberSmallInfoDto(meeting.getSender()))
-                .receiver(memberMapper.toResMemberSmallInfoDto(meeting.getReceiver()))
-                .build();
+        ResMeetingDTO resMeeting = meetingMapper.toResMeetingDto(meeting);
         if (!meeting.getStatus().equals(MeetingStatus.PENDING)) {
             resMeeting.setAddress(meeting.getReceiver().getAddress());
         }
