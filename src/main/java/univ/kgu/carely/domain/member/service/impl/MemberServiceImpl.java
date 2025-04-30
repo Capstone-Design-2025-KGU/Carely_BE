@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import univ.kgu.carely.domain.common.embeded.Skill;
+import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.common.embeded.address.Address;
 import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
 import univ.kgu.carely.domain.common.embeded.address.util.AddressMapper;
