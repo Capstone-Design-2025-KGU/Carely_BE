@@ -47,6 +47,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .sender(sender)
                 .chatRoom(room)
                 .content(request.getContent())
+                .meetingId(request.getMeetingId())
                 .messageType(request.getMessageType())
                 .build();
 

@@ -22,6 +22,8 @@ public class ChatMessageRequest {
     @Schema(description = "메세지 내용", example = "안녕하세요?")
     private String content;
 
+    private Long meetingId;
+
     @Schema(description = "메세지 타입", example = "CHAT")
     private MessageType messageType;
 }

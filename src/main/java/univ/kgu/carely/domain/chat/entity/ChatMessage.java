@@ -29,7 +29,10 @@ public class ChatMessage {
 
     private String content;
 
+    @Enumerated(EnumType.STRING)
     private MessageType messageType;
+
+    private Long meetingId;
 
     @CreationTimestamp
     @Column(name = "created_at")

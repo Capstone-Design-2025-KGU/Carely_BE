@@ -24,6 +24,8 @@ public class ChatMessageResponse {
     @Schema(description = "메시지 내용", example = "안녕하세요?")
     private String content;
 
+    private Long meetingId;
+
     @Schema(description = "메시지 타입", example = "CHAT")
     private MessageType messageType;
 
@@ -35,6 +37,7 @@ public class ChatMessageResponse {
                 .senderId(chatMessage.getSender().getMemberId())
                 .chatroomId(chatMessage.getChatRoom().getId())
                 .content(chatMessage.getContent())
+                .meetingId(chatMessage.getMeetingId())
                 .messageType(chatMessage.getMessageType())
                 .createdAt(chatMessage.getCreatedAt())
                 .build();
