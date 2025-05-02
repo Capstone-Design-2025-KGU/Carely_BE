@@ -63,6 +63,9 @@ dependencies {
 
 	// Hibernate
 	implementation 'org.hibernate:hibernate-spatial:6.6.1.Final'
+
+	// WebClient
+	implementation 'org.springframework.boot:spring-boot-starter-webflux:3.3.1'
 }
 
 tasks.named('test') {
