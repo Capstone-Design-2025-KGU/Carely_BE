@@ -44,19 +44,18 @@ public class TeamServiceImpl implements TeamService {
 
         teamMateRepository.save(teamMate);
 
-        return teamMapper.toResTeamOutlineDto(team
-        );
+        return teamMapper.toResTeamOutlineDto(team);
     }
 
     @Override
     @Transactional
     public Boolean joinTeam(Member member, Long teamId) {
-        Team team = teamRepository.findById(teamId).orElseThrow(()->
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new RuntimeException("해당 그룹이 존재하지 않습니다."));
 
         Boolean alreadyExist = teamMateRepository.existsByTeamAndMember(team, member);
 
-        if(alreadyExist){
+        if (alreadyExist) {
             return false;
         }
 
@@ -76,10 +75,10 @@ public class TeamServiceImpl implements TeamService {
     public Boolean exitTeam(Member member, Long teamId) {
         Team team = teamRepository.getReferenceById(teamId);
 
-        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(()->
+        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(() ->
                 new RuntimeException("소속이 아닌 그룹을 탈퇴할 수 없습니다."));
 
-        if(teamMate.getRole().equals(TeamRole.LEADER)){
+        if (teamMate.getRole().equals(TeamRole.LEADER)) {
             throw new RuntimeException("그룹장은 그룹을 탈퇴할 수 없습니다.");
         }
 
@@ -93,10 +92,10 @@ public class TeamServiceImpl implements TeamService {
     public Boolean closeTeam(Member member, Long teamId) {
         Team team = teamRepository.getReferenceById(teamId);
 
-        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(()->
+        TeamMate teamMate = teamMateRepository.findByTeamAndMember(team, member).orElseThrow(() ->
                 new RuntimeException("소속이 아닌 그룹을 탈퇴할 수 없습니다."));
 
-        if(!teamMate.getRole().equals(TeamRole.LEADER)){
+        if (!teamMate.getRole().equals(TeamRole.LEADER)) {
             throw new RuntimeException("그룹장만 그룹을 해체할 수 있습니다.");
         }
 
