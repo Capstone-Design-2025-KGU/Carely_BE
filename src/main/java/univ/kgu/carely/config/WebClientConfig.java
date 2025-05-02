@@ -12,7 +12,7 @@ public class WebClientConfig {
     @Bean
     public WebClient webClient(WebClient.Builder builder) {
         return builder
-                .baseUrl("https://localhost:6789/api/summarization")
+                .baseUrl("https://localhost:6789")
                 .defaultHeaders(httpHeaders -> {
                     httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
                 })
