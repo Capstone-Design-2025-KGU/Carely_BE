@@ -5,10 +5,10 @@ spring:
     name: carely
     version: 0.0.1
   datasource:
-    driver-class-name: ${DB_DRIVER_CLASS_NAME}
-    url: ${DB_URL_CARELY}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL_CARELY:jdbc:mysql://localhost:3306/carely}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:1234}
   jpa:
     properties:
       hibernate:
@@ -18,9 +18,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-  config:
-    import:
-      file:.env[.properties]
+#  config:
+#    import:
+#      file:.env[.properties]
   profiles:
     active:
       - default

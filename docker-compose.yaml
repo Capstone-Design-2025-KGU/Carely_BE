@@ -1,0 +1,22 @@
+version: "0.0.1"
+services:
+  app:
+    container_name: carely_be
+    image: carely_be
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_started
+  db:
+    image: mysql:8.0.40
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: $${MYSQL_ROOT_PASSWORD:=1234}
+      MYSQL_DATABASE: $${MYSQL_DATABASE:=carely}
+      MYSQL_USER: $${MYSQL_USER:=qwer}
+      MYSQL_PASSWORD: $${MYSQL_PASSWORD:=1234}
