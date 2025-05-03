@@ -57,6 +57,9 @@ docker-compose down -v
 ### Database
 ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?logo=mysql&logoColor=white)
 
+### API Documentation
+![Swagger UI](https://img.shields.io/badge/-Swagger_UI-85EA2D?logo=swagger&logoColor=black)
+
 ### Version Control
 ![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white)
 
