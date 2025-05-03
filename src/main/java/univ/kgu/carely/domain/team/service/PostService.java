@@ -50,14 +50,6 @@ public interface PostService {
      */
     Boolean deletePost(Member member, Long postId);
 
-    /**
-     * 게시글을 응답용 DTO로 변환한다.
-     *
-     * @param post 변환하려고 하는 게시글 엔티티
-     * @return 게시글 응답용 DTO
-     */
-    ResPostDTO toResPostDTO(Post post);
-
     @Transactional
     Page<ResPostOutlineDTO> readPagedPost(Member member, String query, Long teamId, Pageable pageable);
 }

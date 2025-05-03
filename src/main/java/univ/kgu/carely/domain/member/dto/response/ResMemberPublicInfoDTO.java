@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import univ.kgu.carely.domain.common.embeded.address.Address;
-import univ.kgu.carely.domain.common.embeded.Skill;
+import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
 
 /**

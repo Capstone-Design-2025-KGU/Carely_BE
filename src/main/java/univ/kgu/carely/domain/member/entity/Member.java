@@ -29,7 +29,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import univ.kgu.carely.domain.common.embeded.address.Address;
-import univ.kgu.carely.domain.common.embeded.Skill;
+import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.Memo;

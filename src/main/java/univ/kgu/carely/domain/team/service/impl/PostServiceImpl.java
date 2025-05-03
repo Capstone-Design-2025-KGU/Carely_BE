@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 import univ.kgu.carely.domain.team.dto.request.ReqCreatePostDTO;
 import univ.kgu.carely.domain.team.dto.request.ReqUpdatePostDTO;
 import univ.kgu.carely.domain.team.dto.response.ResPostDTO;
@@ -18,16 +19,17 @@ import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
 import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
 import univ.kgu.carely.domain.team.service.PostService;
+import univ.kgu.carely.domain.team.util.PostMapper;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private final MemberService memberService;
-    private final CommentService commentService;
     private final PostRepository postRepository;
     private final TeamRepository teamRepository;
     private final TeamMateRepository teamMateRepository;
+
+    private final PostMapper postMapper;
 
     @Override
     @Transactional
@@ -37,17 +39,11 @@ public class PostServiceImpl implements PostService {
         if(!teamMateRepository.existsByTeamAndMember(team, member)){
             throw new RuntimeException("본인이 속한 그룹에만 글을 작성할 수 있습니다.");
         }
-
-        Post post = Post.builder()
-                .title(createPostDTO.getTitle())
-                .content(createPostDTO.getContent())
-                .member(member)
-                .team(team)
-                .build();
+        Post post = postMapper.toEntity(createPostDTO, member, team);
 
         post = postRepository.save(post);
 
-        return toResPostDTO(post);
+        return postMapper.toResPostDto(post);
     }
 
     @Override
@@ -60,19 +56,7 @@ public class PostServiceImpl implements PostService {
             throw new RuntimeException("다른 그룹의 게시글을 볼 수 없습니다.");
         }
 
-        return toResPostDTO(post);
-    }
-
-    @Override
-    public ResPostDTO toResPostDTO(Post post) {
-        return ResPostDTO.builder()
-                .postId(post.getPostId())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .createdAt(post.getCreatedAt())
-                .writer(memberService.toResMemberSmallInfoDTO(post.getMember()))
-                .resCommentDTOS(post.getComments().stream().map(commentService::toResCommentDTO).toList())
-                .build();
+        return postMapper.toResPostDto(post);
     }
 
     @Override
@@ -84,12 +68,11 @@ public class PostServiceImpl implements PostService {
             throw new RuntimeException("본인 게시글만 수정할 수 있습니다.");
         }
 
-        post.setTitle(updatePostDTO.getTitle());
-        post.setContent(updatePostDTO.getContent());
+        postMapper.updateEntity(post, updatePostDTO);
 
         post = postRepository.save(post);
 
-        return toResPostDTO(post);
+        return postMapper.toResPostDto(post);
     }
 
     @Override

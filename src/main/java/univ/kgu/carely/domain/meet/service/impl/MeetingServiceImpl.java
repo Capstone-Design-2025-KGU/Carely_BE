@@ -14,9 +14,13 @@ import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
 import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MeetingService;
+import univ.kgu.carely.domain.meet.util.MeetingMapper;
+import univ.kgu.carely.domain.meet.util.MemoMapper;
+import univ.kgu.carely.domain.meet.util.MemoryMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -25,16 +29,19 @@ public class MeetingServiceImpl implements MeetingService {
     public static final String NOT_EXIST_MEETING_EXCEPTION_MESSAGE = "해당 약속이 존재하지 않습니다.";
     public static final String NOT_YOUR_MEETING_EXCEPTION_MESSAGE = "본인이 포함된 약속이 아닙니다.";
 
-    private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
     private final MemoryRepository memoryRepository;
     private final MemoRepository memoRepository;
 
+    private final MeetingMapper meetingMapper;
+    private final MemoryMapper memoryMapper;
+    private final MemoMapper memoMapper;
+
     @Override
     @Transactional
-    public ResMeetingDTO createMeeting(Member member, Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
-        if (member.getMemberId().equals(opponentMemberId)) {
+    public ResMeetingDTO createMeeting(Member self, Long opponentMemberId, ReqMeetingCreateDTO reqMeetingCreateDTO) {
+        if (self.getMemberId().equals(opponentMemberId)) {
             throw new RuntimeException("본인에게 약속을 요청할 수 없습니다.");
         }
 
@@ -46,17 +53,10 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("시작시간은 현재 시간 이후부터 설정이 가능합니다.");
         }
 
-        Member opponentMember = memberRepository.findById(opponentMemberId).orElseThrow(() ->
+        Member receiver = memberRepository.findById(opponentMemberId).orElseThrow(() ->
                 new RuntimeException("상대방이 존재하지 않습니다."));
 
-        Meeting meeting = Meeting.builder()
-                .startTime(reqMeetingCreateDTO.getStartTime())
-                .endTime(reqMeetingCreateDTO.getEndTime())
-                .chore(reqMeetingCreateDTO.getChore())
-                .status(MeetingStatus.PENDING)
-                .sender(member)
-                .receiver(opponentMember)
-                .build();
+        Meeting meeting = meetingMapper.toEntity(reqMeetingCreateDTO, self, receiver);
 
         Meeting save = meetingRepository.save(meeting);
 
@@ -90,11 +90,7 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setStatus(MeetingStatus.ACCEPT);
         Meeting save = meetingRepository.save(meeting);
 
-        Memo memo = Memo.builder()
-                .member(member)
-                .writer(meeting.getSender())
-                .meeting(save)
-                .build();
+        Memo memo = memoMapper.toEntity(save);
 
         memoRepository.save(memo);
 
@@ -115,10 +111,7 @@ public class MeetingServiceImpl implements MeetingService {
             throw new RuntimeException("끝난 약속은 수정할 수 없습니다.");
         }
 
-        meeting.setStatus(MeetingStatus.PENDING);
-        meeting.setStartTime(reqMeetingCreateDTO.getStartTime());
-        meeting.setEndTime(reqMeetingCreateDTO.getEndTime());
-        meeting.setChore(reqMeetingCreateDTO.getChore());
+        meetingMapper.updateEntity(meeting, reqMeetingCreateDTO);
 
         Meeting save = meetingRepository.save(meeting);
 
@@ -187,30 +180,15 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setStatus(MeetingStatus.FINISH);
         Meeting save = meetingRepository.save(meeting);
 
-        Memory memory = Memory.builder()
-                .sender(meeting.getSender())
-                .receiver(meeting.getReceiver())
-                .meeting(save)
-                .build();
+        Memory memory = memoryMapper.toEntity(meeting);
 
         memoryRepository.save(memory);
 
         return toResMeetingDTO(save);
     }
 
-    @Override
     public ResMeetingDTO toResMeetingDTO(Meeting meeting) {
-        ResMeetingDTO resMeeting = ResMeetingDTO.builder()
-                .meetingId(meeting.getId())
-                .startTime(meeting.getStartTime())
-                .endTime(meeting.getEndTime())
-                .chore(meeting.getChore())
-                .status(meeting.getStatus())
-                .createdAt(meeting.getCreatedAt())
-                .updatedAt(meeting.getUpdatedAt())
-                .sender(memberService.toResMemberSmallInfoDTO(meeting.getSender()))
-                .receiver(memberService.toResMemberSmallInfoDTO(meeting.getReceiver()))
-                .build();
+        ResMeetingDTO resMeeting = meetingMapper.toResMeetingDto(meeting);
         if (!meeting.getStatus().equals(MeetingStatus.PENDING)) {
             resMeeting.setAddress(meeting.getReceiver().getAddress());
         }

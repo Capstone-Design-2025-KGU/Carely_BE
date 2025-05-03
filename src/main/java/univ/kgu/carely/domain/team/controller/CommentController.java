@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.team.dto.request.ReqCommentDTO;
+import univ.kgu.carely.domain.team.dto.response.ResCommentDTO;
 import univ.kgu.carely.domain.team.service.CommentService;
 
 @RestController
@@ -35,14 +36,14 @@ public class CommentController {
 
     @PutMapping("/comments/{commentId}")
     @Operation(summary = "댓글 수정 API", description = "댓글을 수정한다.")
-    public ResponseEntity<Boolean> updateComment(@PathVariable("teamId") Long teamId,
+    public ResponseEntity<ResCommentDTO> updateComment(@PathVariable("teamId") Long teamId,
                                                  @PathVariable("postId") Long postId,
                                                  @PathVariable("commentId") Long commentId,
                                                  @RequestBody ReqCommentDTO reqCommentDTO,
                                                  @AuthenticationPrincipal(expression = "member") Member member) {
-        Boolean success = commentService.updateComment(member, reqCommentDTO, commentId);
+        ResCommentDTO dto = commentService.updateComment(member, reqCommentDTO, commentId);
 
-        return ResponseEntity.ok(success);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/comments/{commentId}")
