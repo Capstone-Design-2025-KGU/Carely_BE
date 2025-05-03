@@ -14,11 +14,16 @@ services:
         condition: service_started
     ports:
       - "8080:8081"
+    networks:
+      - test
   db:
     image: mysql:8.0.40
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: $${MYSQL_ROOT_PASSWORD:=1234}
-      MYSQL_DATABASE: $${MYSQL_DATABASE:=carely}
-      MYSQL_USER: qwer
-      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD-1234}
+      MYSQL_DATABASE: ${MYSQL_DATABASE-carely}
+    networks:
+      - test
+networks:
+  test:
+    driver: bridge
