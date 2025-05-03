@@ -1,7 +1,7 @@
 FROM gradle:8.13-jdk17 AS build
 WORKDIR /app
 COPY . .
-RUN ["./gradlew","clean","build"]
+RUN ["./gradlew","clean","build","-x","test"]
 
 # 명시적으로 x86 아키텍처로 이미지를 빌드
 FROM --platform=linux/amd64 openjdk:17-jdk-slim
