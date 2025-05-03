@@ -1,4 +1,4 @@
-FROM gradle:8.13-jdk17 as build
+FROM gradle:8.13-jdk17 AS build
 WORKDIR /app
 COPY . .
 RUN ["./gradlew","clean","build"]

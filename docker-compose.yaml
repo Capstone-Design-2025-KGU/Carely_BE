@@ -19,9 +19,12 @@ services:
   db:
     image: mysql:8.0.40
     container_name: db
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD-1234}
       MYSQL_DATABASE: ${MYSQL_DATABASE-carely}
+    expose:
+      - "3306"
     networks:
       - test
 networks:
