@@ -12,11 +12,13 @@ services:
     depends_on:
       db:
         condition: service_started
+    ports:
+      - "8080:8081"
   db:
     image: mysql:8.0.40
     container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: $${MYSQL_ROOT_PASSWORD:=1234}
       MYSQL_DATABASE: $${MYSQL_DATABASE:=carely}
-      MYSQL_USER: $${MYSQL_USER:=qwer}
-      MYSQL_PASSWORD: $${MYSQL_PASSWORD:=1234}
+      MYSQL_USER: qwer
+      MYSQL_PASSWORD: 1234
