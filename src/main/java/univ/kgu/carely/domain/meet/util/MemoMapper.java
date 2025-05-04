@@ -11,6 +11,7 @@ public interface MemoMapper {
     @Mapping(target = "meeting", source = "meeting")
     @Mapping(target = "member", source = "receiver")
     @Mapping(target = "writer", source = "sender")
+    @Mapping(target = "id", ignore = true)
     Memo toEntity(Meeting meeting);
 
 }
