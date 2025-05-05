@@ -3,6 +3,7 @@ package univ.kgu.carely.domain.member.service;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
@@ -70,15 +71,7 @@ public interface MemberService {
      * @param reqUpdateSkillDTO 수정된 보조 능력
      * @return 보조 능력 수정 여부
      */
-    Boolean updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO);
-
-    /**
-     * ResMemberSmallInfoDTO 로 변환한다.
-     *
-     * @param member 간단한 정보만 담으려고 하는 member
-     * @return 간단한 정보가 담긴 ResMemberSmallInfoDTO
-     */
-    ResMemberSmallInfoDTO toResMemberSmallInfoDTO(Member member);
+    Skill updateSkill(Member member, ReqUpdateSkillDTO reqUpdateSkillDTO);
 
     ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentMemberId, Member self);
 

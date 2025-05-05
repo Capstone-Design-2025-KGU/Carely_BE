@@ -66,6 +66,12 @@ dependencies {
 
 	// WebClient
 	implementation 'org.springframework.boot:spring-boot-starter-webflux:3.3.1'
+
+	// MapStruct
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+	testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+	implementation("org.mapstruct:mapstruct:1.5.5.Final")
+	implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 }
 
 tasks.named('test') {

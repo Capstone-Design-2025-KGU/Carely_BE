@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 import univ.kgu.carely.domain.team.dto.request.ReqCommentDTO;
 import univ.kgu.carely.domain.team.dto.response.ResCommentDTO;
 import univ.kgu.carely.domain.team.entity.Comment;
@@ -14,15 +15,17 @@ import univ.kgu.carely.domain.team.repository.comment.CommentRepository;
 import univ.kgu.carely.domain.team.repository.post.PostRepository;
 import univ.kgu.carely.domain.team.repository.team.TeamMateRepository;
 import univ.kgu.carely.domain.team.service.CommentService;
+import univ.kgu.carely.domain.team.util.CommentMapper;
 
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private final MemberService memberService;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final TeamMateRepository teamMateRepository;
+
+    private final CommentMapper commentMapper;
 
     @Override
     @Transactional
@@ -48,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Boolean updateComment(Member member, ReqCommentDTO reqCommentDTO, Long commentId) {
+    public ResCommentDTO updateComment(Member member, ReqCommentDTO reqCommentDTO, Long commentId) {
         Comment comment = commentRepository.getReferenceById(commentId);
 
         if (!comment.getMember().getMemberId().equals(member.getMemberId())) {
@@ -58,17 +61,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setContent(reqCommentDTO.getContent());
         commentRepository.save(comment);
 
-        return true;
-    }
-
-    @Override
-    public ResCommentDTO toResCommentDTO(Comment comment) {
-        return ResCommentDTO.builder()
-                .commentId(comment.getCommentId())
-                .content(comment.getContent())
-                .createdAt(comment.getCreatedAt())
-                .writer(memberService.toResMemberSmallInfoDTO(comment.getMember()))
-                .build();
+        return commentMapper.toResCommentDto(comment);
     }
 
     @Override

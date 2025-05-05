@@ -28,11 +28,11 @@ public class TeamController {
 
     @PostMapping("/new")
     @Operation(summary = "그룹 생성 API", description = "그룹 생성")
-    public ResponseEntity<Boolean> createTeam(@RequestBody ReqCreateTeamDTO reqCreateTeamDTO,
+    public ResponseEntity<ResTeamOutlineDTO> createTeam(@RequestBody ReqCreateTeamDTO reqCreateTeamDTO,
                                               @AuthenticationPrincipal(expression = "member") Member member) {
-        Boolean success = teamService.createTeam(member, reqCreateTeamDTO);
+        ResTeamOutlineDTO team = teamService.createTeam(member, reqCreateTeamDTO);
 
-        return ResponseEntity.ok(success);
+        return ResponseEntity.ok(team);
     }
 
     @PostMapping("/{teamId}/join")

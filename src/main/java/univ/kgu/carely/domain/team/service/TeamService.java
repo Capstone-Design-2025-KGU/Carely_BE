@@ -15,7 +15,7 @@ public interface TeamService {
      * @param reqCreateTeamDTO 그룹 생성에 필요한 정보를 담은 DTO
      * @return 그룹 생성 성공 여부
      */
-    Boolean createTeam(Member member, ReqCreateTeamDTO reqCreateTeamDTO);
+    ResTeamOutlineDTO createTeam(Member member, ReqCreateTeamDTO reqCreateTeamDTO);
 
     /**
      * 그룹 가입

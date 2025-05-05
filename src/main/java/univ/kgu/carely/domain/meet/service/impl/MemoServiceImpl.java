@@ -13,15 +13,17 @@ import univ.kgu.carely.domain.meet.service.MemoService;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
+import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
 public class MemoServiceImpl implements MemoService {
 
-    private final MemberService memberService;
     private final MeetingRepository meetingRepository;
     private final MemoRepository memoRepository;
     private final MemberRepository memberRepository;
+
+    private final MemberMapper memberMapper;
 
     @Override
     @Transactional
@@ -81,8 +83,8 @@ public class MemoServiceImpl implements MemoService {
                 .bathSum(memo.getBathSum())
                 .walkSum(memo.getWalkSum())
                 .createdAt(memo.getCreatedAt())
-                .member(memberService.toResMemberSmallInfoDTO(memo.getMember()))
-                .writer(memberService.toResMemberSmallInfoDTO(memo.getWriter()))
+                .member(memberMapper.toResMemberSmallInfoDto(memo.getMember()))
+                .writer(memberMapper.toResMemberSmallInfoDto(memo.getWriter()))
                 .build();
     }
 
