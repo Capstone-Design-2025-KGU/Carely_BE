@@ -34,6 +34,12 @@ public class ChatMessage {
 
     private Long meetingId;
 
+    private String date;
+
+    private String time;
+
+    private String chore;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
