@@ -240,7 +240,6 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                         member.address,
                         member.skill))
                 .from(member)
-                .leftJoin(member.sendMeetings, meeting)
                 .where(member.memberId.eq(memberId))
                 .fetchOne();
 

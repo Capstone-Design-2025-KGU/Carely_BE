@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
@@ -85,11 +86,11 @@ public class MemberController {
 
     @PutMapping("/profile/my/skill")
     @Operation(summary = "능력 수정 API", description = "능력 수정을 진행한다.")
-    public ResponseEntity<Boolean> updateSkill(@RequestBody ReqUpdateSkillDTO reqUpdateSkillDTO,
-                                               @AuthenticationPrincipal(expression = "member") Member member){
-        Boolean success = memberService.updateSkill(member, reqUpdateSkillDTO);
+    public ResponseEntity<Skill> updateSkill(@RequestBody ReqUpdateSkillDTO reqUpdateSkillDTO,
+                                             @AuthenticationPrincipal(expression = "member") Member member){
+        Skill skill = memberService.updateSkill(member, reqUpdateSkillDTO);
 
-        return ResponseEntity.ok(success);
+        return ResponseEntity.ok(skill);
     }
 
     @GetMapping("/{memberId}")

@@ -71,6 +71,4 @@ public interface MeetingService {
      * @return 마무리 처리 된 약속
      */
     ResMeetingDTO finishMeeting(Member member, Long meetingId);
-
-    ResMeetingDTO toResMeetingDTO(Meeting meeting);
 }

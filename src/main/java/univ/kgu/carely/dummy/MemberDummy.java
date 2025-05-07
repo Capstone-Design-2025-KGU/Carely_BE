@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import univ.kgu.carely.domain.common.embeded.address.Address;
-import univ.kgu.carely.domain.common.embeded.Skill;
+import univ.kgu.carely.domain.common.embeded.skill.Skill;
 import univ.kgu.carely.domain.common.enums.MemberType;
 import univ.kgu.carely.domain.common.enums.SkillLevel;
 import univ.kgu.carely.domain.member.entity.Member;

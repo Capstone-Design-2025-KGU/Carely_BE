@@ -37,8 +37,8 @@ public class PostRepositoryImpl implements CustomPostRepository {
                                 member.memberType,
                                 member.profileImage).as("writer")))
                 .from(post)
-                .innerJoin(post.member, member)
-                .innerJoin(post.comments, comment)
+                .leftJoin(post.member, member)
+                .leftJoin(post.comments, comment)
                 .where(post.team.teamId.eq(searchTeam.getTeamId())
                         .and(post.title.contains(query)
                                 .or(post.content.contains(query))))
