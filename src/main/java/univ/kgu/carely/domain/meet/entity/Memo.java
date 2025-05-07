@@ -14,8 +14,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -72,5 +75,6 @@ public class Memo {
     private Meeting meeting;
 
     @OneToMany(mappedBy = "memo", cascade = CascadeType.ALL)
-    private MemoSum memoSum;
+    @Default
+    private Set<MemoSum> memoSum = new HashSet<>();
 }

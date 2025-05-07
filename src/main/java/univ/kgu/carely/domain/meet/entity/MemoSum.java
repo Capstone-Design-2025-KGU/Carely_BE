@@ -24,7 +24,7 @@ public class MemoSum {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "memo_id")
+    @Column(name = "memo_sum_id")
     private Long id;
 
     @Column(name = "comm_sum")

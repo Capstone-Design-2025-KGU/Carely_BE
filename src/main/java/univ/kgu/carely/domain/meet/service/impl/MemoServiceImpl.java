@@ -10,6 +10,7 @@ import univ.kgu.carely.domain.meet.entity.Memo;
 import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
 import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.meet.service.MemoService;
+import univ.kgu.carely.domain.meet.service.MemoSumService;
 import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
@@ -19,11 +20,12 @@ import univ.kgu.carely.domain.member.util.MemberMapper;
 @RequiredArgsConstructor
 public class MemoServiceImpl implements MemoService {
 
+    private final MemoSumService memoSumService;
+
     private final MeetingRepository meetingRepository;
     private final MemoRepository memoRepository;
     private final MemberRepository memberRepository;
 
-    private final MemberMapper memberMapper;
     private final MemoMapper memoMapper;
 
     @Override
