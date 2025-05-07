@@ -19,8 +19,6 @@ import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.meet.util.MemoryMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
-import univ.kgu.carely.domain.member.service.MemberService;
-import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -90,7 +88,7 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setStatus(MeetingStatus.ACCEPT);
         Meeting save = meetingRepository.save(meeting);
 
-        Memo memo = memoMapper.toEntity(save);
+        Memo memo = memoMapper.createMemoWithMeetingInfo(save);
 
         memoRepository.save(memo);
 

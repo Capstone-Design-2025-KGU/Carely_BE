@@ -10,9 +10,9 @@ import univ.kgu.carely.domain.meet.entity.Memo;
 import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
 import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.meet.service.MemoService;
+import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
-import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
@@ -24,6 +24,7 @@ public class MemoServiceImpl implements MemoService {
     private final MemberRepository memberRepository;
 
     private final MemberMapper memberMapper;
+    private final MemoMapper memoMapper;
 
     @Override
     @Transactional
@@ -35,15 +36,10 @@ public class MemoServiceImpl implements MemoService {
             throw new RuntimeException("본인이 수정 가능한 메모가 아닙니다.");
         }
 
-        memo.setCommSum(reqMemoUpdateDTO.getComm());
-        memo.setMealSum(reqMemoUpdateDTO.getMeal());
-        memo.setToiletSum(reqMemoUpdateDTO.getToilet());
-        memo.setBathSum(reqMemoUpdateDTO.getBath());
-        memo.setWalkSum(reqMemoUpdateDTO.getWalk());
+        memoMapper.updateMemo(memo, reqMemoUpdateDTO);
+        memo = memoRepository.save(memo);
 
-        Memo save = memoRepository.save(memo);
-
-        return toResMemoDTO(save);
+        return memoMapper.toResMemoDto(memo);
     }
 
     @Override
@@ -57,7 +53,7 @@ public class MemoServiceImpl implements MemoService {
 
         Memo memo = memoRepository.findCurrentMemoByMemberAndMeetingStatusFinish(memoMember);
 
-        return toResMemoDTO(memo);
+        return memoMapper.toResMemoDto(memo);
     }
 
     @Override
@@ -70,22 +66,7 @@ public class MemoServiceImpl implements MemoService {
             throw new RuntimeException("본인이 작성한 메모가 아닙니다.");
         }
 
-        return toResMemoDTO(memo);
-    }
-
-    @Override
-    public ResMemoDTO toResMemoDTO(Memo memo) {
-        return ResMemoDTO.builder()
-                .memoId(memo.getId())
-                .commSum(memo.getCommSum())
-                .mealSum(memo.getMealSum())
-                .toiletSum(memo.getToiletSum())
-                .bathSum(memo.getBathSum())
-                .walkSum(memo.getWalkSum())
-                .createdAt(memo.getCreatedAt())
-                .member(memberMapper.toResMemberSmallInfoDto(memo.getMember()))
-                .writer(memberMapper.toResMemberSmallInfoDto(memo.getWriter()))
-                .build();
+        return memoMapper.toResMemoDto(memo);
     }
 
 }

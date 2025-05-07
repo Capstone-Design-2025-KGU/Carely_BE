@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.meet.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.LocalDateTime;
@@ -35,20 +37,20 @@ public class Memo {
     @Column(name = "memo_id")
     private Long id;
 
-    @Column(name = "comm_sum")
-    private String commSum;
+    @Column(name = "comm")
+    private String comm;
 
-    @Column(name = "meal_sum")
-    private String mealSum;
+    @Column(name = "meal")
+    private String meal;
 
-    @Column(name = "toilet_sum")
-    private String toiletSum;
+    @Column(name = "toilet")
+    private String toilet;
 
-    @Column(name = "bath_sum")
-    private String bathSum;
+    @Column(name = "bath")
+    private String bath;
 
-    @Column(name = "walk_sum")
-    private String walkSum;
+    @Column(name = "walk")
+    private String walk;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -68,4 +70,7 @@ public class Memo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id", nullable = false, unique = true)
     private Meeting meeting;
+
+    @OneToMany(mappedBy = "memo", cascade = CascadeType.ALL)
+    private MemoSum memoSum;
 }

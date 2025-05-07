@@ -10,7 +10,5 @@ public interface MemoService {
 
     ResMemoDTO readCurrentFinishedMemo(Member member, Long memberId);
 
-    ResMemoDTO toResMemoDTO(Memo memo);
-
     ResMemoDTO readMemo(Member member, Long meetingId);
 }
