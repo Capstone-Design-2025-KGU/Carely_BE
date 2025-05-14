@@ -17,7 +17,6 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 @RequiredArgsConstructor
 public class MemoServiceImpl implements MemoService {
 
-    private final MeetingRepository meetingRepository;
     private final MemoRepository memoRepository;
     private final MemberRepository memberRepository;
 

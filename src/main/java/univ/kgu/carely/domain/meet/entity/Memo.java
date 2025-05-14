@@ -35,9 +35,6 @@ public class Memo {
     @Column(name = "memo_id")
     private Long id;
 
-    @Column(name = "original")
-    private String original;
-
     @Column(name = "comm")
     private String comm;
 
