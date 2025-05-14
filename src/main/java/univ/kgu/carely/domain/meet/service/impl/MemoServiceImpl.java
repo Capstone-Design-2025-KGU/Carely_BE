@@ -37,20 +37,6 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemoDTO readCurrentFinishedMemo(Member member, Long memberId) {
-        Member memoMember = memberRepository.getReferenceById(memberId);
-
-        if (!meetingRepository.existsBySenderAndReceiverAndMeetingStatusIsAccept(member, memoMember)) {
-            throw new RuntimeException("해당 유저와 수락된 약속이 존재해야지만 메모를 열람을 수 있습니다.");
-        }
-
-        Memo memo = memoRepository.findCurrentMemoByMember(memoMember);
-
-        return memoMapper.toResMemoDto(memo);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public ResMemoDTO readMemo(Member member, Long memberId) {
         Member opponent = memberRepository.getReferenceById(memberId);
         Memo memo = memoRepository.findCurrentMemoByMember(opponent);

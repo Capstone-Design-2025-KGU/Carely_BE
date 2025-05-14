@@ -23,15 +23,6 @@ public class MemoController {
 
     private final MemoService memoService;
 
-    @GetMapping("/current-memo")
-    @Operation(summary = "최신 메모 조회 API", description = "해당 멤버의 끝난 약속중 가장 최근 메모를 조회한다.")
-    public ResponseEntity<ResMemoDTO> readCurrentFinishedMemo(@RequestParam("member_id") Long memberId,
-                                                              @AuthenticationPrincipal(expression = "member") Member member) {
-        ResMemoDTO resMemoDTO = memoService.readCurrentFinishedMemo(member, memberId);
-
-        return ResponseEntity.ok(resMemoDTO);
-    }
-
     @PutMapping("/{memberId}")
     @Operation(summary = "메모 수정(작성) API", description = "메모를 수정(작성)한다.")
     public ResponseEntity<ResMemoDTO> updateMemo(@PathVariable("memberId") Long memberId,
