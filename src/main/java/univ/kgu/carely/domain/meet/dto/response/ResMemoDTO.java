@@ -16,7 +16,6 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 public class ResMemoDTO {
 
     private Long memoId;
-    private String original;
     private String comm;
     private String meal;
     private String toilet;
@@ -24,6 +23,5 @@ public class ResMemoDTO {
     private String walk;
     private LocalDateTime createdAt;
     private ResMemberSmallInfoDTO member;
-    private ResMemberSmallInfoDTO writer;
 
 }
