@@ -12,12 +12,6 @@ import univ.kgu.carely.domain.member.util.MemberMapper;
 @Mapper(componentModel = "spring", uses = MemberMapper.class)
 public interface MemoMapper {
 
-    @Mapping(target = "meeting", source = "meeting")
-    @Mapping(target = "member", source = "receiver")
-    @Mapping(target = "writer", source = "sender")
-    @Mapping(target = "id", ignore = true)
-    Memo createMemoWithMeetingInfo(Meeting meeting);
-
     @Mapping(target = "memoId", source = "id")
     ResMemoDTO toResMemoDto(Memo memo);
 

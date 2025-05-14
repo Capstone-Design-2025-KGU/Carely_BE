@@ -1,17 +1,14 @@
 package univ.kgu.carely.domain.meet.service.impl;
 
-import java.util.concurrent.Executor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoUpdateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoDTO;
-import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.Memo;
 import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
 import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.meet.service.MemoService;
-import univ.kgu.carely.domain.meet.service.MemoSumService;
 import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
@@ -19,10 +16,6 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 @Service
 @RequiredArgsConstructor
 public class MemoServiceImpl implements MemoService {
-
-    private final Executor executor;
-
-    private final MemoSumService memoSumService;
 
     private final MeetingRepository meetingRepository;
     private final MemoRepository memoRepository;
@@ -32,13 +25,9 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional
-    public ResMemoDTO updateMemo(Member member, Long meetingId, ReqMemoUpdateDTO reqMemoUpdateDTO) {
-        Meeting meeting = meetingRepository.getReferenceById(meetingId);
-        Memo memo = memoRepository.findByMeeting(meeting);
-
-        if (!member.getMemberId().equals(memo.getWriter().getMemberId())) {
-            throw new RuntimeException("본인이 수정 가능한 메모가 아닙니다.");
-        }
+    public ResMemoDTO updateMemo(Long memberId, Member member, ReqMemoUpdateDTO reqMemoUpdateDTO) {
+        Member opponent = memberRepository.getReferenceById(memberId);
+        Memo memo = memoRepository.findCurrentMemoByMember(opponent);
 
         memoMapper.updateMemo(memo, reqMemoUpdateDTO);
         memo = memoRepository.save(memo);
@@ -55,20 +44,16 @@ public class MemoServiceImpl implements MemoService {
             throw new RuntimeException("해당 유저와 수락된 약속이 존재해야지만 메모를 열람을 수 있습니다.");
         }
 
-        Memo memo = memoRepository.findCurrentMemoByMemberAndMeetingStatusFinish(memoMember);
+        Memo memo = memoRepository.findCurrentMemoByMember(memoMember);
 
         return memoMapper.toResMemoDto(memo);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemoDTO readMemo(Member member, Long meetingId) {
-        Meeting meeting = meetingRepository.getReferenceById(meetingId);
-        Memo memo = memoRepository.findByMeeting(meeting);
-
-        if (!member.getMemberId().equals(meeting.getSender().getMemberId())) {
-            throw new RuntimeException("본인이 작성한 메모가 아닙니다.");
-        }
+    public ResMemoDTO readMemo(Member member, Long memberId) {
+        Member opponent = memberRepository.getReferenceById(memberId);
+        Memo memo = memoRepository.findCurrentMemoByMember(opponent);
 
         return memoMapper.toResMemoDto(memo);
     }

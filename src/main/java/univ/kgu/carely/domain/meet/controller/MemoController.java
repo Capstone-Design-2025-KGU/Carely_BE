@@ -32,21 +32,21 @@ public class MemoController {
         return ResponseEntity.ok(resMemoDTO);
     }
 
-    @PutMapping("/{meetingId}")
+    @PutMapping("/{memberId}")
     @Operation(summary = "메모 수정(작성) API", description = "메모를 수정(작성)한다.")
-    public ResponseEntity<ResMemoDTO> updateMemo(@PathVariable("meetingId") Long meetingId,
+    public ResponseEntity<ResMemoDTO> updateMemo(@PathVariable("memberId") Long memberId,
                                                  @RequestBody ReqMemoUpdateDTO reqMemoUpdateDTO,
                                                  @AuthenticationPrincipal(expression = "member") Member member) {
-        ResMemoDTO resMemoDTO = memoService.updateMemo(member, meetingId, reqMemoUpdateDTO);
+        ResMemoDTO resMemoDTO = memoService.updateMemo(memberId, member, reqMemoUpdateDTO);
 
         return ResponseEntity.ok(resMemoDTO);
     }
 
-    @GetMapping("/{meetingId}")
+    @GetMapping("/{memberId}")
     @Operation(summary = "메모 조회 API", description = "해당 약속과 연관된 메모를 조회한다.")
-    public ResponseEntity<ResMemoDTO> readMemo(@PathVariable("meetingId") Long meetingId,
+    public ResponseEntity<ResMemoDTO> readMemo(@PathVariable("memberId") Long memberId,
                                                @AuthenticationPrincipal(expression = "member") Member member) {
-        ResMemoDTO resMemoDTO = memoService.readMemo(member, meetingId);
+        ResMemoDTO resMemoDTO = memoService.readMemo(member, memberId);
 
         return ResponseEntity.ok(resMemoDTO);
     }
