@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.meet.service.impl;
 
+import java.util.concurrent.Executor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +15,12 @@ import univ.kgu.carely.domain.meet.service.MemoSumService;
 import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
-import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
 public class MemoServiceImpl implements MemoService {
+
+    private final Executor executor;
 
     private final MemoSumService memoSumService;
 
@@ -34,7 +36,7 @@ public class MemoServiceImpl implements MemoService {
         Meeting meeting = meetingRepository.getReferenceById(meetingId);
         Memo memo = memoRepository.findByMeeting(meeting);
 
-        if(!member.getMemberId().equals(memo.getWriter().getMemberId())){
+        if (!member.getMemberId().equals(memo.getWriter().getMemberId())) {
             throw new RuntimeException("본인이 수정 가능한 메모가 아닙니다.");
         }
 
@@ -49,7 +51,7 @@ public class MemoServiceImpl implements MemoService {
     public ResMemoDTO readCurrentFinishedMemo(Member member, Long memberId) {
         Member memoMember = memberRepository.getReferenceById(memberId);
 
-        if(!meetingRepository.existsBySenderAndReceiverAndMeetingStatusIsAccept(member, memoMember)){
+        if (!meetingRepository.existsBySenderAndReceiverAndMeetingStatusIsAccept(member, memoMember)) {
             throw new RuntimeException("해당 유저와 수락된 약속이 존재해야지만 메모를 열람을 수 있습니다.");
         }
 
@@ -64,7 +66,7 @@ public class MemoServiceImpl implements MemoService {
         Meeting meeting = meetingRepository.getReferenceById(meetingId);
         Memo memo = memoRepository.findByMeeting(meeting);
 
-        if(!member.getMemberId().equals(meeting.getSender().getMemberId())){
+        if (!member.getMemberId().equals(meeting.getSender().getMemberId())) {
             throw new RuntimeException("본인이 작성한 메모가 아닙니다.");
         }
 

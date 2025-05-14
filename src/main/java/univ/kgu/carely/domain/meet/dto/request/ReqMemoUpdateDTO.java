@@ -11,10 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ReqMemoUpdateDTO {
 
-    private String comm;
-    private String meal;
-    private String toilet;
-    private String bath;
-    private String walk;
+    private String original;
 
 }

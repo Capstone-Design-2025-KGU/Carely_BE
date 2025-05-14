@@ -1,10 +1,10 @@
 package univ.kgu.carely.domain.meet.service;
 
-import org.springframework.scheduling.annotation.Async;
+import reactor.core.publisher.Mono;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoSumCreateDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMemoSumDTO;
 
 public interface MemoSumService {
 
-    @Async
-    void summarization(ReqMemoSumCreateDTO memo);
+    Mono<ResMemoSumDTO> summarize(final ReqMemoSumCreateDTO dto);
 }
