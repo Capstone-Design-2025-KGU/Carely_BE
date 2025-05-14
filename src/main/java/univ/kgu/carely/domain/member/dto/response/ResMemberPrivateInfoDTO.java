@@ -30,6 +30,8 @@ public class ResMemberPrivateInfoDTO {
     private String phoneNumber;
     @Schema(description = "회원 생일")
     private LocalDate birth;
+    @Schema(description = "나이")
+    private Integer age;
     @Schema(description = "회원의 소개 문구")
     private String story;
     @Schema(description = "회원 타입")
