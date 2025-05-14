@@ -18,7 +18,8 @@ public class ResMemoDTO {
     private Long memoId;
     private String comm;
     private String meal;
-    private String toilet;
+    private String medic;
+    private String health;
     private String bath;
     private String walk;
     private LocalDateTime createdAt;

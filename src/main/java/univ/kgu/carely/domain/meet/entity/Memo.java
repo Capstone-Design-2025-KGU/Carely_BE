@@ -50,6 +50,12 @@ public class Memo {
     @Column(name = "walk")
     private String walk;
 
+    @Column(name = "medic")
+    private String medic;
+
+    @Column(name = "health")
+    private String health;
+
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private LocalDateTime createdAt;

@@ -28,7 +28,6 @@ public class MemoServiceImpl implements MemoService {
         Member opponent = memberRepository.getReferenceById(memberId);
         Memo memo = memoRepository.findCurrentMemoByMember(opponent);
 
-        memoMapper.updateMemo(memo, reqMemoUpdateDTO);
         memo = memoRepository.save(memo);
 
         return memoMapper.toResMemoDto(memo);

@@ -15,6 +15,4 @@ public interface MemoMapper {
     @Mapping(target = "memoId", source = "id")
     ResMemoDTO toResMemoDto(Memo memo);
 
-    Memo updateMemo(@MappingTarget Memo memo, ReqMemoUpdateDTO dto);
-
 }
