@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.meet.dto.request.ReqMeetingCreateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMeetingSmallInfoDTO;
 import univ.kgu.carely.domain.meet.service.MeetingService;
 import univ.kgu.carely.domain.member.entity.Member;
 
@@ -88,6 +89,12 @@ public class MeetingController {
         ResMeetingDTO meeting = meetingService.finishMeeting(member, meetingId);
 
         return ResponseEntity.ok(meeting);
+    }
+
+    @GetMapping("/nearest")
+    @Operation(summary = "가장 임박한 약속 조회 API", description = "가장 임박한 약속을 조회한다.")
+    public ResponseEntity<ResMeetingSmallInfoDTO> getNearestMeeting(@AuthenticationPrincipal(expression = "member") Member member) {
+        return ResponseEntity.ok(null);
     }
 
 }
