@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.meet.dto.request.ReqMeetingCreateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMeetingSmallInfoDTO;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
 import univ.kgu.carely.domain.meet.entity.Memo;
@@ -19,8 +20,6 @@ import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.meet.util.MemoryMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
-import univ.kgu.carely.domain.member.service.MemberService;
-import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -194,6 +193,13 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         return resMeeting;
+    }
+
+    @Override
+    public ResMeetingSmallInfoDTO getNearestMeeting(Member self) {
+        meetingRepository.findNearestMeetingBySenderOrReceiver(self);
+
+        return null;
     }
 
 }

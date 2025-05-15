@@ -94,7 +94,9 @@ public class MeetingController {
     @GetMapping("/nearest")
     @Operation(summary = "가장 임박한 약속 조회 API", description = "가장 임박한 약속을 조회한다.")
     public ResponseEntity<ResMeetingSmallInfoDTO> getNearestMeeting(@AuthenticationPrincipal(expression = "member") Member member) {
-        return ResponseEntity.ok(null);
+        ResMeetingSmallInfoDTO nearestMeeting = meetingService.getNearestMeeting(member);
+
+        return ResponseEntity.ok(nearestMeeting);
     }
 
 }
