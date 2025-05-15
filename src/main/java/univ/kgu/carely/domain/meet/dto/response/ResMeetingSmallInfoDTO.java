@@ -18,6 +18,12 @@ public class ResMeetingSmallInfoDTO {
     private Long meetingId;
     private ResMemberSmallInfoDTO member;
     private LocalDateTime startTime;
-    private ResMemoDTO memo;
+    private Long memoId;
+    private String walk;
+    private String health;
+    private String medic;
+    private String toilet;
+    private String comm;
+    private String meal;
 
 }
