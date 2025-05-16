@@ -34,6 +34,8 @@ public class ResMemberPublicInfoDTO {
     private String name;
     @Schema(description = "멤버 생일")
     private LocalDate birth;
+    @Schema(description = "나이")
+    private Integer age;
     @Schema(description = "멤버 스토리")
     private String story;
     @Schema(description = "멤버 타입")

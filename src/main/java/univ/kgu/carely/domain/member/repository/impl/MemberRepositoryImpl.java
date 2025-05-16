@@ -8,6 +8,8 @@ import com.querydsl.core.types.dsl.BooleanTemplate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -220,6 +222,8 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
         }
 
         resMemberPublicInfoDTO.setWithTime(Objects.requireNonNullElse(withTime, 0)); // 함께한 시간이 없는 경우 0으로 return
+        resMemberPublicInfoDTO.setAge(Period.between(resMemberPublicInfoDTO.getBirth(), LocalDate.now()).getYears());
+
         return resMemberPublicInfoDTO;
     }
 

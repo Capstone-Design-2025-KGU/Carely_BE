@@ -1,6 +1,8 @@
 package univ.kgu.carely.domain.member.service.impl;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,7 +107,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     public ResMemberPrivateInfoDTO getPrivateInfo(Member member) {
-        return memberRepository.getMemberPrivateInfo(member.getMemberId());
+        ResMemberPrivateInfoDTO privateInfo = memberRepository.getMemberPrivateInfo(member.getMemberId());
+        privateInfo.setAge(Period.between(privateInfo.getBirth(), LocalDate.now()).getYears());
+        return privateInfo;
     }
 
     @Override
