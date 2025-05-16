@@ -71,7 +71,7 @@ dependencies {
 	implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 
 	// Docker Compose Support
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	testAndDevelopmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 
 tasks.named('test') {

@@ -1,6 +1,10 @@
 server:
   port: 8081
 spring:
+  docker:
+    compose:
+      skip:
+        in-tests: false
   application:
     name: carely
     version: 0.0.1
