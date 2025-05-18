@@ -35,20 +35,26 @@ public class Memo {
     @Column(name = "memo_id")
     private Long id;
 
-    @Column(name = "comm_sum")
-    private String commSum;
+    @Column(name = "comm")
+    private String comm;
 
-    @Column(name = "meal_sum")
-    private String mealSum;
+    @Column(name = "meal")
+    private String meal;
 
-    @Column(name = "toilet_sum")
-    private String toiletSum;
+    @Column(name = "toilet")
+    private String toilet;
 
-    @Column(name = "bath_sum")
-    private String bathSum;
+    @Column(name = "bath")
+    private String bath;
 
-    @Column(name = "walk_sum")
-    private String walkSum;
+    @Column(name = "walk")
+    private String walk;
+
+    @Column(name = "medic")
+    private String medic;
+
+    @Column(name = "health")
+    private String health;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -57,15 +63,6 @@ public class Memo {
     // 연관 관계 설정
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false, unique = true)
     private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id", nullable = false)
-    private Member writer;
-
-    // OneToOne을 설정할 경우 FetchType.LAZY가 적용이 안돼기 때문에 ManyToOne을 적용한 뒤 unique를 설정하여 OneToOne처럼 이용 가능하도록 설계함.
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "meeting_id", nullable = false, unique = true)
-    private Meeting meeting;
 }

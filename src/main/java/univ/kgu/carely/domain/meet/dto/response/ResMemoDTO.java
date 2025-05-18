@@ -16,13 +16,13 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 public class ResMemoDTO {
 
     private Long memoId;
-    private String commSum;
-    private String mealSum;
-    private String toiletSum;
-    private String bathSum;
-    private String walkSum;
+    private String comm;
+    private String meal;
+    private String medic;
+    private String health;
+    private String bath;
+    private String walk;
     private LocalDateTime createdAt;
     private ResMemberSmallInfoDTO member;
-    private ResMemberSmallInfoDTO writer;
 
 }

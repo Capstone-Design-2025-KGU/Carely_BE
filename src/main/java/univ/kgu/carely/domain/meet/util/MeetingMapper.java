@@ -15,7 +15,6 @@ public interface MeetingMapper {
 
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "memos", ignore = true)
     @Mapping(target = "status", constant = "PENDING")
     Meeting toEntity(ReqMeetingCreateDTO dto, Member sender, Member receiver);
 

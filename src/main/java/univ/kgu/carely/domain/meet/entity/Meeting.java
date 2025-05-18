@@ -80,8 +80,4 @@ public class Meeting {
     @Builder.Default
     private Set<Memory> memories = new HashSet<>();
 
-    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private Set<Memo> memos = new HashSet<>();
-
 }

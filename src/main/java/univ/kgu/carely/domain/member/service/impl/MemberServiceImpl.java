@@ -18,6 +18,7 @@ import univ.kgu.carely.domain.common.embeded.address.ReqAddressDTO;
 import univ.kgu.carely.domain.common.embeded.address.util.AddressMapper;
 import univ.kgu.carely.domain.common.embeded.skill.util.SkillMapper;
 import univ.kgu.carely.domain.map.dto.request.ReqCoordinationDTO;
+import univ.kgu.carely.domain.meet.entity.Memo;
 import univ.kgu.carely.domain.member.dto.request.ReqMemberCreateDTO;
 import univ.kgu.carely.domain.member.dto.request.ReqUpdateSkillDTO;
 import univ.kgu.carely.domain.member.dto.response.ResMemberMapDTO;
@@ -59,6 +60,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public ResMemberPrivateInfoDTO createMember(ReqMemberCreateDTO reqMemberCreateDTO) {
         ReqAddressDTO address = reqMemberCreateDTO.getAddress();
         Address fullAddress = addressMapper.toEntity(address);
@@ -70,6 +72,9 @@ public class MemberServiceImpl implements MemberService {
         member.setAddress(fullAddress);
 
         Member save = memberRepository.save(member);
+        Memo memo = new Memo();
+        memo.setMember(save);
+        save.getMemos().add(memo);
 
         return memberMapper.toResMemberPrivateInfoDto(save);
     }
