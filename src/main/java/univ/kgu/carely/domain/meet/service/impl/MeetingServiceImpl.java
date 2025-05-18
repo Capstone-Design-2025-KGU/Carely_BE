@@ -196,10 +196,9 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResMeetingSmallInfoDTO getNearestMeeting(Member self) {
-        meetingRepository.findNearestMeetingBySenderOrReceiver(self);
-
-        return null;
+        return meetingRepository.findNearestMeetingBySenderOrReceiver(self);
     }
 
 }
