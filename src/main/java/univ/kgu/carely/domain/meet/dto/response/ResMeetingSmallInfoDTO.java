@@ -16,7 +16,8 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 public class ResMeetingSmallInfoDTO {
 
     private Long meetingId;
-    private ResMemberSmallInfoDTO member;
+    private ResMemberSmallInfoDTO receiver;
+    private ResMemberSmallInfoDTO sender;
     private LocalDateTime startTime;
     private Long memoId;
     private String walk;

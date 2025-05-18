@@ -40,16 +40,24 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .where(member.eq(self))
                 .fetchOne();
 
-        QMember mem = memberType == MemberType.FAMILY ? meeting.receiver : meeting.sender;
+        QMember me = memberType == MemberType.FAMILY ? meeting.receiver : meeting.sender;
+        QMember receiver = meeting.receiver;
+        QMember sender = meeting.sender;
 
         return jpaQueryFactory.select(Projections.fields(ResMeetingSmallInfoDTO.class,
                         meeting.id.as("meetingId"),
                         Projections.fields(ResMemberSmallInfoDTO.class,
-                                mem.memberId,
-                                mem.username,
-                                mem.name,
-                                mem.memberType,
-                                mem.profileImage).as("member"),
+                                receiver.memberId,
+                                receiver.username,
+                                receiver.name,
+                                receiver.memberType,
+                                receiver.profileImage).as("receiver"),
+                        Projections.fields(ResMemberSmallInfoDTO.class,
+                                sender.memberId,
+                                sender.username,
+                                sender.name,
+                                sender.memberType,
+                                sender.profileImage).as("sender"),
                         meeting.startTime,
                         memo.id.as("memoId"),
                         memo.walkSum.as("walk"),
@@ -59,7 +67,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                         memo.toiletSum.as("toilet")))
                 .from(meeting)
                 .leftJoin(meeting.memos, memo)
-                .where(mem.eq(self)
+                .where(me.eq(self)
                         .and(meeting.status.eq(MeetingStatus.ACCEPT))
                         .and(meeting.startTime.after(LocalDateTime.now())))
                 .orderBy(meeting.startTime.asc())
