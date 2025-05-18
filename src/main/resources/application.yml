@@ -10,7 +10,7 @@ spring:
     version: 0.0.1
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL_CARELY:jdbc:mysql://db:3306/carely}
+    url: ${DB_URL_CARELY:jdbc:mysql://db:3306/carely}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useUnicode=true
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:1234}
   jpa:
