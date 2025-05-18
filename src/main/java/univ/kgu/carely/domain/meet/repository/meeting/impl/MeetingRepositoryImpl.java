@@ -61,7 +61,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .leftJoin(meeting.memos, memo)
                 .where(mem.eq(self)
                         .and(meeting.status.eq(MeetingStatus.ACCEPT))
-                        .and(meeting.startTime.before(LocalDateTime.now())))
+                        .and(meeting.startTime.after(LocalDateTime.now())))
                 .orderBy(meeting.startTime.asc())
                 .fetchFirst();
     }
