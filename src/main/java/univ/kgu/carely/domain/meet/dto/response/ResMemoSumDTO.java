@@ -9,6 +9,11 @@ import lombok.ToString;
 @ToString
 public class ResMemoSumDTO {
 
-    private String summary;
+    private String health;
+    private String medic;
+    private String meal;
+    private String walk;
+    private String comm;
+    private String toilet;
 
 }
