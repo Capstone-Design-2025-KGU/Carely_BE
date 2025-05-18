@@ -24,6 +24,12 @@ public class ChatMessageRequest {
 
     private Long meetingId;
 
+    private String date;
+
+    private String time;
+
+    private String chore;
+
     @Schema(description = "메세지 타입", example = "CHAT")
     private MessageType messageType;
 }

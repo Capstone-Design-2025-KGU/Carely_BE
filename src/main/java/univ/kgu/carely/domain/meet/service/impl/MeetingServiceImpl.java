@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.meet.dto.request.ReqMeetingCreateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMeetingSmallInfoDTO;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
 import univ.kgu.carely.domain.meet.entity.Memo;
@@ -184,6 +185,12 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         return resMeeting;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResMeetingSmallInfoDTO getNearestMeeting(Member self) {
+        return meetingRepository.findNearestMeetingBySenderOrReceiver(self);
     }
 
 }

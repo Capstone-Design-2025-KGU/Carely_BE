@@ -13,16 +13,18 @@ import univ.kgu.carely.domain.member.dto.response.ResMemberSmallInfoDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResMemoDTO {
+public class ResMeetingSmallInfoDTO {
 
+    private Long meetingId;
+    private ResMemberSmallInfoDTO receiver;
+    private ResMemberSmallInfoDTO sender;
+    private LocalDateTime startTime;
     private Long memoId;
+    private String walk;
+    private String health;
+    private String medic;
+    private String toilet;
     private String comm;
     private String meal;
-    private String medic;
-    private String health;
-    private String toilet;
-    private String walk;
-    private LocalDateTime createdAt;
-    private ResMemberSmallInfoDTO member;
 
 }

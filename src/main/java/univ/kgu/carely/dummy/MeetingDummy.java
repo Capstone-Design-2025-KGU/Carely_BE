@@ -65,7 +65,25 @@ public class MeetingDummy {
                 .status(MeetingStatus.FINISH)
                 .build();
 
-        meetingRepository.saveAll(List.of(meeting1, meeting2, meeting3, meeting4));
+        Meeting meeting5 = Meeting.builder()
+                .chore("뭐할까")
+                .startTime(now.plusHours(2))
+                .endTime(now.plusHours(5))
+                .sender(member3)
+                .receiver(cho)
+                .status(MeetingStatus.ACCEPT)
+                .build();
+
+        Meeting meeting6 = Meeting.builder()
+                .chore("뭐할까")
+                .startTime(now.plusHours(2).plusDays(1))
+                .endTime(now.plusHours(5).plusDays(1))
+                .sender(member3)
+                .receiver(park)
+                .status(MeetingStatus.ACCEPT)
+                .build();
+
+        meetingRepository.saveAll(List.of(meeting1, meeting2, meeting3, meeting4, meeting5, meeting6));
     }
 
 }

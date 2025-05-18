@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.meet.service;
 
 import univ.kgu.carely.domain.meet.dto.request.ReqMeetingCreateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMeetingSmallInfoDTO;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.member.entity.Member;
 
@@ -71,4 +72,6 @@ public interface MeetingService {
      * @return 마무리 처리 된 약속
      */
     ResMeetingDTO finishMeeting(Member member, Long meetingId);
+
+    ResMeetingSmallInfoDTO getNearestMeeting(Member self);
 }

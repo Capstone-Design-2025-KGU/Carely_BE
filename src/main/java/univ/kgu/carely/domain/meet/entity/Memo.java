@@ -44,9 +44,6 @@ public class Memo {
     @Column(name = "toilet")
     private String toilet;
 
-    @Column(name = "bath")
-    private String bath;
-
     @Column(name = "walk")
     private String walk;
 

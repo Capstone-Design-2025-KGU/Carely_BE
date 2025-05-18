@@ -26,6 +26,12 @@ public class ChatMessageResponse {
 
     private Long meetingId;
 
+    private String date;
+
+    private String time;
+
+    private String chore;
+
     @Schema(description = "메시지 타입", example = "CHAT")
     private MessageType messageType;
 
@@ -38,6 +44,9 @@ public class ChatMessageResponse {
                 .chatroomId(chatMessage.getChatRoom().getId())
                 .content(chatMessage.getContent())
                 .meetingId(chatMessage.getMeetingId())
+                .date(chatMessage.getDate())
+                .time(chatMessage.getTime())
+                .chore(chatMessage.getChore())
                 .messageType(chatMessage.getMessageType())
                 .createdAt(chatMessage.getCreatedAt())
                 .build();
