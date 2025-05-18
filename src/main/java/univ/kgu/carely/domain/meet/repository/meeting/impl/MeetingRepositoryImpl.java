@@ -40,42 +40,16 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                 .where(member.eq(self))
                 .fetchOne();
 
-        if (memberType.equals(MemberType.FAMILY)){
-            QMember receiver = meeting.receiver;
-
-            return jpaQueryFactory.select(Projections.fields(ResMeetingSmallInfoDTO.class,
-                            meeting.id.as("meetingId"),
-                            Projections.fields(ResMemberSmallInfoDTO.class,
-                                    receiver.memberId,
-                                    receiver.username,
-                                    receiver.name,
-                                    receiver.memberType,
-                                    receiver.profileImage).as("member"),
-                            meeting.startTime,
-                            memo.id.as("memoId"),
-                            memo.walkSum.as("walk"),
-                            memo.bathSum.as("bath"),
-                            memo.commSum.as("comm"),
-                            memo.mealSum.as("meal"),
-                            memo.toiletSum.as("toilet")))
-                    .from(meeting)
-                    .leftJoin(meeting.memos, memo)
-                    .where(receiver.eq(self)
-                            .and(meeting.status.eq(MeetingStatus.ACCEPT))
-                            .and(meeting.startTime.before(LocalDateTime.now())))
-                    .orderBy(meeting.startTime.asc())
-                    .fetchFirst();
-        }
-        QMember sender = meeting.sender;
+        QMember mem = memberType == MemberType.FAMILY ? meeting.receiver : meeting.sender;
 
         return jpaQueryFactory.select(Projections.fields(ResMeetingSmallInfoDTO.class,
                         meeting.id.as("meetingId"),
                         Projections.fields(ResMemberSmallInfoDTO.class,
-                                sender.memberId,
-                                sender.username,
-                                sender.name,
-                                sender.memberType,
-                                sender.profileImage).as("member"),
+                                mem.memberId,
+                                mem.username,
+                                mem.name,
+                                mem.memberType,
+                                mem.profileImage).as("member"),
                         meeting.startTime,
                         memo.id.as("memoId"),
                         memo.walkSum.as("walk"),
@@ -85,7 +59,7 @@ public class MeetingRepositoryImpl implements CustomMeetingRepository {
                         memo.toiletSum.as("toilet")))
                 .from(meeting)
                 .leftJoin(meeting.memos, memo)
-                .where(sender.eq(self)
+                .where(mem.eq(self)
                         .and(meeting.status.eq(MeetingStatus.ACCEPT))
                         .and(meeting.startTime.before(LocalDateTime.now())))
                 .orderBy(meeting.startTime.asc())
