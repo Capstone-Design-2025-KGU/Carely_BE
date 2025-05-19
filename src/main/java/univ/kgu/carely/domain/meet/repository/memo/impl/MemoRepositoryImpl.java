@@ -15,7 +15,7 @@ public class MemoRepositoryImpl implements CustomMemoRepository {
     private static final QMemo memo = QMemo.memo;
 
     @Override
-    public Memo findCurrentMemoByMember(Member member) {
+    public Memo findMemoByMember(Member member) {
         return jpaQueryFactory.selectFrom(memo)
                 .where(memo.member.eq(member))
                 .fetchFirst();

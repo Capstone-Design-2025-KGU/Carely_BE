@@ -31,10 +31,11 @@ public class MemoServiceImpl implements MemoService {
     @Transactional
     public ResMemoDTO updateMemo(Long memberId, Member auth, ReqMemoUpdateDTO reqMemoUpdateDTO) {
         Member opponent = memberRepository.getReferenceById(memberId);
-        Memo memo = memoRepository.findCurrentMemoByMember(opponent);
+        Memo memo = memoRepository.findMemoByMember(opponent);
 
         ReqMemoSumCreateDTO reqMemoSumCreateDTO = getReqMemoSumCreateDTO(memo, reqMemoUpdateDTO);
         Mono<ResMemoSumDTO> resMemoSumDTOMono = memoSumService.summarize(reqMemoSumCreateDTO);
+        // ToDo : 비동기적으로 저장 가능한 방법을 찾을 경우 적용 필요.
         ResMemoSumDTO block = resMemoSumDTOMono.block();
         memoMapper.updateMemo(memo, block);
 
@@ -61,7 +62,7 @@ public class MemoServiceImpl implements MemoService {
     @Transactional(readOnly = true)
     public ResMemoDTO readMemo(Long memberId, Member member) {
         Member opponent = memberRepository.getReferenceById(memberId);
-        Memo memo = memoRepository.findCurrentMemoByMember(opponent);
+        Memo memo = memoRepository.findMemoByMember(opponent);
 
         return memoMapper.toResMemoDto(memo);
     }
