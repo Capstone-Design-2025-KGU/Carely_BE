@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoUpdateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoDTO;
@@ -27,8 +26,8 @@ public class MemoController {
     @Operation(summary = "메모 수정(작성) API", description = "메모를 수정(작성)한다.")
     public ResponseEntity<ResMemoDTO> updateMemo(@PathVariable("memberId") Long memberId,
                                                  @RequestBody ReqMemoUpdateDTO reqMemoUpdateDTO,
-                                                 @AuthenticationPrincipal(expression = "member") Member member) {
-        ResMemoDTO resMemoDTO = memoService.updateMemo(memberId, member, reqMemoUpdateDTO);
+                                                 @AuthenticationPrincipal(expression = "member") Member auth) {
+        ResMemoDTO resMemoDTO = memoService.updateMemo(memberId, auth, reqMemoUpdateDTO);
 
         return ResponseEntity.ok(resMemoDTO);
     }
@@ -36,8 +35,8 @@ public class MemoController {
     @GetMapping("/{memberId}")
     @Operation(summary = "메모 조회 API", description = "해당 약속과 연관된 메모를 조회한다.")
     public ResponseEntity<ResMemoDTO> readMemo(@PathVariable("memberId") Long memberId,
-                                               @AuthenticationPrincipal(expression = "member") Member member) {
-        ResMemoDTO resMemoDTO = memoService.readMemo(member, memberId);
+                                               @AuthenticationPrincipal(expression = "member") Member auth) {
+        ResMemoDTO resMemoDTO = memoService.readMemo(memberId, auth);
 
         return ResponseEntity.ok(resMemoDTO);
     }

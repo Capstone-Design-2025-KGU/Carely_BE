@@ -5,7 +5,7 @@ import univ.kgu.carely.domain.meet.dto.response.ResMemoDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 
 public interface MemoService {
-    ResMemoDTO updateMemo(Long memberId, Member member, ReqMemoUpdateDTO reqMemoUpdateDTO);
+    ResMemoDTO updateMemo(Long memberId, Member auth, ReqMemoUpdateDTO reqMemoUpdateDTO);
 
-    ResMemoDTO readMemo(Member member, Long memberId);
+    ResMemoDTO readMemo(Long memberId, Member member);
 }
