@@ -1,6 +1,5 @@
 package univ.kgu.carely.domain.meet.service.impl;
 
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +34,10 @@ public class MemoServiceImpl implements MemoService {
         Memo memo = memoRepository.findMemoByMember(opponent);
 
         if (memo == null) {
-            Memo entity = new Memo();
-            entity.setMember(auth);
+            memo = new Memo();
+            memo.setMember(auth);
 
-            memoRepository.save(entity);
+            memo = memoRepository.save(memo);
         }
 
         ReqMemoSumCreateDTO reqMemoSumCreateDTO = getReqMemoSumCreateDTO(memo, reqMemoUpdateDTO);
