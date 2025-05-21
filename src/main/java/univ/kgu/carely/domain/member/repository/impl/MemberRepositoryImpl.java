@@ -163,6 +163,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
     @Override
     public ResMemberPublicInfoDTO getMemberPublicInfo(Long opponentId, Long selfId) {
         ResMemberPublicInfoDTO resMemberPublicInfoDTO;
+        Integer withTime;
 
         Member selfMember = jpaQueryFactory.select(Projections.fields(Member.class,
                         Projections.fields(Address.class,
@@ -200,27 +201,17 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .where(member.memberId.eq(opponentId))
                 .fetchOne();
 
-        Integer withTime;
+        QMember me = selfMember.getMemberType() == MemberType.FAMILY ? meeting.receiver : meeting.sender;
+        QMember oppo = selfMember.getMemberType() == MemberType.FAMILY ? meeting.sender : meeting.receiver;
 
-        if (selfMember.getMemberType().equals(MemberType.FAMILY)) {
-            withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
-                            "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
-                            meeting.startTime, meeting.endTime))
-                    .from(meeting)
-                    .where(meeting.sender.memberId.eq(opponentId)
-                            .and(meeting.receiver.memberId.eq(selfId))
-                            .and(meeting.status.eq(MeetingStatus.FINISH)))
-                    .fetchOne();
-        } else {
-            withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
-                            "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
-                            meeting.startTime, meeting.endTime))
-                    .from(meeting)
-                    .where(meeting.receiver.memberId.eq(opponentId)
-                            .and(meeting.sender.memberId.eq(selfId))
-                            .and(meeting.status.eq(MeetingStatus.FINISH)))
-                    .fetchOne();
-        }
+        withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
+                        "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
+                        meeting.startTime, meeting.endTime))
+                .from(meeting)
+                .where(oppo.memberId.eq(opponentId)
+                        .and(me.memberId.eq(selfId))
+                        .and(meeting.status.eq(MeetingStatus.FINISH)))
+                .fetchOne();
 
         resMemberPublicInfoDTO.setWithTime(Objects.requireNonNullElse(withTime, 0)); // 함께한 시간이 없는 경우 0으로 return
         resMemberPublicInfoDTO.setDistance(UnitTrans.meterToKilometer(resMemberPublicInfoDTO.getDistance()));
