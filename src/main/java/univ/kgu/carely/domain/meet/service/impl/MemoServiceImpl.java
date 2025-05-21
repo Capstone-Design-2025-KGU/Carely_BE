@@ -36,8 +36,6 @@ public class MemoServiceImpl implements MemoService {
         if (memo == null) {
             memo = new Memo();
             memo.setMember(opponent);
-
-            memo = memoRepository.save(memo);
         }
 
         ReqMemoSumCreateDTO reqMemoSumCreateDTO = getReqMemoSumCreateDTO(memo, reqMemoUpdateDTO);
