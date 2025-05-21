@@ -83,7 +83,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 "ST_DISTANCE_SPHERE({0}, {1})", my.getAddress().getLocation(), member.address.location);
 
         NumberTemplate<Integer> withTime = Expressions.numberTemplate(Integer.class,
-                "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))", mt.startTime, mt.endTime);
+                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))", mt.startTime, mt.endTime);
 
         BooleanTemplate isNearby = Expressions.booleanTemplate("ST_CONTAINS(ST_BUFFER({0}, {1}), {2})",
                 my.getAddress().getLocation(), meter, member.address.location);
@@ -205,7 +205,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
         QMember oppo = selfMember.getMemberType() == MemberType.FAMILY ? meeting.sender : meeting.receiver;
 
         withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
-                        "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
+                        "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
                         meeting.startTime, meeting.endTime))
                 .from(meeting)
                 .where(oppo.memberId.eq(opponentId)
@@ -241,7 +241,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .fetchOne();
 
         Integer withTimeSum = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
-                                "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
+                                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
                                 meeting.startTime, meeting.endTime)
                         .as("withTimeSum"))
                 .from(meeting)
