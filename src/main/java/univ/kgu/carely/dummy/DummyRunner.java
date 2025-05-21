@@ -19,6 +19,7 @@ public class DummyRunner {
     private final PostDummy postDummy;
     private final CommentDummy commentDummy;
     private final MeetingDummy meetingDummy;
+    private final MemoDummy memoDummy;
 
     @EventListener(ApplicationReadyEvent.class)
     public void runner() {
@@ -30,6 +31,7 @@ public class DummyRunner {
         postDummy.makePost();
         commentDummy.makeComment();
         meetingDummy.makeMeeting();
+        memoDummy.makeMemo();
     }
 
 }
