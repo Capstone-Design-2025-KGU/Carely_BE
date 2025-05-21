@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.meet.dto.request.ReqMeetingCreateDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMeetingSmallInfoDTO;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
 import univ.kgu.carely.domain.meet.entity.Memo;
@@ -19,8 +20,6 @@ import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.meet.util.MemoryMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
-import univ.kgu.carely.domain.member.service.MemberService;
-import univ.kgu.carely.domain.member.util.MemberMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +31,9 @@ public class MeetingServiceImpl implements MeetingService {
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
     private final MemoryRepository memoryRepository;
-    private final MemoRepository memoRepository;
 
     private final MeetingMapper meetingMapper;
     private final MemoryMapper memoryMapper;
-    private final MemoMapper memoMapper;
 
     @Override
     @Transactional
@@ -90,10 +87,6 @@ public class MeetingServiceImpl implements MeetingService {
         meeting.setStatus(MeetingStatus.ACCEPT);
         Meeting save = meetingRepository.save(meeting);
 
-        Memo memo = memoMapper.toEntity(save);
-
-        memoRepository.save(memo);
-
         return toResMeetingDTO(save);
     }
 
@@ -133,8 +126,6 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         meeting.setStatus(MeetingStatus.PENDING);
-        Memo memo = memoRepository.findByMeeting(meeting);
-        memoRepository.delete(memo);
 
         return toResMeetingDTO(meeting);
     }
@@ -194,6 +185,12 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         return resMeeting;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResMeetingSmallInfoDTO getNearestMeeting(Member self) {
+        return meetingRepository.findNearestMeetingBySenderOrReceiver(self);
     }
 
 }

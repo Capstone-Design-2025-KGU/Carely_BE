@@ -64,6 +64,9 @@ dependencies {
 	// Hibernate
 	implementation 'org.hibernate:hibernate-spatial:6.6.1.Final'
 
+	// WebClient
+	implementation 'org.springframework.boot:spring-boot-starter-webflux:3.3.1'
+
 	// MapStruct
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 	testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
@@ -71,7 +74,7 @@ dependencies {
 	implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 
 	// Docker Compose Support
-	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+	testAndDevelopmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 
 tasks.named('test') {

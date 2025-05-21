@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -116,10 +117,6 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<Memo> memos = new HashSet<>();
-
-    @OneToMany(mappedBy = "writer")
-    @Builder.Default
-    private List<Memo> writeMemos = new ArrayList<>();
 
     @OneToMany(mappedBy = "sender")
     @Builder.Default

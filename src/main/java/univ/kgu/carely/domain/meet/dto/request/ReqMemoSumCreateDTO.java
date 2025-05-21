@@ -1,6 +1,5 @@
 package univ.kgu.carely.domain.meet.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class ReqMemoUpdateDTO {
+public class ReqMemoSumCreateDTO {
 
-    private String original;
+    private String notes;
 
 }

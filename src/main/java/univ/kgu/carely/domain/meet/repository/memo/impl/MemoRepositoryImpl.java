@@ -1,10 +1,7 @@
 package univ.kgu.carely.domain.meet.repository.memo.impl;
 
-import static univ.kgu.carely.domain.meet.entity.QMeeting.meeting;
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import univ.kgu.carely.domain.meet.entity.MeetingStatus;
 import univ.kgu.carely.domain.meet.entity.Memo;
 import univ.kgu.carely.domain.meet.entity.QMemo;
 import univ.kgu.carely.domain.meet.repository.memo.CustomMemoRepository;
@@ -18,12 +15,9 @@ public class MemoRepositoryImpl implements CustomMemoRepository {
     private static final QMemo memo = QMemo.memo;
 
     @Override
-    public Memo findCurrentMemoByMemberAndMeetingStatusFinish(Member member) {
+    public Memo findMemoByMember(Member member) {
         return jpaQueryFactory.selectFrom(memo)
-                .join(memo.meeting, meeting)
-                .where(memo.member.eq(member)
-                        .and(memo.meeting.status.eq(MeetingStatus.FINISH)))
-                .orderBy(memo.id.desc())
+                .where(memo.member.eq(member))
                 .fetchFirst();
     }
 
