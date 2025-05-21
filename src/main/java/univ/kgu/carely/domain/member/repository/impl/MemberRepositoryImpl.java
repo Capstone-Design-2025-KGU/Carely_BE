@@ -28,6 +28,7 @@ import univ.kgu.carely.domain.member.dto.response.ResMembersRecommendedDTO;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.entity.QMember;
 import univ.kgu.carely.domain.member.repository.CustomMemberRepository;
+import univ.kgu.carely.util.UnitTrans;
 
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements CustomMemberRepository {
@@ -45,21 +46,18 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
     @Override
     public List<ResMemberMapDTO> findAllWithinDistance(String query, Point p, int meter) {
         BooleanTemplate isNearby = Expressions.booleanTemplate("ST_CONTAINS(ST_BUFFER({0}, {1}), {2})",
-                p, 2000, member.address.location);
+                p, meter, member.address.location);
 
-        return jpaQueryFactory.select(
-                        Projections.fields(ResMemberMapDTO.class,
-                                member.memberId,
-                                member.memberType,
-                                member.address.latitude.as("lat"),
-                                member.address.longitude.as("lng")
-                        ))
+        return jpaQueryFactory.select(Projections.fields(ResMemberMapDTO.class,
+                        member.memberId,
+                        member.memberType,
+                        member.address.latitude.as("lat"),
+                        member.address.longitude.as("lng")))
                 .from(member)
                 .where(member.isVerified
                         .and(member.isVisible)
                         .and(member.name.contains(query))
-                        .and(isNearby)
-                )
+                        .and(isNearby))
                 .fetch();
     }
 
@@ -106,8 +104,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                     member.profileImage,
                                     member.memberType,
                                     distance.as("distance"),
-                                    withTime.as("withTime")
-                            ))
+                                    withTime.as("withTime")))
                     .from(member)
                     .leftJoin(mt).on(member.eq(mt.sender))
                     .where(findNearbyVisibleNotFamilyType)
@@ -138,8 +135,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                     member.profileImage,
                                     member.memberType,
                                     distance.as("distance"),
-                                    withTime.as("withTime")
-                            ))
+                                    withTime.as("withTime")))
                     .from(member)
                     .leftJoin(mt).on(member.eq(mt.receiver))
                     .where(findNearbyVisibleFamilyType)
@@ -155,6 +151,10 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                     .where(findNearbyVisibleFamilyType)
                     .fetchOne();
         }
+
+        resMembersRecommendedDTOS = resMembersRecommendedDTOS.stream()
+                .peek(resMembersRecommendedDTO -> resMembersRecommendedDTO.setDistance(
+                        UnitTrans.meterToKilometer(resMembersRecommendedDTO.getDistance()))).toList();
 
         assert Objects.nonNull(total);
         return new PageImpl<>(resMembersRecommendedDTOS, pageable, total);
@@ -173,6 +173,10 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .where(member.memberId.eq(selfId))
                 .fetchOne();
 
+        NumberTemplate<Double> distance = Expressions.numberTemplate(Double.class,
+                "ST_DISTANCE_SPHERE({0}, {1})",
+                selfMember.getAddress().getLocation(), member.address.location);
+
         resMemberPublicInfoDTO = jpaQueryFactory.select(
                         Projections.fields(ResMemberPublicInfoDTO.class,
                                 member.memberId,
@@ -183,17 +187,14 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                                 member.memberType,
                                 member.profileImage,
                                 member.createdAt,
-                                Expressions.numberTemplate(Double.class,
-                                        "ST_DISTANCE_SPHERE({0}, {1})",
-                                        selfMember.getAddress().getLocation(), member.address.location).as("distance"),
+                                distance.as("distance"),
                                 Projections.fields(Address.class,
-                                                member.address.province,
-                                                member.address.city,
-                                                member.address.district,
-                                                member.address.details,
-                                                member.address.latitude,
-                                                member.address.longitude)
-                                        .as("address"),
+                                        member.address.province,
+                                        member.address.city,
+                                        member.address.district,
+                                        member.address.details,
+                                        member.address.latitude,
+                                        member.address.longitude).as("address"),
                                 member.skill))
                 .from(member)
                 .where(member.memberId.eq(opponentId))
@@ -203,7 +204,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
 
         if (selfMember.getMemberType().equals(MemberType.FAMILY)) {
             withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
-                            "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                            "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
                             meeting.startTime, meeting.endTime))
                     .from(meeting)
                     .where(meeting.sender.memberId.eq(opponentId)
@@ -212,7 +213,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                     .fetchOne();
         } else {
             withTime = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
-                            "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                            "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
                             meeting.startTime, meeting.endTime))
                     .from(meeting)
                     .where(meeting.receiver.memberId.eq(opponentId)
@@ -222,6 +223,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
         }
 
         resMemberPublicInfoDTO.setWithTime(Objects.requireNonNullElse(withTime, 0)); // 함께한 시간이 없는 경우 0으로 return
+        resMemberPublicInfoDTO.setDistance(UnitTrans.meterToKilometer(resMemberPublicInfoDTO.getDistance()));
         resMemberPublicInfoDTO.setAge(Period.between(resMemberPublicInfoDTO.getBirth(), LocalDate.now()).getYears());
 
         return resMemberPublicInfoDTO;
@@ -248,7 +250,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                 .fetchOne();
 
         Integer withTimeSum = jpaQueryFactory.select(Expressions.numberTemplate(Integer.class,
-                                "SUM(TIMESTAMPDIFF(MINUTE, {0}, {1}))",
+                                "SUM(TIMESTAMPDIFF(HOUR, {0}, {1}))",
                                 meeting.startTime, meeting.endTime)
                         .as("withTimeSum"))
                 .from(meeting)
