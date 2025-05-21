@@ -35,7 +35,7 @@ public class MemoServiceImpl implements MemoService {
 
         if (memo == null) {
             memo = new Memo();
-            memo.setMember(auth);
+            memo.setMember(opponent);
 
             memo = memoRepository.save(memo);
         }
