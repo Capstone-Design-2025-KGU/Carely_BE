@@ -1,6 +1,6 @@
 package univ.kgu.carely.domain.meet.dto.response;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class ResMemoryCardDTO {
 
     private Long memoryId;
     private String oppoName;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private String memo;
 
 }
