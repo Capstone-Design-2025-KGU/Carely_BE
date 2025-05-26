@@ -29,9 +29,9 @@ class MemoryRepositoryTest {
 
         List<ResMemoryCardDTO> cardByMember = memoryRepository.findMemoryCardByMember(5, flutter);
 
-        assertEquals("ㅂㅈㄷㄱ", cardByMember.get(0).getMemo());
+        assertEquals("ㅂㅈㄷㄱ", cardByMember.get(0).getOppoMemo());
         assertEquals("회원2", cardByMember.get(0).getOppoName());
-        assertEquals("ㅁㄴㅇㄹ", cardByMember.get(1).getMemo());
+        assertEquals("ㅁㄴㅇㄹ", cardByMember.get(1).getOppoMemo());
         assertEquals("회원3", cardByMember.get(1).getOppoName());
         assertThrows(IndexOutOfBoundsException.class, () -> cardByMember.get(3));
     }
@@ -44,7 +44,7 @@ class MemoryRepositoryTest {
         List<ResMemoryCardDTO> cardByMember = memoryRepository.findMemoryCardByMember(5, member3);
 
         assertThat(cardByMember.get(0).getOppoName()).isEqualTo("박성민");
-        assertThat(cardByMember.get(0).getMemo()).contains("고생");
+        assertThat(cardByMember.get(0).getOppoMemo()).contains("고생");
     }
 
 }
