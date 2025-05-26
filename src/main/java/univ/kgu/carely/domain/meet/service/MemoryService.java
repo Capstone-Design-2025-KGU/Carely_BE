@@ -1,8 +1,10 @@
 package univ.kgu.carely.domain.meet.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoryUpdateDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMemoryCardDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoryDTO;
 import univ.kgu.carely.domain.meet.entity.Memory;
 import univ.kgu.carely.domain.member.entity.Member;
@@ -39,4 +41,6 @@ public interface MemoryService {
     Page<ResMemoryDTO> readPagedMemory(Member member, String query, Pageable pageable);
 
     ResMemoryDTO toResMemoryDTO(Memory memory);
+
+    List<ResMemoryCardDTO> getOthersMemories(Long memberId, Member auth);
 }
