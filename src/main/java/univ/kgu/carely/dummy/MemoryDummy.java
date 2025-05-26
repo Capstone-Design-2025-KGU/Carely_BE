@@ -29,6 +29,7 @@ public class MemoryDummy {
                 .meeting(meetingRepository.getReferenceById(1L))
                 .sender(member4)
                 .receiver(flutter)
+                // ToDo : 수정 필요함.
                 .senderMemo("ㅁㄴㅇㄹ")
                 .receiverMemo("고생많으셨습니다. 다음에 또 봐요!")
                 .build();
@@ -37,6 +38,7 @@ public class MemoryDummy {
                 .meeting(meetingRepository.getReferenceById(2L))
                 .sender(member3)
                 .receiver(flutter)
+                // ToDo : 수정 필요함.
                 .senderMemo("ㅂㅈㄷㄱ")
                 .receiverMemo("고생하셨어요!")
                 .build();
