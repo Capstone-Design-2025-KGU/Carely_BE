@@ -90,7 +90,7 @@ public class MemoryRepositoryImpl implements CustomMemoryRepository {
                         memory.id.as("memoryId"),
                         other.name.as("oppoName"),
                         memory.createdAt,
-                        memo.as("memo")))
+                        memo.as("oppoMemo")))
                 .from(memory)
                 .where(tar.eq(target))
                 .orderBy(memory.id.desc())

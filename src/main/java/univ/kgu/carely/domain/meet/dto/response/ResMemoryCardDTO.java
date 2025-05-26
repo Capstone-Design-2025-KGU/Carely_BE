@@ -16,7 +16,7 @@ public class ResMemoryCardDTO {
 
     private Long memoryId;
     private String oppoName;
+    private String oppoMemo;
     private LocalDateTime createdAt;
-    private String memo;
 
 }
