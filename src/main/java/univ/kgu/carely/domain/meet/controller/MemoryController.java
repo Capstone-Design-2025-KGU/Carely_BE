@@ -57,7 +57,7 @@ public class MemoryController {
         return ResponseEntity.ok(resMemoryDTO);
     }
 
-    @GetMapping("")
+    @GetMapping("/others")
     @Operation(summary = "다른 사용자의 함께한 추억 목록 조회 API", description = "Memory 를 Card 형태의 컴포넌트에 표현하기 위한 조회 API")
     public ResponseEntity<List<ResMemoryCardDTO>> getOthersMemories(@RequestParam("mid") Long memberId,
                                                                     @AuthenticationPrincipal(expression = "member") Member auth){
