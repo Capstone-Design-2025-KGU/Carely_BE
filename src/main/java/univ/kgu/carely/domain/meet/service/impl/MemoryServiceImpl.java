@@ -1,16 +1,19 @@
 package univ.kgu.carely.domain.meet.service.impl;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import univ.kgu.carely.domain.meet.dto.request.ReqMemoryUpdateDTO;
+import univ.kgu.carely.domain.meet.dto.response.ResMemoryCardDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoryDTO;
 import univ.kgu.carely.domain.meet.entity.Memory;
 import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MemoryService;
 import univ.kgu.carely.domain.member.entity.Member;
+import univ.kgu.carely.domain.member.repository.MemberRepository;
 import univ.kgu.carely.domain.member.service.MemberService;
 import univ.kgu.carely.domain.member.util.MemberMapper;
 
@@ -19,10 +22,12 @@ import univ.kgu.carely.domain.member.util.MemberMapper;
 public class MemoryServiceImpl implements MemoryService {
 
     public static final String NOT_EXIST_MEMORY_EXCEPTION_MESSAGE = "존재하지 않는 방명록입니다.";
+    public static final int DEFAULT_MEMORY_CARD_COUNT = 5;
 
     private final MemoryRepository memoryRepository;
 
     private final MemberMapper memberMapper;
+    private final MemberRepository memberRepository;
 
     @Override
     @Transactional
@@ -80,6 +85,15 @@ public class MemoryServiceImpl implements MemoryService {
                 .receiver(memberMapper.toResMemberSmallInfoDto(memory.getReceiver()))
                 .meetingId(memory.getMeeting().getId())
                 .build();
+    }
+
+    @Override
+    public List<ResMemoryCardDTO> getOthersMemories(Long memberId, Member auth) {
+        Member targetMem = memberRepository.getReferenceById(memberId);
+        List<ResMemoryCardDTO> cardByMember = memoryRepository.findMemoryCardByMember(DEFAULT_MEMORY_CARD_COUNT,
+                targetMem);
+
+        return cardByMember;
     }
 
 }

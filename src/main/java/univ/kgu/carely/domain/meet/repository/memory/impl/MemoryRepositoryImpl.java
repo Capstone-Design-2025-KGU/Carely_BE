@@ -1,13 +1,18 @@
 package univ.kgu.carely.domain.meet.repository.memory.impl;
 
+import static univ.kgu.carely.domain.member.entity.QMember.member;
+
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import univ.kgu.carely.domain.common.enums.MemberType;
+import univ.kgu.carely.domain.meet.dto.response.ResMemoryCardDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMemoryDTO;
 import univ.kgu.carely.domain.meet.entity.QMemory;
 import univ.kgu.carely.domain.meet.repository.memory.CustomMemoryRepository;
@@ -67,6 +72,30 @@ public class MemoryRepositoryImpl implements CustomMemoryRepository {
                 .fetchOne();
 
         return new PageImpl<>(fetch, pageable, l.longValue());
+    }
+
+    @Override
+    public List<ResMemoryCardDTO> findMemoryCardByMember(int count, Member target) {
+        MemberType memberType = jpaQueryFactory.select(member.memberType)
+                .from(member)
+                .where(member.eq(target))
+                .fetchOne();
+
+        QMember tar = memberType == MemberType.FAMILY ? memory.receiver : memory.sender;
+        QMember other = memberType == MemberType.FAMILY ? memory.sender : memory.receiver;
+
+        StringPath memo = memberType == MemberType.FAMILY ? memory.senderMemo : memory.receiverMemo;
+
+        return jpaQueryFactory.select(Projections.fields(ResMemoryCardDTO.class,
+                        memory.id.as("memoryId"),
+                        other.name.as("oppoName"),
+                        memory.createdAt,
+                        memo.as("oppoMemo")))
+                .from(memory)
+                .where(tar.eq(target))
+                .orderBy(memory.id.desc())
+                .limit(count)
+                .fetch();
     }
 
 }
