@@ -1,6 +1,9 @@
 server:
   port: 8081
 spring:
+  devtools:
+    restart:
+      enabled: false
   docker:
     compose:
       skip:
@@ -36,4 +39,5 @@ jwt:
   secret: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
 
 api:
-  carely_ai: "http://localhost:8000"
+  carely_ai: "http://chogunhee.duckdns.org:8000/"
+#  carely_ai: "http://localhost:8000"
