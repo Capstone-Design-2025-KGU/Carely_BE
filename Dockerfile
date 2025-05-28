@@ -4,4 +4,4 @@ WORKDIR /app
 COPY /build/libs/*SNAPSHOT.jar /app.jar
 EXPOSE 8081
 
-ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.activate=prod", "-jar", "/app.jar"]
+ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]

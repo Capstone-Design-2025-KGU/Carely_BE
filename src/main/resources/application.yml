@@ -9,7 +9,6 @@ spring:
       - 'classpath:/ymls/application-dev.yml'
       - 'classpath:/ymls/application-prod.yml'
   profiles:
-    active:
-      - prod
+    default: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
