@@ -1,39 +1,15 @@
 server:
   port: 8081
 spring:
-  docker:
-    compose:
-      skip:
-        in-tests: false
   application:
     name: carely
     version: 0.0.1
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL_CARELY:jdbc:mysql://db:3306/carely}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useUnicode=true
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:1234}
-  jpa:
-    properties:
-      hibernate:
-        show-sql: true
-        default_batch_fetch_size: 100
-        format_sql: true
-    show-sql: true
-    hibernate:
-      ddl-auto: create
-#  config:
-#    import:
-#      file:.env[.properties]
+  config:
+    import:
+      - 'classpath:/ymls/application-dev.yml'
+      - 'classpath:/ymls/application-prod.yml'
   profiles:
     active:
-      - default
-  sql:
-    init:
-      mode: NEVER
-
-jwt:
-  secret: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
-
-api:
-  carely_ai: "http://localhost:8000"
+      - prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver

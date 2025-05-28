@@ -1,0 +1,26 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  docker:
+    compose:
+      enabled: true
+      skip:
+        in-tests: false
+  datasource:
+    url: jdbc:mysql://db:3306/carely
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        show-sql: true
+        default_batch_fetch_size: 100
+        format_sql: true
+jwt:
+  secret: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
+api:
+  carely_ai: "http://chogunhee.duckdns.org:8000"

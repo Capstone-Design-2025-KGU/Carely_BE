@@ -7,7 +7,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("default")
+@Profile("dev")
 @RequiredArgsConstructor
 public class DummyRunner {
 

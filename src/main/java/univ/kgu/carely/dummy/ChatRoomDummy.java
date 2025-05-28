@@ -9,7 +9,7 @@ import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("default")
+@Profile("dev")
 public class ChatRoomDummy {
 
     private final ChatRoomRepository chatRoomRepository;

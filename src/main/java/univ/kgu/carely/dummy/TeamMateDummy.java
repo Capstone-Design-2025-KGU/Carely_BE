@@ -14,7 +14,7 @@ import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("default")
+@Profile("dev")
 public class TeamMateDummy {
 
     private final MemberRepository memberRepository;
