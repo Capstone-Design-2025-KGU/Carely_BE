@@ -90,10 +90,9 @@ public class MemoryServiceImpl implements MemoryService {
     @Override
     public List<ResMemoryCardDTO> getOthersMemories(Long memberId, Member auth) {
         Member targetMem = memberRepository.getReferenceById(memberId);
-        List<ResMemoryCardDTO> cardByMember = memoryRepository.findMemoryCardByMember(DEFAULT_MEMORY_CARD_COUNT,
-                targetMem);
 
-        return cardByMember;
+        return memoryRepository.findMemoryCardByMember(DEFAULT_MEMORY_CARD_COUNT,
+                targetMem);
     }
 
 }
