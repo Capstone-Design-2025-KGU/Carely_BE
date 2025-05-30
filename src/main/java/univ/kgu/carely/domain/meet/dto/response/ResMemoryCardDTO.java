@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import univ.kgu.carely.domain.common.enums.MemberType;
 
 @Getter
 @Setter
@@ -15,8 +16,10 @@ import lombok.Setter;
 public class ResMemoryCardDTO {
 
     private Long memoryId;
+    private MemberType memberType;
     private String oppoName;
     private String oppoMemo;
+    private String profileImage;
     private LocalDateTime createdAt;
 
 }
