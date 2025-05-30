@@ -16,6 +16,7 @@ import univ.kgu.carely.domain.common.enums.MemberType;
 public class ResMemoryCardDTO {
 
     private Long memoryId;
+    private Long otherMemberId;
     private MemberType memberType;
     private String oppoName;
     private String oppoMemo;
