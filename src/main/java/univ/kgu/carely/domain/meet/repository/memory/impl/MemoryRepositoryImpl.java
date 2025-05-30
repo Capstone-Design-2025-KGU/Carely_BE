@@ -88,7 +88,10 @@ public class MemoryRepositoryImpl implements CustomMemoryRepository {
 
         return jpaQueryFactory.select(Projections.fields(ResMemoryCardDTO.class,
                         memory.id.as("memoryId"),
+                        other.memberId.as("otherMemberId"),
+                        other.memberType,
                         other.name.as("oppoName"),
+                        other.profileImage,
                         memory.createdAt,
                         memo.as("oppoMemo")))
                 .from(memory)
