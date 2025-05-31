@@ -19,7 +19,6 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("default")
 public class MemberDummy {
 
     private final BCryptPasswordEncoder encoder;

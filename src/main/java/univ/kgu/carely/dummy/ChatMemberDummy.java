@@ -13,7 +13,6 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("default")
 public class ChatMemberDummy {
 
     private final MemberRepository memberRepository;

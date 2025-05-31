@@ -14,7 +14,6 @@ import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("default")
 public class MeetingDummy {
 
     private final MemberRepository memberRepository;

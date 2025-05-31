@@ -14,7 +14,7 @@ public class WebClientConfig {
     @Value("${api.carely_ai}")
     String carelyAIUrl;
 
-    @Bean
+    @Bean("carelyAI")
     public WebClient webClient(WebClient.Builder builder) {
         return builder
                 .baseUrl(carelyAIUrl)
