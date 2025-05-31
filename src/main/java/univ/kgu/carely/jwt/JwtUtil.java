@@ -33,7 +33,10 @@ public class JwtUtil {
     }
 
     public Boolean isExpired(String token){
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+        Date exp = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration();
+        log.info("Token exp: {}", exp);
+        log.info("Now: {}", new Date());
+        return exp.before(new Date());
     }
 
     public String createJwt(String username, String role, Long memberId, Long expiredMs){
