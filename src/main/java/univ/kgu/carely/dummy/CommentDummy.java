@@ -13,7 +13,6 @@ import univ.kgu.carely.domain.team.repository.post.PostRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("dev")
 public class CommentDummy {
 
     private final MemberRepository memberRepository;

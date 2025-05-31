@@ -13,7 +13,6 @@ import univ.kgu.carely.domain.team.repository.team.TeamRepository;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("dev")
 public class TeamDummy {
 
     private final TeamRepository teamRepository;

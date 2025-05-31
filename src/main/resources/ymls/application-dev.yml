@@ -23,4 +23,4 @@ spring:
 jwt:
   secret: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
 api:
-  carely_ai: "http://chogunhee.duckdns.org:8000"
+  carely_ai: "http://localhost:8000"

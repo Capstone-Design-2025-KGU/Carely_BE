@@ -12,7 +12,6 @@ import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 @Configuration
-@Profile("dev")
 @RequiredArgsConstructor
 public class MemoryDummy {
 
