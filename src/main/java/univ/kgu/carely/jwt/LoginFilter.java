@@ -19,7 +19,7 @@ import univ.kgu.carely.jwt.dto.LoginDTO;
 @RequiredArgsConstructor
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
-    private static final long EXPIRED_MS = 600 * 600 * 100000L;
+    private static final long EXPIRED_MS = 1000 * 60 * 60L;
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;

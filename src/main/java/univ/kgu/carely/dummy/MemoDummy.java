@@ -22,7 +22,7 @@ public class MemoDummy {
         Memo memo = Memo.builder()
                 .member(flutter)
                 .comm("할아버지는 대화할때 가장 기분이 좋아보이셨다.")
-                .medic("정보 없음.")
+                .medic("투약은 하루 2번, 아침 10시와 저녁 6시에 진행합니다. 또한, 복약 후에는 환자 상태를 세심하게 관찰하여 이상 반응이 없는지 확인해야 합니다.")
                 .meal("점심 식사는 30분동안 하셨습니다.")
                 .health("건강 상태는 이상 없음.")
                 .toilet("화장실을 하루동안 3번 가셨습니다.")

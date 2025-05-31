@@ -1,6 +1,8 @@
 package univ.kgu.carely.domain.meet.dto.response;
 
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,8 @@ public class ResMeetingSmallInfoDTO {
     private Long meetingId;
     private ResMemberSmallInfoDTO receiver;
     private ResMemberSmallInfoDTO sender;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startTime;
     private Long memoId;
     private String walk;
