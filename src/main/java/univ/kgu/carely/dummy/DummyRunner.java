@@ -23,16 +23,20 @@ public class DummyRunner {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runner() {
-        memberDummy.makeMember();
-        teamDummy.makeTeam();
-        teamMateDummy.makeTeamMate();
-        chatRoomDummy.makeChatRoom();
-        chatMemberDummy.makeChatMember();
-        postDummy.makePost();
-        commentDummy.makeComment();
-        meetingDummy.makeMeeting();
-        memoDummy.makeMemo();
-        memoryDummy.makeMemory();
+        try {
+            memberDummy.makeMember();
+            teamDummy.makeTeam();
+            teamMateDummy.makeTeamMate();
+            chatRoomDummy.makeChatRoom();
+            chatMemberDummy.makeChatMember();
+            postDummy.makePost();
+            commentDummy.makeComment();
+            meetingDummy.makeMeeting();
+            memoDummy.makeMemo();
+            memoryDummy.makeMemory();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
