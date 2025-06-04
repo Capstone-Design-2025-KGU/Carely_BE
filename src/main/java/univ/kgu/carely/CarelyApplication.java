@@ -10,7 +10,7 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 @OpenAPIDefinition(
 		servers = {
-				@Server(url = "https://carely.my", description = "Default Server url"),
+				@Server(url = "https://carely.life", description = "Default Server url"),
 				@Server(url = "http://localhost:8081", description = "Local")
 		}
 )
