@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-be
+data:
+  SPRING_PROFILES_ACTIVE: prod
+  SPRING_JPA_HIBERNATE_DDL-AUTO: validate
+  CARELY_AI_URL: svc-ai.default.svc.cluster.local
