@@ -75,6 +75,9 @@ dependencies {
 
 	// Docker Compose Support
 	testAndDevelopmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+
+	// Flyway
+	implementation 'org.flywaydb:flyway-mysql:10.20.0'
 }
 
 tasks.named('test') {
