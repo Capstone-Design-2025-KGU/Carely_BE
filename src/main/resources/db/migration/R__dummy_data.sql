@@ -1,0 +1,2 @@
+INSERT INTO member(username,password,name,phone_number,birth,story,member_type,is_visible,is_verified,profile_image,created_at, updated_at, province, city, district,details,lat,lng,location, communication, meal, toilet, bath, walk)
+    VALUES('flutter', 'pass0', '박성민', '010-1234-5600', '2001-10-30', '안녕하세요, 저는 회원 0입니다.', 'FAMILY', true,true,'1', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326), 'HIGH', 'MIDDLE', 'LOW', 'HIGH', 'MIDDLE');
