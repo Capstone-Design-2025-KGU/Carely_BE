@@ -52,12 +52,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     public List<ResMemberMapDTO> searchNeighborMember(Member member, String query) {
-        member = memberRepository.findById(member.getMemberId()).orElseThrow();
-        BigDecimal memberLat = member.getAddress().getLatitude();
-        BigDecimal memberLng = member.getAddress().getLongitude();
-
-        Point point = gf.createPoint(new Coordinate(memberLng.doubleValue(), memberLat.doubleValue()));
-
         return memberRepository.findAllWithinDistance(query, SEARCH_RANGE, member);
     }
 
