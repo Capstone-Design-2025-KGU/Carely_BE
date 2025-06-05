@@ -18,14 +18,14 @@ class MemberRepositoryImplTest {
 
     @Test
     void findAllWithinDistance() {
-        Member member = memberRepository.getReferenceById(1L);
+        Member member = memberRepository.findById(1L).orElseThrow();
         List<ResMemberMapDTO> allWithinDistance = memberRepository.findAllWithinDistance("", 2000, member);
         allWithinDistance.forEach(System.out::println);
     }
 
     @Test
     void findAllWithinDistance1() {
-        Member member = memberRepository.getReferenceById(3L);
+        Member member = memberRepository.findById(3L).orElseThrow();
         List<ResMemberMapDTO> allWithinDistance = memberRepository.findAllWithinDistance("", 2000, member);
         allWithinDistance.forEach(System.out::println);
     }
