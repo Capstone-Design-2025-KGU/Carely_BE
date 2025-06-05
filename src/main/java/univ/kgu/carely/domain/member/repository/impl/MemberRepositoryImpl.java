@@ -74,10 +74,7 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
             AND
             m.isVisible
         GROUP BY
-            -- self 의 member_type 이 FAMILY 가 아닌 경우
-            mt.receiver
-            -- self 의 member_type 이 FAMILY 인 경우
-            mt.sender
+            m.member_id
         */
         self = jpaQueryFactory.selectFrom(member)
                 .from(member)
