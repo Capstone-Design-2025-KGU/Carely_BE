@@ -117,7 +117,8 @@ public class MemberRepositoryImpl implements CustomMemberRepository {
                         .and(member.isVerified)
                         .and(member.isVisible)
                         .and(qMember2.eq(self).or(qMember2.isNull()))
-                        .and(member.name.contains(query)))
+                        .and(member.name.contains(query))
+                        .and(member.ne(self)))
                 .groupBy(member)
                 .fetch();
     }
