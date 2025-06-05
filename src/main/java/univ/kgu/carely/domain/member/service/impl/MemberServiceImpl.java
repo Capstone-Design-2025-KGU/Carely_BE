@@ -1,6 +1,5 @@
 package univ.kgu.carely.domain.member.service.impl;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -52,13 +51,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional(readOnly = true)
     public List<ResMemberMapDTO> searchNeighborMember(Member member, String query) {
-        member = memberRepository.findById(member.getMemberId()).orElseThrow();
-        BigDecimal memberLat = member.getAddress().getLatitude();
-        BigDecimal memberLng = member.getAddress().getLongitude();
-
-        Point point = gf.createPoint(new Coordinate(memberLng.doubleValue(), memberLat.doubleValue()));
-
-        return memberRepository.findAllWithinDistance(query, point, SEARCH_RANGE);
+        return memberRepository.findAllWithinDistance(query, SEARCH_RANGE, member);
     }
 
     @Override
