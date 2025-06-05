@@ -58,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 
         Point point = gf.createPoint(new Coordinate(memberLng.doubleValue(), memberLat.doubleValue()));
 
-        return memberRepository.findAllWithinDistance(query, point, SEARCH_RANGE);
+        return memberRepository.findAllWithinDistance(query, SEARCH_RANGE, member);
     }
 
     @Override

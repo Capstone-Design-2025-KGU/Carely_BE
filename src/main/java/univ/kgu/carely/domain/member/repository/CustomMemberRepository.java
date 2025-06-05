@@ -15,10 +15,11 @@ public interface CustomMemberRepository {
     /**
      * 입력한 위도/경도를 기준으로 해당 범위 내에 존재하는 모든 멤버를 찾는다.
      *
-     * @param meter      중심으로부터 확인하려고 하는 범위
+     * @param meter 중심으로부터 확인하려고 하는 범위
+     * @param self
      * @return 범위 내의 모든 멤버
      */
-    List<ResMemberMapDTO> findAllWithinDistance(String query, Point p, int meter);
+    List<ResMemberMapDTO> findAllWithinDistance(String query, int meter, Member self);
 
     /**
      * 위도/경도 좌표를 가지고 거리를 측정한다.
