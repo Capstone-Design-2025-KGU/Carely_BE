@@ -19,7 +19,7 @@ public class MemoSumServiceImpl implements MemoSumService {
     @Override
     public Mono<ResMemoSumDTO> summarize(final ReqMemoSumCreateDTO dto) {
         return webClient.post()
-                .uri("/memo-summarize")
+                .uri("/memo-summary")
                 .bodyValue(dto)
                 .retrieve()
                 .toEntity(ResMemoSumDTO.class)
