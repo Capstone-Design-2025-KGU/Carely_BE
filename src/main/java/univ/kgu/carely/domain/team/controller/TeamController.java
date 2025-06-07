@@ -1,6 +1,7 @@
 package univ.kgu.carely.domain.team.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -69,5 +70,13 @@ public class TeamController {
         Page<ResTeamOutlineDTO> resTeamOutlineDTOS = teamService.searchNeighbor(member, pageable);
 
         return ResponseEntity.ok(resTeamOutlineDTOS);
+    }
+
+    @GetMapping("/")
+    @Operation(summary = "본인 소속 그룹 찾기 API", description = "본인이 소속된 그룹을 찾는다.")
+    public ResponseEntity<List<ResTeamOutlineDTO>> getMyTeams(@AuthenticationPrincipal(expression = "member") Member auth) {
+        List<ResTeamOutlineDTO> myTeams = teamService.getMyTeams(auth);
+
+        return ResponseEntity.ok(myTeams);
     }
 }

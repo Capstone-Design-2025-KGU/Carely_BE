@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.common.embeded.address.Address;
+import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.team.dto.response.ResTeamOutlineDTO;
 import univ.kgu.carely.domain.team.entity.QTeam;
 import univ.kgu.carely.domain.team.repository.team.CustomTeamRepository;
@@ -41,8 +42,8 @@ public class TeamRepositoryImpl implements CustomTeamRepository {
                                 address.details,
                                 address.latitude,
                                 address.longitude
-                                ).as("address"),
-                        teamMate.teamMateId.count().as("memberCount")))
+                        ).as("address"),
+                        teamMate.count().as("memberCount")))
                 .from(team)
                 .leftJoin(teamMate).on(team.eq(teamMate.team))
                 .where(isNearby)
@@ -57,5 +58,18 @@ public class TeamRepositoryImpl implements CustomTeamRepository {
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, l.longValue());
+    }
+
+    @Override
+    public List<ResTeamOutlineDTO> findMyTeamsByAuth(Member auth) {
+        return jpaQueryFactory.select(Projections.fields(ResTeamOutlineDTO.class,
+                        team.teamId,
+                        team.teamName,
+                        team.address,
+                        team.teamMates.size().castToNum(Long.class).as("memberCount")))
+                .from(teamMate)
+                .leftJoin(teamMate).on(teamMate.team.eq(team))
+                .where(teamMate.member.eq(auth))
+                .fetch();
     }
 }
