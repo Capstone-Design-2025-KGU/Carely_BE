@@ -11,4 +11,5 @@ public interface ChatMessageService {
     ChatMessage saveChatMessage(ChatMessageRequest request);
     List<ChatMessageResponse> getChatMessageByChatRoomId(Long chatRoomId);
     List<ChatRoomResponse> getChatRoomByMemberId(Long memberId);
+    Boolean deleteChatRoom(Long chatRoomId);
 }
