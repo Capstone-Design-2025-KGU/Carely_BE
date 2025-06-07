@@ -17,28 +17,35 @@ INSERT INTO member(username,password,name,phone_number,birth,story,member_type,i
     ('user16', '$2a$10$sgsD/3x9X58E2qo53pvT1uLYPyJJUHrTFSPbXoby.kw3uH4B/d9jO', '임건우', '010-0695-6859', '2002-12-19', '안녕하세요, 저는 임건우입니다.', 'CAREGIVER', true,true,'2', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300628, 127.037394, ST_GeomFromText('POINT(37.300628 127.037394)', 4326), 'LOW', 'MIDDLE', 'LOW', 'LOW', 'LOW');
 
 INSERT INTO team(team_name, province, city, district, details, lat, lng, location) VALUES
-    ();
+    ('경기대인 모여라', '경기도','수원시','영통구','경기대학교 수원캠퍼스', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326));
 
 INSERT INTO team_mate(role, team_id, member_id) VALUES
-    ();
+    ('LEADER', 1, 1),
+    ('MATE', 1, 2),
+    ('MATE', 1, 3),
+    ('MATE', 1, 4);
 
 INSERT INTO post(title, content, member_id, team_id) VALUES
-    ();
+    ('안녕하세요! 잘부탁드립니다!', '20학번 조건희입니다!', 2, 1);
 
 INSERT INTO comment(content, post_id, member_id) VALUES
-    ();
+    ('저도 잘부탁드려요', 1, 3),
+    ('베릴 ㅎㅇ', 1, 4);
 
 INSERT INTO chat_room(room_name) VALUES
-    ();
+    ('1:1 채팅방 1'),
+    ('1:1 채팅방 2');
 
 INSERT INTO chat_member(member_id, chatroom_id) VALUES
-    ();
-
-INSERT INTO chat_message(member_id, chatroom_id, content, message_type, meeting_id, date, time, chore) VALUES
-    ();
+    (1, 1),
+    (3, 1),
+    (1, 2),
+    (3, 2);
 
 INSERT INTO meeting(start_time, end_time, chore, status, sender_id, receiver_id) VALUES
-    ();
+    ('2025-06-05 10:00:00','2025-06-05 13:00:00','식사 보조','FINISH', 3, 1),
+    ('','','','FINISH', 4, 1),
+    ('','','','FINISH', 3, 1);
 
 INSERT INTO memo(comm, meal, toilet, walk, medic, health, member_id) VALUES
     ();
