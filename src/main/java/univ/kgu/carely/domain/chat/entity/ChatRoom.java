@@ -22,7 +22,7 @@ public class ChatRoom {
     @Column(name = "chatroom_id")
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Default
     private List<ChatMessage> messages = new ArrayList<>();
 
