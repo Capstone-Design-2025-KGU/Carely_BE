@@ -44,11 +44,10 @@ INSERT INTO chat_member(member_id, chatroom_id) VALUES
 
 INSERT INTO meeting(start_time, end_time, chore, status, sender_id, receiver_id) VALUES
     ('2025-06-05 10:00:00','2025-06-05 13:00:00','식사 보조','FINISH', 3, 1),
-    ('','','','FINISH', 4, 1),
-    ('','','','FINISH', 3, 1);
-
-INSERT INTO memo(comm, meal, toilet, walk, medic, health, member_id) VALUES
-    ();
+    ('2025-06-05 13:00:00','2025-06-05 20:00:00','산책 및 저녁 식사 보조','FINISH', 4, 1),
+    ('2025-06-06 10:00:00','2025-06-06 13:00:00','식사 보조','FINISH', 3, 1);
 
 INSERT INTO memory(sender_memo, receiver_memo, sender_id, receiver_id, meeting_id) VALUES
-    ();
+    (null, null, 3, 1, 1),
+    (null, null, 4, 1, 2),
+    (null, null, 3, 1, 3);
