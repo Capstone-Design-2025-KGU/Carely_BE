@@ -59,7 +59,7 @@ public class MemoServiceImpl implements MemoService {
                 + prevMemo.getToilet()
                 + reqMemoUpdateDTO.getOriginal();
 
-        dto.setNotes(sb);
+        dto.setMemo(sb);
         return dto;
     }
 

@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.team.service.impl;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -110,6 +111,11 @@ public class TeamServiceImpl implements TeamService {
         member = memberRepository.findById(member.getMemberId()).orElseThrow();
 
         return teamRepository.findTeamOutlineWithinDistance(member.getAddress().getLocation(), SEARCH_RANGE, pageable);
+    }
+
+    @Override
+    public List<ResTeamOutlineDTO> getMyTeams(Member auth) {
+        return teamRepository.findMyTeamsByAuth(auth);
     }
 
 }
