@@ -9,14 +9,11 @@ import univ.kgu.carely.domain.meet.dto.response.ResMeetingDTO;
 import univ.kgu.carely.domain.meet.dto.response.ResMeetingSmallInfoDTO;
 import univ.kgu.carely.domain.meet.entity.Meeting;
 import univ.kgu.carely.domain.meet.entity.MeetingStatus;
-import univ.kgu.carely.domain.meet.entity.Memo;
 import univ.kgu.carely.domain.meet.entity.Memory;
 import univ.kgu.carely.domain.meet.repository.meeting.MeetingRepository;
-import univ.kgu.carely.domain.meet.repository.memo.MemoRepository;
 import univ.kgu.carely.domain.meet.repository.memory.MemoryRepository;
 import univ.kgu.carely.domain.meet.service.MeetingService;
 import univ.kgu.carely.domain.meet.util.MeetingMapper;
-import univ.kgu.carely.domain.meet.util.MemoMapper;
 import univ.kgu.carely.domain.meet.util.MemoryMapper;
 import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
@@ -117,7 +114,8 @@ public class MeetingServiceImpl implements MeetingService {
         Meeting meeting = meetingRepository.findById(meetingId).orElseThrow(() ->
                 new RuntimeException(NOT_EXIST_MEETING_EXCEPTION_MESSAGE));
 
-        if (!member.getMemberId().equals(meeting.getReceiver().getMemberId())) {
+        if (!member.getMemberId().equals(meeting.getReceiver().getMemberId()) &&
+                member.getMemberId().equals(meeting.getSender().getMemberId())) {
             throw new RuntimeException("본인이 거절할 수 있는 약속이 아닙니다.");
         }
 
@@ -126,6 +124,7 @@ public class MeetingServiceImpl implements MeetingService {
         }
 
         meeting.setStatus(MeetingStatus.PENDING);
+        meetingRepository.save(meeting);
 
         return toResMeetingDTO(meeting);
     }
