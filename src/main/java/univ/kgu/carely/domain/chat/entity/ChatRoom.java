@@ -26,5 +26,9 @@ public class ChatRoom {
     @Default
     private List<ChatMessage> messages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Default
+    private List<ChatMember> members = new ArrayList<>();
+
     private String roomName;
 }
