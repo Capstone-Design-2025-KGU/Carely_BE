@@ -11,8 +11,8 @@ CREATE TABLE member (
     is_visible BOOLEAN NOT NULL,
     is_verified BOOLEAN NOT NULL DEFAULT FALSE,
     profile_image VARCHAR(255) NOT NULL,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     -- Address 임베디드 필드
     province VARCHAR(255),
     city VARCHAR(255),
@@ -63,7 +63,7 @@ CREATE TABLE post (
     post_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     member_id BIGINT NOT NULL,
     team_id BIGINT NOT NULL,
     -- 외래 키 제약
@@ -75,7 +75,7 @@ CREATE TABLE post (
 CREATE TABLE comment (
     comment_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     content TEXT NOT NULL,
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     post_id BIGINT NOT NULL,
     member_id BIGINT NOT NULL,
     -- 외래 키 제약
@@ -110,7 +110,7 @@ CREATE TABLE chat_message (
     date VARCHAR(255),
     time VARCHAR(255),
     chore VARCHAR(255),
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     -- 외래 키 제약
     CONSTRAINT fk_chatmessage_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE,
     CONSTRAINT fk_chatmessage_chatroom FOREIGN KEY (chatroom_id) REFERENCES chat_room(chatroom_id) ON DELETE CASCADE
@@ -123,7 +123,7 @@ CREATE TABLE meeting (
     end_time DATETIME,
     chore VARCHAR(255),
     status ENUM('PENDING', 'ACCEPT', 'FINISH') DEFAULT 'PENDING',
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL,
     sender_id BIGINT NOT NULL,
     receiver_id BIGINT NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE memo (
     walk TEXT,
     medic TEXT,
     health TEXT,
-    created_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     member_id BIGINT NOT NULL,
     -- 외래 키 제약
     CONSTRAINT fk_memo_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE,
@@ -154,8 +154,8 @@ CREATE TABLE memory (
     memory_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     sender_memo TEXT,
     receiver_memo TEXT,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     sender_id BIGINT NOT NULL,
     receiver_id BIGINT NOT NULL,
     meeting_id BIGINT NOT NULL,
