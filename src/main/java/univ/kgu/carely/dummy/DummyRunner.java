@@ -2,7 +2,6 @@ package univ.kgu.carely.dummy;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DummyRunner {
 
-    private final MemberDummy memberDummy;
     private final TeamDummy teamDummy;
     private final TeamMateDummy teamMateDummy;
     private final ChatRoomDummy chatRoomDummy;
@@ -24,7 +22,6 @@ public class DummyRunner {
     @EventListener(ApplicationReadyEvent.class)
     public void runner() {
         try {
-            memberDummy.makeMember();
             teamDummy.makeTeam();
             teamMateDummy.makeTeamMate();
             chatRoomDummy.makeChatRoom();
@@ -34,7 +31,7 @@ public class DummyRunner {
             meetingDummy.makeMeeting();
             memoDummy.makeMemo();
             memoryDummy.makeMemory();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
