@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: be
-          image: whrjsgml0000/carely_be:1.0.13
+          image: whrjsgml0000/carely_be:1.0.14
           resources:
             limits:
               memory: "2Gi"
