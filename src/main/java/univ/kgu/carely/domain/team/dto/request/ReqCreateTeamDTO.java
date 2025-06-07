@@ -16,5 +16,9 @@ public class ReqCreateTeamDTO {
     private String teamName;
     @Schema(description = "그룹의 중심 주소", example = "그룹 주소")
     private Address address;
+    @Schema(description = "그룹 소개")
+    private String story;
+    @Schema(description = "그룹 대표 이미지")
+    private String teamImage;
 
 }

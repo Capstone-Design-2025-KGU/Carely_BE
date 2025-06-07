@@ -8,9 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +31,11 @@ public class Team {
     private Long teamId;
 
     private String teamName;
+
+    private String story;
+
+    @Default
+    private String teamImage = String.valueOf(new Random().nextInt(1,5));
 
     @Embedded
     private Address address;
