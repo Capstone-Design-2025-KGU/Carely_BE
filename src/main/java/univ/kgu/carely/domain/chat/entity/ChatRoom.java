@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -17,6 +19,9 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chatroom_id")
     private Long id;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ChatMessage> messages;
 
     private String roomName;
 }
