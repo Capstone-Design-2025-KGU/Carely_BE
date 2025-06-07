@@ -1,8 +1,10 @@
 package univ.kgu.carely.domain.chat.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +23,8 @@ public class ChatRoom {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ChatMessage> messages;
+    @Default
+    private List<ChatMessage> messages = new ArrayList<>();
 
     private String roomName;
 }
