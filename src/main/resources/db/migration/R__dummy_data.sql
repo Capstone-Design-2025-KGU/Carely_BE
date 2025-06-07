@@ -1,4 +1,4 @@
-INSERT INTO member(username,password,name,phone_number,birth,story,member_type,is_visible,is_verified,profile_image,created_at, updated_at, province, city, district,details,lat,lng,location, communication, meal, toilet, bath, walk) VALUES
+INSERT IGNORE INTO member(username,password,name,phone_number,birth,story,member_type,is_visible,is_verified,profile_image,created_at, updated_at, province, city, district,details,lat,lng,location, communication, meal, toilet, bath, walk) VALUES
     ('flutter', '$2a$10$2hxlshzl8gZaE/Eey8CGhOEgNcoqiXXPhm4CUCK4BwkQDo8y6kPq.', '박성민', '010-4989-5600', '2001-02-28', '안녕하세요, 저는 박성민입니다.', 'FAMILY', true,true,'1', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326), 'HIGH', 'MIDDLE', 'LOW', 'HIGH', 'MIDDLE'),
     ('user2', '$2a$10$HiIQxDqO9EmKHFjxP4jWw.sv5hKxk1uv6RbIo7s5hfVWaKH4O11TO', '조건희', '010-9894-6145', '2001-10-30', '안녕하세요, 저는 조건희입니다.', 'FAMILY', true,true,'3', now(), now(),'경기도', '수원시', '영통구','경기대 8강의동', 37.300781, 127.039357, ST_GeomFromText('POINT(37.300781 127.039357)', 4326), 'LOW', 'HIGH', 'LOW', 'MIDDLE', 'MIDDLE'),
     ('user3', '$2a$10$Wct0z8U/nQmOKG2g22380.1Ru4BMC9BV4IQA3FdDeQhQXGHSpLMoO', '박철민', '010-7584-0912', '1994-09-12', '안녕하세요, 저는 박철민입니다.', 'VOLUNTEER', true,true,'5', now(), now(),'경기도', '수원시', '영통구','경기대 기숙사', 37.297700, 127.038627, ST_GeomFromText('POINT(37.297700 127.038627)', 4326), 'MIDDLE', 'MIDDLE', 'LOW', 'MIDDLE', 'HIGH'),
@@ -16,38 +16,38 @@ INSERT INTO member(username,password,name,phone_number,birth,story,member_type,i
     ('user15', '$2a$10$6ekagOI.yvyZ2y/egCUEy.QNMSB1iatLABysisRi/gZ7TeHEjbnPy', '정유진', '010-3095-1782', '2000-05-17', '안녕하세요, 저는 정유진입니다.', 'VOLUNTEER', true,true,'8', now(), now(),'경기도', '수원시', '영통구','광교 공원', 37.301006, 127.030117, ST_GeomFromText('POINT(37.301006 127.030117)', 4326), 'LOW', 'LOW', 'LOW', 'HIGH', 'MIDDLE'),
     ('user16', '$2a$10$sgsD/3x9X58E2qo53pvT1uLYPyJJUHrTFSPbXoby.kw3uH4B/d9jO', '임건우', '010-0695-6859', '2002-12-19', '안녕하세요, 저는 임건우입니다.', 'CAREGIVER', true,true,'2', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300628, 127.037394, ST_GeomFromText('POINT(37.300628 127.037394)', 4326), 'LOW', 'MIDDLE', 'LOW', 'LOW', 'LOW');
 
-INSERT INTO team(team_name, province, city, district, details, lat, lng, location) VALUES
+INSERT IGNORE INTO team(team_name, province, city, district, details, lat, lng, location) VALUES
     ('경기대인 모여라', '경기도','수원시','영통구','경기대학교 수원캠퍼스', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326));
 
-INSERT INTO team_mate(role, team_id, member_id) VALUES
+INSERT IGNORE INTO team_mate(role, team_id, member_id) VALUES
     ('LEADER', 1, 1),
     ('MATE', 1, 2),
     ('MATE', 1, 3),
     ('MATE', 1, 4);
 
-INSERT INTO post(title, content, member_id, team_id) VALUES
+INSERT IGNORE INTO post(title, content, member_id, team_id) VALUES
     ('안녕하세요! 잘부탁드립니다!', '20학번 조건희입니다!', 2, 1);
 
-INSERT INTO comment(content, post_id, member_id) VALUES
+INSERT IGNORE INTO comment(content, post_id, member_id) VALUES
     ('저도 잘부탁드려요', 1, 3),
     ('베릴 ㅎㅇ', 1, 4);
 
-INSERT INTO chat_room(room_name) VALUES
+INSERT IGNORE INTO chat_room(room_name) VALUES
     ('1:1 채팅방 1'),
     ('1:1 채팅방 2');
 
-INSERT INTO chat_member(member_id, chatroom_id) VALUES
+INSERT IGNORE INTO chat_member(member_id, chatroom_id) VALUES
     (1, 1),
     (3, 1),
     (1, 2),
     (3, 2);
 
-INSERT INTO meeting(start_time, end_time, chore, status, sender_id, receiver_id) VALUES
+INSERT IGNORE INTO meeting(start_time, end_time, chore, status, sender_id, receiver_id) VALUES
     ('2025-06-05 10:00:00','2025-06-05 13:00:00','식사 보조','FINISH', 3, 1),
     ('2025-06-05 13:00:00','2025-06-05 20:00:00','산책 및 저녁 식사 보조','FINISH', 4, 1),
     ('2025-06-06 10:00:00','2025-06-06 13:00:00','식사 보조','FINISH', 3, 1);
 
-INSERT INTO memory(sender_memo, receiver_memo, sender_id, receiver_id, meeting_id) VALUES
+INSERT IGNORE INTO memory(sender_memo, receiver_memo, sender_id, receiver_id, meeting_id) VALUES
     (null, null, 3, 1, 1),
     (null, null, 4, 1, 2),
     (null, null, 3, 1, 3);
