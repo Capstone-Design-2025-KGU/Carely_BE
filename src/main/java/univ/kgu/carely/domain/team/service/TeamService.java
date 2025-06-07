@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.team.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import univ.kgu.carely.domain.member.entity.Member;
@@ -45,4 +46,6 @@ public interface TeamService {
     Boolean closeTeam(Member member, Long teamId);
 
     Page<ResTeamOutlineDTO> searchNeighbor(Member member, Pageable pageable);
+
+    List<ResTeamOutlineDTO> getMyTeams(Member auth);
 }
