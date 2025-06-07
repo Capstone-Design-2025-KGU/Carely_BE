@@ -9,6 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReqMemoSumCreateDTO {
 
-    private String notes;
+    private String memo;
 
 }
