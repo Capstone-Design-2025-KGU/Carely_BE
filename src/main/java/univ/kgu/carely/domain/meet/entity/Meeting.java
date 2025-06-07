@@ -76,7 +76,7 @@ public class Meeting {
     @JoinColumn(name = "receiver_id", nullable = false)
     private Member receiver;
 
-    @OneToMany(mappedBy = "meeting")
+    @OneToMany(mappedBy = "meeting", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<Memory> memories = new HashSet<>();
 
