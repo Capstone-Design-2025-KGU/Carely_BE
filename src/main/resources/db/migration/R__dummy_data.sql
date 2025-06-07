@@ -1,5 +1,5 @@
-INSERT INTO member(username,password,name,phone_number,birth,story,member_type,is_visible,is_verified,profile_image,created_at, updated_at, province, city, district,details,lat,lng,location, communication, meal, toilet, bath, walk)
-    VALUES('flutter', '$2a$10$2hxlshzl8gZaE/Eey8CGhOEgNcoqiXXPhm4CUCK4BwkQDo8y6kPq.', '박성민', '010-4989-5600', '2001-02-28', '안녕하세요, 저는 박성민입니다.', 'FAMILY', true,true,'1', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326), 'HIGH', 'MIDDLE', 'LOW', 'HIGH', 'MIDDLE'),
+INSERT INTO member(username,password,name,phone_number,birth,story,member_type,is_visible,is_verified,profile_image,created_at, updated_at, province, city, district,details,lat,lng,location, communication, meal, toilet, bath, walk) VALUES
+    ('flutter', '$2a$10$2hxlshzl8gZaE/Eey8CGhOEgNcoqiXXPhm4CUCK4BwkQDo8y6kPq.', '박성민', '010-4989-5600', '2001-02-28', '안녕하세요, 저는 박성민입니다.', 'FAMILY', true,true,'1', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326), 'HIGH', 'MIDDLE', 'LOW', 'HIGH', 'MIDDLE'),
     ('user2', '$2a$10$HiIQxDqO9EmKHFjxP4jWw.sv5hKxk1uv6RbIo7s5hfVWaKH4O11TO', '조건희', '010-9894-6145', '2001-10-30', '안녕하세요, 저는 조건희입니다.', 'FAMILY', true,true,'3', now(), now(),'경기도', '수원시', '영통구','경기대 8강의동', 37.300781, 127.039357, ST_GeomFromText('POINT(37.300781 127.039357)', 4326), 'LOW', 'HIGH', 'LOW', 'MIDDLE', 'MIDDLE'),
     ('user3', '$2a$10$Wct0z8U/nQmOKG2g22380.1Ru4BMC9BV4IQA3FdDeQhQXGHSpLMoO', '박철민', '010-7584-0912', '1994-09-12', '안녕하세요, 저는 박철민입니다.', 'VOLUNTEER', true,true,'5', now(), now(),'경기도', '수원시', '영통구','경기대 기숙사', 37.297700, 127.038627, ST_GeomFromText('POINT(37.297700 127.038627)', 4326), 'MIDDLE', 'MIDDLE', 'LOW', 'MIDDLE', 'HIGH'),
     ('user4', '$2a$10$0wB0XPj6TUPdY7OUzfNZXO9WC2CAvStUEcH2WLGUhe8xwNN2lcQH6', '우종억', '010-5891-1206', '1968-03-10', '안녕하세요, 저는 우종억입니다.', 'CAREGIVER', true,true,'7', now(), now(),'경기도', '수원시', '영통구','수원 외국어 고등학교', 37.295942, 127.035106, ST_GeomFromText('POINT(37.295942 127.035106)', 4326), 'LOW', 'LOW', 'LOW', 'MIDDLE', 'LOW'),
@@ -15,3 +15,21 @@ INSERT INTO member(username,password,name,phone_number,birth,story,member_type,i
     ('user14', '$2a$10$HKdyJkFlT3LoVMe4f4FwFu4ruVJLUcVHZiEmw3MyLKvNCN9KoC7S6', '신동하', '010-4093-3486', '1990-11-14', '안녕하세요, 저는 신동하입니다.', 'FAMILY', true,true,'4', now(), now(),'경기도', '수원시', '영통구','수원 보훈지청', 37.295925, 127.022575, ST_GeomFromText('POINT(37.295925 127.022575)', 4326), 'LOW', 'MIDDLE', 'LOW', 'LOW', 'MIDDLE'),
     ('user15', '$2a$10$6ekagOI.yvyZ2y/egCUEy.QNMSB1iatLABysisRi/gZ7TeHEjbnPy', '정유진', '010-3095-1782', '2000-05-17', '안녕하세요, 저는 정유진입니다.', 'VOLUNTEER', true,true,'8', now(), now(),'경기도', '수원시', '영통구','광교 공원', 37.301006, 127.030117, ST_GeomFromText('POINT(37.301006 127.030117)', 4326), 'LOW', 'LOW', 'LOW', 'HIGH', 'MIDDLE'),
     ('user16', '$2a$10$sgsD/3x9X58E2qo53pvT1uLYPyJJUHrTFSPbXoby.kw3uH4B/d9jO', '임건우', '010-0695-6859', '2002-12-19', '안녕하세요, 저는 임건우입니다.', 'CAREGIVER', true,true,'2', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300628, 127.037394, ST_GeomFromText('POINT(37.300628 127.037394)', 4326), 'LOW', 'MIDDLE', 'LOW', 'LOW', 'LOW');
+
+INSERT INTO team(team_name, province, city, district, details, lat, lng, location) VALUES
+    ();
+
+INSERT INTO team_mate(role, team_id, member_id) VALUES
+    ();
+
+INSERT INTO post(title, content, member_id, team_id) VALUES
+    ();
+
+INSERT INTO comment(content, post_id, member_id) VALUES
+    ();
+
+INSERT INTO chat_room(room_name) VALUES
+    ();
+
+INSERT INTO chat_member(member_id, chatroom_id) VALUES
+    ();
