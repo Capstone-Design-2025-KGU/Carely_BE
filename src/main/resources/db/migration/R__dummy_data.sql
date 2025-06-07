@@ -33,3 +33,15 @@ INSERT INTO chat_room(room_name) VALUES
 
 INSERT INTO chat_member(member_id, chatroom_id) VALUES
     ();
+
+INSERT INTO chat_message(member_id, chatroom_id, content, message_type, meeting_id, date, time, chore) VALUES
+    ();
+
+INSERT INTO meeting(start_time, end_time, chore, status, sender_id, receiver_id) VALUES
+    ();
+
+INSERT INTO memo(comm, meal, toilet, walk, medic, health, member_id) VALUES
+    ();
+
+INSERT INTO memory(sender_memo, receiver_memo, sender_id, receiver_id, meeting_id) VALUES
+    ();
