@@ -112,4 +112,10 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .filter(room -> room != null)
                 .toList();
     }
+
+    @Override
+    public Boolean deleteChatRoom(Long chatRoomId) {
+        chatRoomRepository.deleteById(chatRoomId);
+        return true;
+    }
 }
