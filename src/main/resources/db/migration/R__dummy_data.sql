@@ -19,6 +19,8 @@ INSERT IGNORE INTO member(username,password,name,phone_number,birth,story,member
 INSERT IGNORE INTO team(team_name, province, city, district, details, lat, lng, location) VALUES
     ('경기대인 모여라', '경기도','수원시','영통구','경기대학교 수원캠퍼스', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326));
 
+UPDATE team SET story='경기대인의 모임' WHERE team_id = 1;
+
 INSERT IGNORE INTO team_mate(role, team_id, member_id) VALUES
     ('LEADER', 1, 1),
     ('MATE', 1, 2),
