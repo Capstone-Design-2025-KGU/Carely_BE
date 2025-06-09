@@ -1,6 +1,8 @@
 package univ.kgu.carely.domain.meet.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
@@ -65,11 +67,26 @@ public class MemoServiceImpl implements MemoService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResMemoDTO readMemo(Long memberId, Member member) {
+    public Page<ResMemoDTO> readMemo(Long memberId, Member member, Pageable pageable) {
         Member opponent = memberRepository.getReferenceById(memberId);
-        Memo memo = memoRepository.findMemoByMember(opponent);
+        Page<Memo> memos = memoRepository.findMemoByMember(opponent, pageable);
 
-        return memoMapper.toResMemoDto(memo);
+        return memos.map(memoMapper::toResMemoDto);
+    }
+
+    @Override
+    @Transactional
+    public ResMemoDTO createMemo(Long memberId, ReqMemoUpdateDTO reqMemoUpdateDTO, Member auth) {
+        ReqMemoSumCreateDTO reqMemoSumCreateDTO = new ReqMemoSumCreateDTO();
+        reqMemoSumCreateDTO.setMemo(reqMemoUpdateDTO.getOriginal());
+        Mono<ResMemoSumDTO> summarize = memoSumService.summarize(reqMemoSumCreateDTO);
+        ResMemoSumDTO block = summarize.block();
+        Memo memo = new Memo();
+        memoMapper.updateMemo(memo, block);
+
+        Memo save = memoRepository.save(memo);
+
+        return memoMapper.toResMemoDto(save);
     }
 
 }
