@@ -50,7 +50,7 @@ public class MemoController {
     @GetMapping("/{memberId}")
     @Operation(summary = "메모 조회 API", description = "해당 멤버와 연관된 메모를 조회한다.")
     public ResponseEntity<Page<ResMemoDTO>> readMemo(@PathVariable("memberId") Long memberId,
-                                                     @PageableDefault(sort = {"memoId"}, direction = Direction.DESC) Pageable pageable,
+                                                     @PageableDefault(sort = {"id"}, direction = Direction.DESC) Pageable pageable,
                                                      @AuthenticationPrincipal(expression = "member") Member auth) {
         Page<ResMemoDTO> resMemoDTO = memoService.readMemo(memberId, auth, pageable);
 

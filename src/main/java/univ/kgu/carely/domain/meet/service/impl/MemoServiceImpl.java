@@ -84,6 +84,9 @@ public class MemoServiceImpl implements MemoService {
         Memo memo = new Memo();
         memoMapper.updateMemo(memo, block);
 
+        Member member = memberRepository.getReferenceById(memberId);
+        memo.setMember(member);
+
         Memo save = memoRepository.save(memo);
 
         return memoMapper.toResMemoDto(save);
