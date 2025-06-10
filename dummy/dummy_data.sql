@@ -49,6 +49,9 @@ INSERT IGNORE INTO meeting(start_time, end_time, chore, status, sender_id, recei
     ('2025-06-05 13:00:00','2025-06-05 20:00:00','산책 및 저녁 식사 보조','FINISH', 4, 1),
     ('2025-06-06 10:00:00','2025-06-06 13:00:00','식사 보조','FINISH', 3, 1);
 
+INSERT IGNORE INTO memo(comm, meal, toilet, walk, medic, health, member_id) VALUES
+    ('딸과 전화 통화를 하면서 웃으셨고, 통화 후 기분이 좋아 보이셨습니다.', '아침과 점심을 거의 다 드셨습니다.', '오늘 화장실에 두 번 가셨고, 소변에는 문제가 없었습니다.', '오늘 마당을 한 바퀴 산책하셨고, 산책 후 컨디션이 좋아 보이셨습니다.', '오전 9시에 약을 복용하셨고, 약 복용을 잊지 않으셨습니다.', '오늘 하루 종일 기침이 없으셨고, 산책 후 컨디션이 좋아 보이셨습니다.', 1);
+
 INSERT IGNORE INTO memory(sender_memo, receiver_memo, sender_id, receiver_id, meeting_id) VALUES
     (null, null, 3, 1, 1),
     (null, null, 4, 1, 2),

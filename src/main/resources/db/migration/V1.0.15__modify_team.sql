@@ -1,3 +1,0 @@
-ALTER TABLE team
-    ADD COLUMN team_image VARCHAR(255),
-    ADD COLUMN story VARCHAR(255);

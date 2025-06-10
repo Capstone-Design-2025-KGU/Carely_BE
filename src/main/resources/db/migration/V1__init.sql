@@ -35,6 +35,8 @@ CREATE TABLE member (
 CREATE TABLE team (
     team_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     team_name VARCHAR(255),
+    team_image VARCHAR(255),
+    story VARCHAR(255),
     -- Address 임베디드 필드
     province VARCHAR(255),
     city VARCHAR(255),
@@ -145,8 +147,6 @@ CREATE TABLE memo (
     member_id BIGINT NOT NULL,
     -- 외래 키 제약
     CONSTRAINT fk_memo_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE,
-    -- member_id에 대한 고유 제약
-    CONSTRAINT uk_memo_member UNIQUE (member_id)
 ) ENGINE=InnoDB;
 
 -- Memory 테이블 생성
