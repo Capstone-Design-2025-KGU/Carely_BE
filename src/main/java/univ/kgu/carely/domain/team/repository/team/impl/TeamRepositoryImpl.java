@@ -35,6 +35,8 @@ public class TeamRepositoryImpl implements CustomTeamRepository {
         List<ResTeamOutlineDTO> content = jpaQueryFactory.select(Projections.fields(ResTeamOutlineDTO.class,
                         team.teamId,
                         team.teamName,
+                        team.teamImage,
+                        team.story,
                         Projections.fields(Address.class,
                                 address.province,
                                 address.city,
