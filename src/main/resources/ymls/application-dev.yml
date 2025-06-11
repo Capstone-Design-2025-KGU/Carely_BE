@@ -5,6 +5,8 @@ spring:
   docker:
     compose:
       enabled: true
+      stop:
+        command: DOWN
       skip:
         in-tests: false
   datasource:
