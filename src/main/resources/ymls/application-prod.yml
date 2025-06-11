@@ -18,6 +18,9 @@ spring:
         show-sql: false
         default_batch_fetch_size: 100
         format_sql: false
+  sql:
+    init:
+      mode: NEVER
 springdoc:
   swagger-ui:
     enabled: false

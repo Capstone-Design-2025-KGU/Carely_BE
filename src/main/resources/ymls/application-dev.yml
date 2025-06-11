@@ -5,6 +5,8 @@ spring:
   docker:
     compose:
       enabled: true
+      stop:
+        command: DOWN
       skip:
         in-tests: false
   datasource:
@@ -20,6 +22,9 @@ spring:
         show-sql: true
         default_batch_fetch_size: 100
         format_sql: true
+  sql:
+    init:
+      mode: ALWAYS
 jwt:
   secret: abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
 api:

@@ -35,6 +35,8 @@ CREATE TABLE member (
 CREATE TABLE team (
     team_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     team_name VARCHAR(255),
+    team_image VARCHAR(255),
+    story VARCHAR(255),
     -- Address 임베디드 필드
     province VARCHAR(255),
     city VARCHAR(255),
@@ -55,7 +57,8 @@ CREATE TABLE team_mate (
     member_id BIGINT NOT NULL,
     -- 외래 키 제약
     CONSTRAINT fk_teammate_team FOREIGN KEY (team_id) REFERENCES team(team_id) ON DELETE CASCADE,
-    CONSTRAINT fk_teammate_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE
+    CONSTRAINT fk_teammate_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE,
+    CONSTRAINT uq_teammate_team_member UNIQUE (team_id, member_id)
 ) ENGINE=InnoDB;
 
 -- Post 테이블 생성
@@ -96,7 +99,8 @@ CREATE TABLE chat_member (
     chatroom_id BIGINT NOT NULL,
     -- 외래 키 제약
     CONSTRAINT fk_chatmember_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE,
-    CONSTRAINT fk_chatmember_chatroom FOREIGN KEY (chatroom_id) REFERENCES chat_room(chatroom_id) ON DELETE CASCADE
+    CONSTRAINT fk_chatmember_chatroom FOREIGN KEY (chatroom_id) REFERENCES chat_room(chatroom_id) ON DELETE CASCADE,
+    CONSTRAINT uk_chatroom_member UNIQUE (member_id, chatroom_id)
 ) ENGINE=InnoDB;
 
 -- ChatMessage 테이블 생성
@@ -144,9 +148,7 @@ CREATE TABLE memo (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     member_id BIGINT NOT NULL,
     -- 외래 키 제약
-    CONSTRAINT fk_memo_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE,
-    -- member_id에 대한 고유 제약
-    CONSTRAINT uk_memo_member UNIQUE (member_id)
+    CONSTRAINT fk_memo_member FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 -- Memory 테이블 생성
