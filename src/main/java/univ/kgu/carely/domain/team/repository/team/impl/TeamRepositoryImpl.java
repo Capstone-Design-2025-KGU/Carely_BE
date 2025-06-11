@@ -67,6 +67,8 @@ public class TeamRepositoryImpl implements CustomTeamRepository {
         return jpaQueryFactory.select(Projections.fields(ResTeamOutlineDTO.class,
                         team.teamId,
                         team.teamName,
+                        team.teamImage,
+                        team.story,
                         team.address,
                         team.teamMates.size().castToNum(Long.class).as("memberCount")))
                 .from(teamMate)
