@@ -14,6 +14,7 @@ import jakarta.persistence.TemporalType;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,10 +38,12 @@ public class Memory {
     private Long id;
 
     @Column(name = "sender_memo")
-    private String senderMemo;
+    @Default
+    private String senderMemo = "정보없음";
 
     @Column(name = "receiver_memo")
-    private String receiverMemo;
+    @Default
+    private String receiverMemo = "정보없음";
 
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
