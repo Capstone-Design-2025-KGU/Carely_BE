@@ -40,7 +40,7 @@ INSERT IGNORE INTO chat_member(member_id, chatroom_id) VALUES
     (1, 1),
     (3, 1),
     (1, 2),
-    (3, 2);
+    (4, 2);
 
 INSERT IGNORE INTO meeting(start_time, end_time, chore, status, sender_id, receiver_id) VALUES
     ('2025-06-05 10:00:00','2025-06-05 13:00:00','식사 보조','FINISH', 3, 1),
