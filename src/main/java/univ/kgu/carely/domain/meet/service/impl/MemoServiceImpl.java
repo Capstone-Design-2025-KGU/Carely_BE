@@ -69,7 +69,7 @@ public class MemoServiceImpl implements MemoService {
     @Transactional(readOnly = true)
     public Page<ResMemoDTO> readMemo(Long memberId, Member member, Pageable pageable) {
         Member opponent = memberRepository.getReferenceById(memberId);
-        Page<Memo> memos = memoRepository.findMemoByMember(opponent, pageable);
+        Page<Memo> memos = memoRepository.findMemoByMemberOrderByIdDesc(opponent, pageable);
 
         return memos.map(memoMapper::toResMemoDto);
     }
