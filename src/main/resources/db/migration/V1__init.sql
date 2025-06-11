@@ -152,8 +152,8 @@ CREATE TABLE memo (
 -- Memory 테이블 생성
 CREATE TABLE memory (
     memory_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    sender_memo TEXT,
-    receiver_memo TEXT,
+    sender_memo TEXT DEFAULT '정보없음',
+    receiver_memo TEXT DEFAULT '정보없음',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     sender_id BIGINT NOT NULL,

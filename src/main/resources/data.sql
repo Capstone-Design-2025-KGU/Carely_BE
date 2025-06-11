@@ -16,10 +16,8 @@ INSERT IGNORE INTO member(username,password,name,phone_number,birth,story,member
     ('user15', '$2a$10$6ekagOI.yvyZ2y/egCUEy.QNMSB1iatLABysisRi/gZ7TeHEjbnPy', '정유진', '010-3095-1782', '2000-05-17', '안녕하세요, 저는 정유진입니다.', 'VOLUNTEER', true,true,'8', now(), now(),'경기도', '수원시', '영통구','광교 공원', 37.301006, 127.030117, ST_GeomFromText('POINT(37.301006 127.030117)', 4326), 'LOW', 'LOW', 'LOW', 'HIGH', 'MIDDLE'),
     ('user16', '$2a$10$sgsD/3x9X58E2qo53pvT1uLYPyJJUHrTFSPbXoby.kw3uH4B/d9jO', '임건우', '010-0695-6859', '2002-12-19', '안녕하세요, 저는 임건우입니다.', 'CAREGIVER', true,true,'2', now(), now(),'경기도', '수원시', '영통구','경기대 e스퀘어', 37.300628, 127.037394, ST_GeomFromText('POINT(37.300628 127.037394)', 4326), 'LOW', 'MIDDLE', 'LOW', 'LOW', 'LOW');
 
-INSERT IGNORE INTO team(team_name, province, city, district, details, lat, lng, location) VALUES
-    ('경기대인 모여라', '경기도','수원시','영통구','경기대학교 수원캠퍼스', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326));
-
-UPDATE team SET story='경기대인의 모임' WHERE team_id = 1;
+INSERT IGNORE INTO team(team_name, province, city, district, details, lat, lng, location, story) VALUES
+    ('경기대인 모여라', '경기도','수원시','영통구','경기대학교 수원캠퍼스', 37.300627, 127.037393, ST_GeomFromText('POINT(37.300627 127.037393)', 4326), '경기대인의 모임');
 
 INSERT IGNORE INTO team_mate(role, team_id, member_id) VALUES
     ('LEADER', 1, 1),
@@ -53,6 +51,6 @@ INSERT IGNORE INTO memo(comm, meal, toilet, walk, medic, health, member_id) VALU
     ('딸과 전화 통화를 하면서 웃으셨고, 통화 후 기분이 좋아 보이셨습니다.', '아침과 점심을 거의 다 드셨습니다.', '오늘 화장실에 두 번 가셨고, 소변에는 문제가 없었습니다.', '오늘 마당을 한 바퀴 산책하셨고, 산책 후 컨디션이 좋아 보이셨습니다.', '오전 9시에 약을 복용하셨고, 약 복용을 잊지 않으셨습니다.', '오늘 하루 종일 기침이 없으셨고, 산책 후 컨디션이 좋아 보이셨습니다.', 1);
 
 INSERT IGNORE INTO memory(sender_memo, receiver_memo, sender_id, receiver_id, meeting_id) VALUES
-    (null, null, 3, 1, 1),
-    (null, null, 4, 1, 2),
-    (null, null, 3, 1, 3);
+    ('짧은 시간이었지만 함께 어르신을 돌보며 많은 걸 배웠어요. 덕분에 큰 보람을 느낄 수 있었습니다. 늘 힘내세요!', '정보없음', 3, 1, 1),
+    ('첫 현장이었는데 많이 긴장했지만 옆에서 챙겨주셔서 큰 도움이 되었어요. 앞으로 더 열심히 배우겠습니다!', '정보없음', 4, 1, 2),
+    ('처음이라 서툴렀지만 따뜻하게 대해주셔서 금세 적응할 수 있었어요. 진심으로 감사드립니다!', '정보없음', 3, 1, 3);
