@@ -21,6 +21,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import univ.kgu.carely.domain.member.entity.Member;
 
+// TODO : Entity 업데이트됨. 마이그레이션 파일에 해당 내용 추가 필요
+
 @Entity
 @Getter
 @Setter
@@ -60,6 +62,6 @@ public class Memo {
     // 연관 관계 설정
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false, unique = true)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 }

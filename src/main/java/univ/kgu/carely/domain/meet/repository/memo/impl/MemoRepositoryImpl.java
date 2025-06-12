@@ -18,6 +18,7 @@ public class MemoRepositoryImpl implements CustomMemoRepository {
     public Memo findMemoByMember(Member member) {
         return jpaQueryFactory.selectFrom(memo)
                 .where(memo.member.eq(member))
+                .orderBy(memo.id.desc())
                 .fetchFirst();
     }
 

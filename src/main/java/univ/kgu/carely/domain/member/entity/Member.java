@@ -116,7 +116,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private Set<Memo> memos = new HashSet<>();
+    private List<Memo> memos = new ArrayList<>();
 
     @OneToMany(mappedBy = "sender")
     @Builder.Default
