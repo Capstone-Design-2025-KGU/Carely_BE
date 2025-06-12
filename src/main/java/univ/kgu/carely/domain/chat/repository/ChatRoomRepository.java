@@ -9,11 +9,6 @@ import java.util.Optional;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
-    @Query("""
-        SELECT r FROM ChatRoom r
-        JOIN ChatMember m1 ON m1.chatRoom = r AND m1.member.memberId = :member1
-        JOIN ChatMember m2 ON m2.chatRoom = r AND m2.member.memberId = :member2
-    """)
-    Optional<ChatRoom> findByMemberIds(@Param("member1") Long member1, @Param("member2") Long member2);
+    Optional<ChatRoom> findByMembers_Member_MemberIdAndMembers_Member_MemberId(Long memberId1, Long memberId2);
 }
 

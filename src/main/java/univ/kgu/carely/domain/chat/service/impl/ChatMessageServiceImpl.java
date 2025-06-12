@@ -1,5 +1,6 @@
 package univ.kgu.carely.domain.chat.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,12 +117,28 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
+    @Transactional
     public Long createChatRoom(ChatRoomRequest request) {
-        Member sender = getMemberOrThrow(request.getSenderId(), "보내는 사람 없음");
-        Member receiver = getMemberOrThrow(request.getReceiverId(), "받는 사람 없음");
+        Long senderId = request.getSenderId();
+        Long receiverId = request.getReceiverId();
 
-        ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder().build());
+        // 이미 존재하는 채팅방이 있는지 확인
+        Optional<ChatRoom> existingRoom = chatRoomRepository
+                .findByMembers_Member_MemberIdAndMembers_Member_MemberId(senderId, receiverId);
 
+        if (existingRoom.isPresent()) {
+            return existingRoom.get().getId();  // 이미 존재하면 그 채팅방 ID 반환
+        }
+
+        Member sender = getMemberOrThrow(senderId, "보내는 사람 없음");
+        Member receiver = getMemberOrThrow(receiverId, "받는 사람 없음");
+
+        // 새로운 채팅방 생성
+        ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder()
+                .roomName(sender.getName() + " & " + receiver.getName())
+                .build());
+
+        // 참여자 등록
         chatMemberRepository.save(ChatMember.builder()
                 .chatRoom(chatRoom)
                 .member(sender)
