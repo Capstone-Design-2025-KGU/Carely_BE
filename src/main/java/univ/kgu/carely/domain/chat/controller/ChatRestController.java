@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
+import univ.kgu.carely.domain.chat.dto.ChatRoomRequest;
 import univ.kgu.carely.domain.chat.dto.ChatRoomResponse;
 import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.chat.service.ChatMessageService;
@@ -43,10 +44,11 @@ public class ChatRestController {
     }
 
     @PostMapping("/create-room")
-    public ResponseEntity<Long> createChatRoom(
-            @RequestParam Long senderId,
-            @RequestParam Long receiverId) {
-        Long chatRoomId = chatMessageService.createChatRoom(senderId, receiverId);
+    public ResponseEntity<Long> createChatRoom(@RequestBody ChatRoomRequest request) {
+        Long chatRoomId = chatMessageService.createChatRoom(
+                request.getSenderId(),
+                request.getReceiverId()
+        );
         return ResponseEntity.ok(chatRoomId);
     }
 
