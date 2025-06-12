@@ -118,19 +118,17 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     @Transactional
-    public Long createChatRoom(ChatRoomRequest request) {
-        Long senderId = request.getSenderId();
+    public Long createChatRoom(ChatRoomRequest request, Member auth) {
         Long receiverId = request.getReceiverId();
 
         // 이미 존재하는 채팅방이 있는지 확인
-        Optional<ChatRoom> existingRoom = chatRoomRepository
-                .findByMembers_Member_MemberIdAndMembers_Member_MemberId(senderId, receiverId);
+        Optional<ChatRoom> existingRoom = chatRoomRepository.findByOneToOneChatRoom(receiverId,auth.getMemberId());
 
         if (existingRoom.isPresent()) {
             return existingRoom.get().getId();  // 이미 존재하면 그 채팅방 ID 반환
         }
 
-        Member sender = getMemberOrThrow(senderId, "보내는 사람 없음");
+        Member sender = getMemberOrThrow(auth.getMemberId(), "보내는 사람 없음");
         Member receiver = getMemberOrThrow(receiverId, "받는 사람 없음");
 
         // 새로운 채팅방 생성

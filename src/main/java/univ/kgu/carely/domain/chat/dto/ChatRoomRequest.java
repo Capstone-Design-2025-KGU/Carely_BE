@@ -7,6 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ChatRoomRequest {
-    private Long senderId;
     private Long receiverId;
 }
