@@ -6,13 +6,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
+import univ.kgu.carely.domain.chat.dto.ChatRoomRequest;
 import univ.kgu.carely.domain.chat.dto.ChatRoomResponse;
-import univ.kgu.carely.domain.chat.repository.ChatRoomRepository;
 import univ.kgu.carely.domain.chat.service.ChatMessageService;
 
 import java.util.List;
+import univ.kgu.carely.domain.member.entity.Member;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,6 +42,13 @@ public class ChatRestController {
     public ResponseEntity<List<ChatRoomResponse>> getChatRooms(@PathVariable Long memberId) {
         List<ChatRoomResponse> chatRooms = chatMessageService.getChatRoomByMemberId(memberId);
         return ResponseEntity.ok(chatRooms);
+    }
+
+    @PostMapping("/chat-room")
+    public ResponseEntity<Long> createRoom(@RequestBody ChatRoomRequest request,
+                                           @AuthenticationPrincipal(expression = "member") Member auth) {
+        Long chatRoomId = chatMessageService.createChatRoom(request, auth);
+        return ResponseEntity.ok(chatRoomId);
     }
 
     @DeleteMapping("/{chatRoomId}")

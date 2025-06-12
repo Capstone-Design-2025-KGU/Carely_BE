@@ -1,10 +1,12 @@
 package univ.kgu.carely.domain.chat.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.chat.dto.ChatMessageRequest;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
+import univ.kgu.carely.domain.chat.dto.ChatRoomRequest;
 import univ.kgu.carely.domain.chat.dto.ChatRoomResponse;
 import univ.kgu.carely.domain.chat.entity.ChatMember;
 import univ.kgu.carely.domain.chat.entity.ChatMessage;
@@ -17,6 +19,7 @@ import univ.kgu.carely.domain.member.entity.Member;
 import univ.kgu.carely.domain.member.repository.MemberRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -112,6 +115,46 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .filter(room -> room != null)
                 .toList();
     }
+
+    @Override
+    @Transactional
+    public Long createChatRoom(ChatRoomRequest request, Member auth) {
+        Long receiverId = request.getReceiverId();
+
+        // 이미 존재하는 채팅방이 있는지 확인
+        Optional<ChatRoom> existingRoom = chatRoomRepository.findByOneToOneChatRoom(receiverId,auth.getMemberId());
+
+        if (existingRoom.isPresent()) {
+            return existingRoom.get().getId();  // 이미 존재하면 그 채팅방 ID 반환
+        }
+
+        Member sender = getMemberOrThrow(auth.getMemberId(), "보내는 사람 없음");
+        Member receiver = getMemberOrThrow(receiverId, "받는 사람 없음");
+
+        // 새로운 채팅방 생성
+        ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder()
+                .roomName(sender.getName() + " & " + receiver.getName())
+                .build());
+
+        // 참여자 등록
+        chatMemberRepository.save(ChatMember.builder()
+                .chatRoom(chatRoom)
+                .member(sender)
+                .build());
+
+        chatMemberRepository.save(ChatMember.builder()
+                .chatRoom(chatRoom)
+                .member(receiver)
+                .build());
+
+        return chatRoom.getId();
+    }
+
+    private Member getMemberOrThrow(Long id, String errorMessage) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(errorMessage + " (id=" + id + ")"));
+    }
+
 
     @Override
     public Boolean deleteChatRoom(Long chatRoomId) {
