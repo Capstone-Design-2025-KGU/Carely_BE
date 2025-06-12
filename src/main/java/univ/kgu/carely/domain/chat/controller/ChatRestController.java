@@ -42,6 +42,14 @@ public class ChatRestController {
         return ResponseEntity.ok(chatRooms);
     }
 
+    @PostMapping("/create-room")
+    public ResponseEntity<Long> createChatRoom(
+            @RequestParam Long senderId,
+            @RequestParam Long receiverId) {
+        Long chatRoomId = chatMessageService.createChatRoom(senderId, receiverId);
+        return ResponseEntity.ok(chatRoomId);
+    }
+
     @DeleteMapping("/{chatRoomId}")
     public ResponseEntity<Boolean> deleteChatRoom(@PathVariable Long chatRoomId) {
         Boolean response = chatMessageService.deleteChatRoom(chatRoomId);
