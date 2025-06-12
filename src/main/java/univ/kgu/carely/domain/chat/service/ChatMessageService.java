@@ -2,6 +2,7 @@ package univ.kgu.carely.domain.chat.service;
 
 import univ.kgu.carely.domain.chat.dto.ChatMessageRequest;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
+import univ.kgu.carely.domain.chat.dto.ChatRoomRequest;
 import univ.kgu.carely.domain.chat.dto.ChatRoomResponse;
 import univ.kgu.carely.domain.chat.entity.ChatMessage;
 
@@ -11,6 +12,6 @@ public interface ChatMessageService {
     ChatMessage saveChatMessage(ChatMessageRequest request);
     List<ChatMessageResponse> getChatMessageByChatRoomId(Long chatRoomId);
     List<ChatRoomResponse> getChatRoomByMemberId(Long memberId);
-    Long createChatRoom(Long senderId, Long receiverId);
+    Long createChatRoom(ChatRoomRequest request);
     Boolean deleteChatRoom(Long chatRoomId);
 }

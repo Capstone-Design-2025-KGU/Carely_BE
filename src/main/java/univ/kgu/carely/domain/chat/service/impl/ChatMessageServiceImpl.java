@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import univ.kgu.carely.domain.chat.dto.ChatMessageRequest;
 import univ.kgu.carely.domain.chat.dto.ChatMessageResponse;
+import univ.kgu.carely.domain.chat.dto.ChatRoomRequest;
 import univ.kgu.carely.domain.chat.dto.ChatRoomResponse;
 import univ.kgu.carely.domain.chat.entity.ChatMember;
 import univ.kgu.carely.domain.chat.entity.ChatMessage;
@@ -114,14 +115,9 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
-    public Long createChatRoom(Long senderId, Long receiverId) {
-        var existing = chatRoomRepository.findByMemberIds(senderId, receiverId);
-        if (existing.isPresent()) return existing.get().getId();
-
-        Member sender = memberRepository.findById(senderId)
-                .orElseThrow(() -> new RuntimeException("보내는 사람 없음"));
-        Member receiver = memberRepository.findById(receiverId)
-                .orElseThrow(() -> new RuntimeException("받는 사람 없음"));
+    public Long createChatRoom(ChatRoomRequest request) {
+        Member sender = getMemberOrThrow(request.getSenderId(), "보내는 사람 없음");
+        Member receiver = getMemberOrThrow(request.getReceiverId(), "받는 사람 없음");
 
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder().build());
 
@@ -136,6 +132,11 @@ public class ChatMessageServiceImpl implements ChatMessageService {
                 .build());
 
         return chatRoom.getId();
+    }
+
+    private Member getMemberOrThrow(Long id, String errorMessage) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(errorMessage + " (id=" + id + ")"));
     }
 
 

@@ -43,12 +43,9 @@ public class ChatRestController {
         return ResponseEntity.ok(chatRooms);
     }
 
-    @PostMapping("/create-room")
-    public ResponseEntity<Long> createChatRoom(@RequestBody ChatRoomRequest request) {
-        Long chatRoomId = chatMessageService.createChatRoom(
-                request.getSenderId(),
-                request.getReceiverId()
-        );
+    @PostMapping("/chat-room")
+    public ResponseEntity<Long> createRoom(@RequestBody ChatRoomRequest request) {
+        Long chatRoomId = chatMessageService.createChatRoom(request);
         return ResponseEntity.ok(chatRoomId);
     }
 
